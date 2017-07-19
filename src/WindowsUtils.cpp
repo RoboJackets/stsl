@@ -23,4 +23,10 @@ std::vector<std::string> WindowsUtils::AvailableComPorts() {
 //    RegQueryValueEx(registry_key, "value_name", nullptr, reinterpret_cast<LPDWORD>(REG_SZ), static_cast<LPBYTE>(value), &value_length);
 //    cout << "Value = " << value << endl;
     RegCloseKey(registry_key);
+
+    return {};
+}
+
+void WindowsUtils::Sleep(std::chrono::microseconds duration) {
+    ::Sleep(static_cast<DWORD>(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()));
 }

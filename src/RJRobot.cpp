@@ -26,7 +26,10 @@ RJRobot::RJRobot() {
     cout << "Found robot at " << port_path << endl;
     cout << "Initializing..." << endl;
 
-    serial_port_.Open(port_path, 9600);
+    if(!serial_port_.Open(port_path, 9600)) {
+        cerr << "Failed to connect to robot!" << endl;
+        return;
+    }
 
     os_utils_->Sleep(2s);
 
