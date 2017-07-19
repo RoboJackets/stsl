@@ -1,18 +1,12 @@
-#ifdef __linux__
-
 #include "STSL/LinuxUtils.h"
 #include <libudev.h>
 #include <iostream>
+#include <unistd.h>
 
 using namespace std;
 
 std::string LinuxUtils::FindRobot() {
-    auto arduinos = FindConnectedArduinos();
-
-    // TODO for each arduino, open the port, listen for signal, flag as robot or not, clsoe the port
-    // TODO return first arduino which responds as expected
-
-    return std::__cxx11::string();
+    return FindConnectedArduinos().front();
 }
 
 std::vector<std::string> LinuxUtils::FindConnectedArduinos() {
@@ -40,6 +34,8 @@ std::vector<std::string> LinuxUtils::FindConnectedArduinos() {
         auto path = udev_list_entry_get_name(dev_list_entry);
         device = udev_device_new_from_syspath(udev, path);
 
+        auto devpath = udev_device_get_devnode(device);
+
         device = udev_device_get_parent_with_subsystem_devtype(
                 device,
                 "usb",
@@ -52,9 +48,12 @@ std::vector<std::string> LinuxUtils::FindConnectedArduinos() {
         auto idVendor = string{udev_device_get_sysattr_value(device, "idVendor")};
         auto idProduct = string{udev_device_get_sysattr_value(device, "idProduct")};
 
-        // Check for Arduino UNO VID and PID
-        if(idVendor == "0043" && idProduct == "2341") {
-            arduinos.push_back(string{path});
+        if(idVendor == "2a03" && idProduct == "0043") {
+            // Found Aruino UNO
+            arduinos.push_back(string{devpath});
+        } else if(idVendor == "0403" && idProduct == "6001") {
+            // Found Arduino Duemilanove
+            arduinos.push_back(string{devpath});
         }
 
     }
@@ -66,4 +65,6 @@ std::vector<std::string> LinuxUtils::FindConnectedArduinos() {
     return arduinos;
 }
 
-#endif
+void LinuxUtils::Sleep(std::chrono::microseconds duration) {
+    usleep(static_cast<__useconds_t>(duration.count()));
+}

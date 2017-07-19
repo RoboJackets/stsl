@@ -1,8 +1,9 @@
 #ifndef TRAININGSUPPORTLIBRARY_RJROBOT_H
 #define TRAININGSUPPORTLIBRARY_RJROBOT_H
 
-#include <boost/asio.hpp>
+#include "SerialPort.h"
 #include "OSUtils.h"
+#include <memory>
 
 class RJRobot {
 
@@ -11,10 +12,13 @@ public:
 
     ~RJRobot();
 
+    bool IsButtonPressed();
+
+    void Wait(std::chrono::microseconds duration);
+
 private:
 
-    boost::asio::io_service io_service_;
-    boost::asio::serial_port serial_port_;
+    SerialPort serial_port_;
 
     std::unique_ptr<OSUtils> os_utils_;
 

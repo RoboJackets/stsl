@@ -1,5 +1,3 @@
-#ifdef __WIN32
-
 #include <iostream>
 #include <windows.h>
 #include "STSL/WindowsUtils.h"
@@ -26,5 +24,3 @@ std::vector<std::string> WindowsUtils::AvailableComPorts() {
 //    cout << "Value = " << value << endl;
     RegCloseKey(registry_key);
 }
-
-#endif
