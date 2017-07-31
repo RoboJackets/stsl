@@ -1,4 +1,5 @@
 #include <iostream>
+#include <cassert>
 #include "STSL/RJRobot.h"
 
 #ifdef __WIN32
@@ -54,6 +55,17 @@ uint8_t RJRobot::LightValue() {
 
 void RJRobot::SetFloodlight(bool on) {
     serial_port_.Write(string{"SetFloodlight"} + (on ? "On" : "Off") + "\n");
+}
+
+void RJRobot::SetMotor(const MotorPort &port, const int &speed) {
+    assert(speed <= 255);
+    assert(speed >= -255);
+    serial_port_.Write(string{"SetMotor"} + (port == MotorPort::A ? "A" : "B") + to_string(speed) + "\n");
+}
+
+void RJRobot::StopMotors() {
+    SetMotor(MotorPort::A, 0);
+    SetMotor(MotorPort::B, 0);
 }
 
 void RJRobot::Wait(std::chrono::microseconds duration) {

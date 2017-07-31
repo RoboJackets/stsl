@@ -5,6 +5,11 @@
 #include "OSUtils.h"
 #include <memory>
 
+enum class MotorPort {
+    A,
+    B
+};
+
 class RJRobot {
 
 public:
@@ -17,6 +22,10 @@ public:
     uint8_t LightValue();
 
     void SetFloodlight(bool on);
+
+    void SetMotor(const MotorPort &port, const int &speed);
+
+    void StopMotors();
 
     void Wait(std::chrono::microseconds duration);
 
