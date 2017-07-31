@@ -41,9 +41,19 @@ RJRobot::~RJRobot() {
 }
 
 bool RJRobot::IsButtonPressed() {
-    serial_port_.Write("GetButton");
+    serial_port_.Write("GetButton\n");
     auto response = serial_port_.ReadLine();
     return (response[0] == '1');
+}
+
+uint8_t RJRobot::LightValue() {
+    serial_port_.Write("GetLight\n");
+    auto response = serial_port_.ReadLine();
+    return static_cast<uint8_t>(std::stoul(response));
+}
+
+void RJRobot::SetFloodlight(bool on) {
+    serial_port_.Write(string{"SetFloodlight"} + (on ? "On" : "Off") + "\n");
 }
 
 void RJRobot::Wait(std::chrono::microseconds duration) {

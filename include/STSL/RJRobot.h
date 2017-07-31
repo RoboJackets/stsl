@@ -14,6 +14,10 @@ public:
 
     bool IsButtonPressed();
 
+    uint8_t LightValue();
+
+    void SetFloodlight(bool on);
+
     void Wait(std::chrono::microseconds duration);
 
 private:
