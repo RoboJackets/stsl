@@ -7,27 +7,19 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 ### Linux
 
 * cmake
-* Boost.ASIO
 * libudev
 
 ### Windows
 
 * MinGW
 * cmake
-* Boost.ASIO
 * WinSock32
 
 ## Installation
 
 ### Linux
 
-1. Install dependencies
-
-    ```
-    sudo apt install libboost-system-dev
-    ```
-    
-2. Clone repository
+1. Clone repository
 
     ```
     git clone 
@@ -51,9 +43,11 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 
 2. Install the GitHub desktop app
 
-   **TODO**
+   Install from [https://desktop.github.com/](https://desktop.github.com/)
 
 3. Install cmake
+
+   Install from [https://cmake.org/download/](https://cmake.org/download/)
 
 4. Clone repository using the GitHub gui
 
