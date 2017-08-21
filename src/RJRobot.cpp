@@ -6,6 +6,8 @@
 #include "STSL/WindowsUtils.h"
 #elif __linux__
 #include "STSL/LinuxUtils.h"
+#elif __APPLE__
+#include "STSL/OSXUtils.h"
 #endif
 
 using namespace std;
@@ -15,6 +17,8 @@ RJRobot::RJRobot() {
     os_utils_.reset(new WindowsUtils);
 #elif __linux__
     os_utils_.reset(new LinuxUtils);
+#elif __APPLE__
+    os_utils_.reset(new OSXUtils);
 #endif
 
     auto port_path = os_utils_->FindRobot();

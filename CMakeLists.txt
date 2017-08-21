@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.7)
+cmake_minimum_required(VERSION 3.1)
 project(SoftwareTrainingSupportLibrary)
 
 set(CMAKE_CXX_STANDARD 14)
@@ -17,6 +17,11 @@ endif()
 if(UNIX AND NOT APPLE)
     target_sources(STSL PRIVATE src/LinuxUtils.cpp src/SerialPort_LINUX.cpp)
     target_link_libraries(STSL udev)
+endif()
+
+if(APPLE)
+    target_sources(STSL PRIVATE src/OSXUtils.cpp src/SerialPort_OSX.cpp)
+    target_link_libraries(STSL "-framework IOKit")
 endif()
 
 add_executable(Example example/main.cpp)
