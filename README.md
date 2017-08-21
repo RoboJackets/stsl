@@ -79,8 +79,12 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
    make
    ```
    
-   __Note:__ If you encounter errors where the compiler is unable to find standard C++ headers, it may be caused by these headers being moved by XCode. You may be able to resolve this issue by re-installing the XCode command line tools using the following command.
+   __Note:__ If you encounter errors where the compiler is unable to find standard C++ headers, it may be caused by these headers being moved by Xcode. You may be able to resolve this issue by re-installing the Xcode command line tools using the following command.
 
    ```
    xcode-select --install
+   ```
+   On my machine (running OS X Mavericks, 10.9.5), I also had to change the compiler to use Apple's clang compiler instead of the GNU compiler in Xcode. This can be done by replacing the cmake command above with the following.
+   ```
+   cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ ..
    ```
