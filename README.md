@@ -15,6 +15,11 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 * cmake
 * WinSock32
 
+### Max OS X
+
+* cmake
+* 
+
 ## Installation
 
 ### Linux
@@ -22,7 +27,7 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 1. Clone repository
 
     ```
-    git clone 
+    git clone **TODO**
     ```
     
 3. Build library
@@ -56,3 +61,30 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 5. Build library
 
    Using the cmake gui tool or an IDE such as JetBrains' CLion
+   
+   
+### Mac OS X
+
+1. Clone repository
+
+   ```
+   git clone **TODO**
+   ```
+   
+2. Build library
+
+   ```
+   mkdir build && cd build
+   cmake ..
+   make
+   ```
+   
+   __Note:__ If you encounter errors where the compiler is unable to find standard C++ headers, it may be caused by these headers being moved by Xcode. You may be able to resolve this issue by re-installing the Xcode command line tools using the following command.
+
+   ```
+   xcode-select --install
+   ```
+   On my machine (running OS X Mavericks, 10.9.5), I also had to change the compiler to use Apple's clang compiler instead of the GNU compiler in Xcode. This can be done by replacing the cmake command above with the following.
+   ```
+   cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ ..
+   ```
