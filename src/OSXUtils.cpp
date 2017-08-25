@@ -1,10 +1,7 @@
 #include "STSL/OSXUtils.h"
 #include <iostream>
 #include <unistd.h>
-#include <CoreFoundation/CoreFoundation.h>
-#include <IOKit/IOKitLib.h>
-#include <IOKit/serial/IOSerialKeys.h>
-#include <IOKit/IOBSD.h>
+#include <algorithm>
 
 using namespace std;
 
@@ -13,10 +10,40 @@ std::string OSXUtils::FindRobot() {
 }
 
 std::vector<std::string> OSXUtils::FindConnectedArduinos() {
+    auto ls_stream = popen("ls /dev/tty.*", "r");
 
-    // TODO https://developer.apple.com/library/content/documentation/DeviceDrivers/Conceptual/WorkingWSerial/WWSerial_SerialDevs/SerialDevices.html
+    if(ls_stream == nullptr) {
+        return {};
+    }
 
-    return {};
+    char buffer[1024];
+    string response;
+    while(fgets(buffer, sizeof(buffer), ls_stream) != nullptr) {
+        response += string{buffer};
+    }
+
+    pclose(ls_stream);
+
+    vector<string> serialports;
+
+    string delim{"\n"};
+    auto start = 0ul;
+    auto end = response.find(delim);
+    while(end != std::string::npos) {
+        serialports.emplace_back(response.substr(start, end-start));
+        start = end + delim.size();
+        end = response.find(delim, start);
+    }
+
+    auto is_arduino_predicate = [](const string &port) {
+        return port.empty() || port.substr(9,8) != "usbmodem";
+    };
+
+    if(!serialports.empty()) {
+        serialports.erase(std::remove_if(serialports.begin(), serialports.end(), is_arduino_predicate));
+    }
+
+    return serialports;
 }
 
 void OSXUtils::Sleep(std::chrono::microseconds duration) {

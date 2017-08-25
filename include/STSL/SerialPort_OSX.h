@@ -6,7 +6,7 @@
 class SerialPort_OSX {
 public:
 
-    SerialPort_OSX();
+    SerialPort_OSX() = default;
 
     ~SerialPort_OSX();
 

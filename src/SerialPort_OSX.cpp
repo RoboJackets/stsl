@@ -1,22 +1,18 @@
-#include <fcntl.h>
-#include <zconf.h>
 #include <iostream>
-#include <cstring>
-#include <termio.h>
+#include <unistd.h>
+#include <fcntl.h>
+#include <termios.h>
 #include "STSL/SerialPort_OSX.h"
 
 using namespace std;
-
-SerialPort_OSX::SerialPort_OSX() {
-
-}
 
 SerialPort_OSX::~SerialPort_OSX() {
     Close();
 }
 
 bool SerialPort_OSX::Open(std::string device, unsigned int baud) {
-    port_handle_ = open("/dev/ttyACM0", O_RDWR | O_NOCTTY);
+    cout << device.c_str() << endl;
+    port_handle_ = open(device.c_str(), O_RDWR | O_NOCTTY);
 
     SetProperties(baud);
 
@@ -53,16 +49,12 @@ std::string SerialPort_OSX::ReadLine() {
 
 void SerialPort_OSX::SetProperties(unsigned int baud) {
     struct termios tty;
-    struct termios tty_old;
     memset (&tty, 0, sizeof tty);
 
 /* Error Handling */
     if ( tcgetattr ( port_handle_, &tty ) != 0 ) {
         std::cout << "Error " << errno << " from tcgetattr: " << strerror(errno) << std::endl;
     }
-
-/* Save old tty parameters */
-    tty_old = tty;
 
 /* Set Baud Rate */
     cfsetospeed (&tty, baud);
