@@ -6,11 +6,14 @@
 using namespace std;
 
 std::string OSXUtils::FindRobot() {
-    return FindConnectedArduinos().front();
+    auto arduinos = FindConnectedArduinos();
+    if(arduinos.empty())
+        return "";
+    return arduinos.front();
 }
 
 std::vector<std::string> OSXUtils::FindConnectedArduinos() {
-    auto ls_stream = popen("ls /dev/tty.*", "r");
+    auto ls_stream = popen("ls /dev/cu.usbmodem*", "r");
 
     if(ls_stream == nullptr) {
         return {};
@@ -24,6 +27,11 @@ std::vector<std::string> OSXUtils::FindConnectedArduinos() {
 
     pclose(ls_stream);
 
+    if(response == "ls: /dev/cu.usbmodem*: No such file or directory") {
+        // No ports found;
+        return {};
+    }
+
     vector<string> serialports;
 
     string delim{"\n"};
@@ -35,12 +43,14 @@ std::vector<std::string> OSXUtils::FindConnectedArduinos() {
         end = response.find(delim, start);
     }
 
-    auto is_arduino_predicate = [](const string &port) {
-        return port.empty() || port.substr(9,8) != "usbmodem";
+    auto is_empty_predicate = [](const string &port) {
+        return port.empty();
     };
 
     if(!serialports.empty()) {
-        serialports.erase(std::remove_if(serialports.begin(), serialports.end(), is_arduino_predicate));
+        auto newEnd = std::remove_if(serialports.begin(), serialports.end(), is_empty_predicate);
+        if(newEnd != serialports.end())
+            serialports.erase(newEnd);
     }
 
     return serialports;
