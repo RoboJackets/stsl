@@ -6,7 +6,7 @@
 class SerialPort_LINUX {
 public:
 
-    SerialPort_LINUX();
+    SerialPort_LINUX() = default;
 
     ~SerialPort_LINUX();
 

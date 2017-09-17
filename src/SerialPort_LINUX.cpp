@@ -7,10 +7,6 @@
 
 using namespace std;
 
-SerialPort_LINUX::SerialPort_LINUX() {
-
-}
-
 SerialPort_LINUX::~SerialPort_LINUX() {
     Close();
 }
@@ -25,6 +21,8 @@ bool SerialPort_LINUX::Open(std::string device, unsigned int baud) {
 
 void SerialPort_LINUX::Close() {
     if(port_handle_ != -1) {
+        // Flush port to ensure any last minute writes make it to the hardware
+        tcflush( port_handle_, TCIFLUSH );
         close(port_handle_);
     }
 }

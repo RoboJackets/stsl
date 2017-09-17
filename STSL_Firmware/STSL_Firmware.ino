@@ -1,7 +1,7 @@
 #include <Wire.h>
-#include <Adafruit_MCP23017.h>
-#include <Encoder.h>
-#include <PID_v1.h>
+//#include <Adafruit_MCP23017.h>
+//#include <Encoder.h>
+//#include <PID_v1.h>
 #include <BricktronicsShield.h>
 #include <BricktronicsButton.h>
 #include <BricktronicsLight.h>
@@ -55,6 +55,9 @@ void loop() {
       } else if(motorPort == "B") {
         motorB.setFixedDrive(motorSpeed);
       }
+    } else if(command == "StopMotors") {
+      motorA.setFixedDrive(0);
+      motorB.setFixedDrive(0);
     }
   }
 }

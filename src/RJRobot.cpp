@@ -68,8 +68,7 @@ void RJRobot::SetMotor(const MotorPort &port, const int &speed) {
 }
 
 void RJRobot::StopMotors() {
-    SetMotor(MotorPort::A, 0);
-    SetMotor(MotorPort::B, 0);
+    serial_port_.Write("StopMotors");
 }
 
 void RJRobot::Wait(std::chrono::microseconds duration) {
