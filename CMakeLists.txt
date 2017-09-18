@@ -7,7 +7,11 @@ include_directories(include)
 
 set(LIB_SOURCE_FILES src/RJRobot.cpp)
 
-add_library(STSL STATIC ${LIB_SOURCE_FILES})
+if(WIN32)
+    add_library(STSL SHARED ${LIB_SOURCE_FILES})
+else()
+    add_library(STSL STATIC ${LIB_SOURCE_FILES})
+endif()
 
 if(WIN32)
     target_sources(STSL PRIVATE src/WindowsUtils.cpp src/SerialPort_WIN32.cpp)
