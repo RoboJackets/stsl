@@ -6,7 +6,11 @@
 using namespace std;
 
 std::string LinuxUtils::FindRobot() {
-    return FindConnectedArduinos().front();
+    vector<string> arduinos = FindConnectedArduinos();
+    if (!arduinos.empty()) {
+        return arduinos.front();
+    }
+    return "";
 }
 
 std::vector<std::string> LinuxUtils::FindConnectedArduinos() {
