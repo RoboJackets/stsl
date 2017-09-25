@@ -7,11 +7,7 @@ include_directories(include)
 
 set(LIB_SOURCE_FILES src/RJRobot.cpp)
 
-if(WIN32)
-    add_library(STSL SHARED ${LIB_SOURCE_FILES})
-else()
-    add_library(STSL STATIC ${LIB_SOURCE_FILES})
-endif()
+add_library(STSL ${LIB_SOURCE_FILES})
 
 if(WIN32)
     target_sources(STSL PRIVATE src/WindowsUtils.cpp src/SerialPort_WIN32.cpp)
@@ -30,3 +26,10 @@ endif()
 
 add_executable(Example example/main.cpp)
 target_link_libraries(Example STSL)
+
+install(TARGETS STSL
+        ARCHIVE DESTINATION lib)
+
+file(GLOB_RECURSE HDRS include/*.h)
+
+install(FILES ${HDRS} DESTINATION include/STSL)
