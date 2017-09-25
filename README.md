@@ -44,7 +44,7 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 
    Download Stephan T. Lavavej's MinGW distribution (without git):
 
-    [https://nuwen.net/files/mingw/mingw-15.0-without-git.exe](https://nuwen.net/files/mingw/mingw-15.0-without-git.exe)
+    [https://nuwen.net/mingw.html](https://nuwen.net/mingw.html)
 
 2. Install the GitHub desktop app
 
