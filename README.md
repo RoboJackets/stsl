@@ -27,7 +27,7 @@ The STSL is a cross-platform library and accompanying Arduino firmware sketch wh
 1. Clone repository
 
     ```
-    git clone **TODO**
+    git clone github.com/RoboJackets/stsl
     ```
     
 3. Build library
