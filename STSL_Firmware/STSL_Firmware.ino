@@ -2,6 +2,7 @@
 
 const char * ssid = "RJ_TRAINII_00";
 const char * password = "robojackets";
+IPAddress huzzahIP(10,10,10,1);
 
 int led = 13;
 
@@ -10,6 +11,8 @@ WiFiServer server(80);
 void setup() {
   pinMode(led, OUTPUT);
 
+  WiFi.mode(WIFI_AP_STA);
+  WiFi.softAPConfig(huzzahIP, huzzahIP, IPAddress(255,255,255,0));
   WiFi.softAP(ssid, password);
 }
 
