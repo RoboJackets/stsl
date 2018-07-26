@@ -1,0 +1,8 @@
+A good SO on the practical differences between unix sockets and winsock
+https://stackoverflow.com/questions/28027937/cross-platform-sockets
+
+A decent random internet example of a full unix sockets application
+https://www.thegeekstuff.com/2011/12/c-socket-programming/?utm_source=feedburner
+
+winsock's documentation
+https://docs.microsoft.com/en-us/windows/desktop/api/winsock/
