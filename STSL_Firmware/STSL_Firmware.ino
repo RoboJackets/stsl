@@ -1,63 +1,47 @@
-#include <Wire.h>
-//#include <Adafruit_MCP23017.h>
-//#include <Encoder.h>
-//#include <PID_v1.h>
-#include <BricktronicsShield.h>
-#include <BricktronicsButton.h>
-#include <BricktronicsLight.h>
-#include <BricktronicsMotor.h>
+#include <WiFi.h>
 
-BricktronicsButton button(BricktronicsShield::SENSOR_1);
-BricktronicsLight light(BricktronicsShield::SENSOR_2);
-BricktronicsMotor motorA(BricktronicsShield::MOTOR_1);
-BricktronicsMotor motorB(BricktronicsShield::MOTOR_2);
+const char * ssid = "RJ_TRAINII_00";
+const char * password = "robojackets";
+
+int led = 13;
+
+WiFiServer server(80);
 
 void setup() {
-  Serial.begin(9600);
-  BricktronicsShield::begin();
-  button.begin();
-  light.begin();
-  motorA.begin();
-  motorB.begin();
+  pinMode(led, OUTPUT);
+
+  WiFi.softAP(ssid, password);
 }
 
-String readLine() {
-  String line;
-  while(true) {
-    char in = Serial.read();
-    if(in == -1) {
-      continue;
+String readLine(WiFiClient &client) {
+  String line = "";
+  while(client.connected()) {
+    if(client.available()) {
+      char c = client.read();
+      if(c == '\n') {
+        return line;
+      } else {
+        line += c;
+      }
     }
-    if(in == '\n') {
-      return line;
-    }
-    line += in;
   }
+  /* If the client disconnects before we get a newline character,
+   * just return whatever we've got so far.
+   */
+  return line;
 }
 
 void loop() {
-
-  if(Serial.available()) {
-    String command = Serial.readStringUntil('\n');
-    if(command == "GetButton") {
-      Serial.println(button.isPressed());
-    } else if(command == "GetLight") {
-      Serial.println(light.scaledValue());
-    } else if(command == "SetFloodlightOn") {
-      light.setFloodlightAlways(true);
-    } else if(command == "SetFloodlightOff") {
-      light.setFloodlightAlways(false);
-    } else if(command.substring(0,8) == "SetMotor") {
-      String motorPort = command.substring(8,9);
-      int motorSpeed = command.substring(9,13).toInt();
-      if(motorPort == "A") {
-        motorA.setFixedDrive(motorSpeed);
-      } else if(motorPort == "B") {
-        motorB.setFixedDrive(motorSpeed);
+  WiFiClient client = server.available();
+  if(client) {
+    while(client.connected()) {
+      String command = readLine(client);
+      if(command == "SetOnBoardLEDOn") {
+        digitalWrite(led, HIGH);
+      } else if(command == "SetOnBoardLEDOff") {
+        digitalWrite(led, LOW);
       }
-    } else if(command == "StopMotors") {
-      motorA.setFixedDrive(0);
-      motorB.setFixedDrive(0);
     }
   }
 }
+
