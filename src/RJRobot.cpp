@@ -1,6 +1,7 @@
 #include <iostream>
 #include <cassert>
 #include "STSL/RJRobot.h"
+#include "STSL/Sleep.h"
 
 #ifdef __WIN32
 #include "STSL/WindowsUtils.h"
@@ -36,7 +37,7 @@ RJRobot::RJRobot() {
         return;
     }
 
-    os_utils_->Sleep(2s);
+    sleep(2s);
 
     cout << "Robot ready!" << endl;
 }
@@ -72,5 +73,5 @@ void RJRobot::StopMotors() {
 }
 
 void RJRobot::Wait(std::chrono::microseconds duration) {
-    os_utils_->Sleep(duration);
+    sleep(duration);
 }

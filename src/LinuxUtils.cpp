@@ -68,7 +68,3 @@ std::vector<std::string> LinuxUtils::FindConnectedArduinos() {
 
     return arduinos;
 }
-
-void LinuxUtils::Sleep(std::chrono::microseconds duration) {
-    usleep(static_cast<__useconds_t>(duration.count()));
-}

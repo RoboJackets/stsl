@@ -55,7 +55,3 @@ std::vector<std::string> WindowsUtils::AvailableComPorts() {
 
     return comPorts;
 }
-
-void WindowsUtils::Sleep(std::chrono::microseconds duration) {
-    ::Sleep(static_cast<DWORD>(std::chrono::duration_cast<std::chrono::milliseconds>(duration).count()));
-}

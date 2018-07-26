@@ -55,7 +55,3 @@ std::vector<std::string> OSXUtils::FindConnectedArduinos() {
 
     return serialports;
 }
-
-void OSXUtils::Sleep(std::chrono::microseconds duration) {
-    usleep(static_cast<useconds_t>(duration.count()));
-}
