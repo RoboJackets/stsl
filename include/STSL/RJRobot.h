@@ -1,9 +1,8 @@
 #ifndef TRAININGSUPPORTLIBRARY_RJROBOT_H
 #define TRAININGSUPPORTLIBRARY_RJROBOT_H
 
-#include "SerialPort.h"
-#include "OSUtils.h"
 #include <memory>
+#include <chrono>
 
 enum class MotorPort {
     A,
@@ -31,11 +30,6 @@ public:
 
 private:
 
-    SerialPort serial_port_;
-
-    std::unique_ptr<OSUtils> os_utils_;
-
 };
-
 
 #endif //TRAININGSUPPORTLIBRARY_RJROBOT_H

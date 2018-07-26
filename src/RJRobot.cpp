@@ -3,73 +3,44 @@
 #include "STSL/RJRobot.h"
 #include "STSL/Sleep.h"
 
-#ifdef __WIN32
-#include "STSL/WindowsUtils.h"
-#elif __linux__
-#include "STSL/LinuxUtils.h"
-#elif __APPLE__
-#include "STSL/OSXUtils.h"
-#endif
-
 using namespace std;
 
 RJRobot::RJRobot() {
-#ifdef __WIN32
-    os_utils_.reset(new WindowsUtils);
-#elif __linux__
-    os_utils_.reset(new LinuxUtils);
-#elif __APPLE__
-    os_utils_.reset(new OSXUtils);
-#endif
-
-    auto port_path = os_utils_->FindRobot();
-
-    if(port_path.empty()) {
-        cerr << "Could not find robot. Please make sure it is plugged in via USB." << endl;
-        return;
-    }
-
-    cout << "Found robot at " << port_path << endl;
     cout << "Initializing..." << endl;
-
-    if(!serial_port_.Open(port_path, 9600)) {
-        cerr << "Failed to connect to robot!" << endl;
-        return;
-    }
-
-    sleep(2s);
 
     cout << "Robot ready!" << endl;
 }
 
 RJRobot::~RJRobot() {
-    serial_port_.Close();
+//    serial_port_.Close();
 }
 
 bool RJRobot::IsButtonPressed() {
-    serial_port_.Write("GetButton\n");
-    auto response = serial_port_.ReadLine();
-    return (response[0] == '1');
+//    serial_port_.Write("GetButton\n");
+//    auto response = serial_port_.ReadLine();
+//    return (response[0] == '1');
+    return false;
 }
 
 uint8_t RJRobot::LightValue() {
-    serial_port_.Write("GetLight\n");
-    auto response = serial_port_.ReadLine();
-    return static_cast<uint8_t>(std::stoul(response));
+//    serial_port_.Write("GetLight\n");
+//    auto response = serial_port_.ReadLine();
+//    return static_cast<uint8_t>(std::stoul(response));
+    return 0;
 }
 
 void RJRobot::SetFloodlight(bool on) {
-    serial_port_.Write(string{"SetFloodlight"} + (on ? "On" : "Off") + "\n");
+//    serial_port_.Write(string{"SetFloodlight"} + (on ? "On" : "Off") + "\n");
 }
 
 void RJRobot::SetMotor(const MotorPort &port, const int &speed) {
     assert(speed <= 255);
     assert(speed >= -255);
-    serial_port_.Write(string{"SetMotor"} + (port == MotorPort::A ? "A" : "B") + to_string(speed) + "\n");
+//    serial_port_.Write(string{"SetMotor"} + (port == MotorPort::A ? "A" : "B") + to_string(speed) + "\n");
 }
 
 void RJRobot::StopMotors() {
-    serial_port_.Write("StopMotors");
+//    serial_port_.Write("StopMotors");
 }
 
 void RJRobot::Wait(std::chrono::microseconds duration) {
