@@ -12,6 +12,7 @@
     #include <netdb.h>
     #include <unistd.h>
 #include <STSL/RJRobot.h>
+#include <cstring>
 
 #endif
 
@@ -25,31 +26,26 @@ RJRobot::RJRobot() {
 #ifdef _WIN32
     WSADATA wsa_data;
     if(auto ret = WSAStartup(MAKEWORD(1,1), &wsa_data); ret != 0) {
-        throw std::system_error(ret, std::generic_category(), "WSAStartup failed!");
+        handleError(ret, "WSAStartup failed");
     }
 #endif
 
     socket_handle = socket(AF_INET, SOCK_STREAM, 0);
 
     if(!isValidSocketHandle(socket_handle)) {
-#ifdef _WIN32
-        auto error_code = WSAGetLastError();
-#else
-        auto error_code = errno;
-#endif
-        throw std::system_error(error_code, std::generic_category(), "Unable to create socket.");
+        handleError("Unable to create socket");
     }
 
-    sockaddr_in serv_addr{0};
+    sockaddr_in serv_addr{};
     serv_addr.sin_family = AF_INET;
     serv_addr.sin_port = htons(80);
 
-    if(auto ret = inet_pton(AF_INET, HUZZAH_IP, &serv_addr.sin_addr); ret != 0) {
-        // TODO error handling
+    if(auto ret = inet_pton(AF_INET, HUZZAH_IP, &serv_addr.sin_addr); ret != 1) {
+        handleError("inet_pton failed");
     }
 
     if(auto ret = connect(socket_handle, reinterpret_cast<sockaddr*>(&serv_addr), sizeof(serv_addr)); ret != 0) {
-        // TODO error handling
+        handleError("connect failed");
     }
 
     cout << "Robot ready!" << endl;
@@ -58,40 +54,30 @@ RJRobot::RJRobot() {
 RJRobot::~RJRobot() {
 #ifdef _WIN32
     if(auto ret = shutdown(socket_handle, SD_BOTH); ret != 0) {
-        // TODO error handling
+        handleError("shutdown failed");
     }
     if(auto ret = closesocket(socket_handle); ret != 0) {
-        // TODO error handling
+        handleError("closesocket failed");
     }
     if(auto ret = WSACleanup(); ret != 0) {
-        throw std::system_error(ret, std::generic_category(), "WSACleanup failed!");
+        handleError(ret, "WSACleanup failed");
     }
 #else
     if(auto ret = shutdown(socket_handle, SHUT_RDWR); ret != 0) {
-        // TODO error handling
+        handleError("shutdown failed");
     }
     if(auto ret = close(socket_handle); ret != 0) {
-        // TODO error handling
+        handleError("close failed");
     }
 #endif
 }
 
-bool RJRobot::IsButtonPressed() {
-//    serial_port_.Write("GetButton\n");
-//    auto response = serial_port_.ReadLine();
-//    return (response[0] == '1');
-    return false;
-}
-
-uint8_t RJRobot::LightValue() {
-//    serial_port_.Write("GetLight\n");
-//    auto response = serial_port_.ReadLine();
-//    return static_cast<uint8_t>(std::stoul(response));
-    return 0;
-}
-
-void RJRobot::SetFloodlight(bool on) {
-//    serial_port_.Write(string{"SetFloodlight"} + (on ? "On" : "Off") + "\n");
+void RJRobot::SetOnBoardLED(bool on) {
+    if(on) {
+        sendCommand("SetOnBoardLEDOn\n");
+    } else {
+        sendCommand("SetOnBoardLEDOff\n");
+    }
 }
 
 void RJRobot::SetMotor(const MotorPort &port, const int &speed) {
@@ -114,4 +100,31 @@ bool RJRobot::isValidSocketHandle(const socket_t &socket) {
 #else
     return socket >= 0;
 #endif
+}
+
+void RJRobot::sendCommand(const char *command) {
+    auto remaining_bytes = std::strlen(command);
+    auto current_pos = 0;
+    while(remaining_bytes > 0) {
+        auto bytes_sent = send(socket_handle, command + current_pos, remaining_bytes, 0);
+        if(bytes_sent >= 0) {
+            remaining_bytes -= bytes_sent;
+            current_pos += bytes_sent;
+        } else {
+            handleError("send failed");
+        }
+    }
+}
+
+void RJRobot::handleError(const char *message) {
+#ifdef _WIN32
+    auto error_code = WSAGetLastError();
+#else
+    auto error_code = errno;
+#endif
+    throw std::system_error(error_code, std::generic_category(), message);
+}
+
+void RJRobot::handleError(int retval, const char *message) {
+    throw std::system_error(retval, std::generic_category(), message);
 }

@@ -22,11 +22,7 @@ public:
 
     ~RJRobot();
 
-    bool IsButtonPressed();
-
-    uint8_t LightValue();
-
-    void SetFloodlight(bool on);
+    void SetOnBoardLED(bool on);
 
     void SetMotor(const MotorPort &port, const int &speed);
 
@@ -39,6 +35,12 @@ private:
     socket_t socket_handle;
 
     bool isValidSocketHandle(const socket_t &socket);
+
+    void sendCommand(const char* command);
+
+    void handleError(const char *message);
+
+    void handleError(int retval, const char *message);
 
 };
 

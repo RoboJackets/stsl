@@ -3,17 +3,38 @@
 const char * ssid = "RJ_TRAINII_00";
 const char * password = "robojackets";
 IPAddress huzzahIP(10,10,10,1);
+IPAddress networkMask(255,255,255,0);
+uint16_t port = 80;
 
 int led = 13;
 
-WiFiServer server(80);
+WiFiServer server(port);
 
 void setup() {
+  Serial.begin(115200);
+  Serial.println("Setting up...");
+  
   pinMode(led, OUTPUT);
 
-  WiFi.mode(WIFI_AP_STA);
-  WiFi.softAPConfig(huzzahIP, huzzahIP, IPAddress(255,255,255,0));
+  Serial.println("Pins ready.");
+
+  Serial.println("Enabling AP.");
+  WiFi.mode(WIFI_AP);
   WiFi.softAP(ssid, password);
+  Serial.println("Wait 100 ms for AP_START...");
+  delay(100);
+  Serial.println("Configurnig AP.");
+  WiFi.softAPConfig(huzzahIP, huzzahIP, networkMask);
+
+  Serial.println("WiFi ready.");
+
+  server.begin();
+  Serial.println("Server ready.");
+  
+  Serial.print("Waiting for connections at ");
+  Serial.print(WiFi.softAPIP());
+  Serial.print(":");
+  Serial.println(port);
 }
 
 String readLine(WiFiClient &client) {
@@ -37,6 +58,7 @@ String readLine(WiFiClient &client) {
 void loop() {
   WiFiClient client = server.available();
   if(client) {
+    Serial.println("Client connected");
     while(client.connected()) {
       String command = readLine(client);
       if(command == "SetOnBoardLEDOn") {
