@@ -1,20 +1,20 @@
 #include <iostream>
 #include <cassert>
-#include "STSL/RJRobot.h"
-#include "STSL/Sleep.h"
+#include <cstring>
 
 #ifdef _WIN32
     #include <winsock2.h>
-    #include <Ws2tcpip.h>
+    #include <windows.h>
+    #include <ws2tcpip.h>
 #else
     #include <sys/socket.h>
     #include <arpa/inet.h>
     #include <netdb.h>
     #include <unistd.h>
-#include <STSL/RJRobot.h>
-#include <cstring>
-
 #endif
+
+#include <STSL/RJRobot.h>
+#include <STSL/Sleep.h>
 
 using namespace std;
 
@@ -96,7 +96,7 @@ void RJRobot::Wait(std::chrono::microseconds duration) {
 
 bool RJRobot::isValidSocketHandle(const socket_t &socket) {
 #ifdef _WIN32
-    return socket == INVALID_SOCKET;
+    return socket != INVALID_SOCKET;
 #else
     return socket >= 0;
 #endif

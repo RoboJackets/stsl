@@ -5,7 +5,7 @@
 #include <chrono>
 
 #ifdef _WIN32
-using socket_t = SOCKET;
+using socket_t = unsigned long long;
 #else
 using socket_t = int;
 #endif

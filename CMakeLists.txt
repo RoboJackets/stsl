@@ -10,7 +10,10 @@ set(LIB_SOURCE_FILES src/RJRobot.cpp)
 add_library(STSL ${LIB_SOURCE_FILES})
 
 if(WIN32)
-    target_link_libraries(STSL wsock32 ws2_32 )
+    include(cmake/macros/get_WIN32_WINNT.cmake)
+    get_WIN32_WINNT(ver)
+    add_definitions(-D_WIN32_WINNT=${ver})
+    target_link_libraries(STSL ws2_32 )
 endif()
 
 if(UNIX AND NOT APPLE)
