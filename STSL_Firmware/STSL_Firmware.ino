@@ -7,6 +7,8 @@ IPAddress networkMask(255,255,255,0);
 uint16_t port = 80;
 
 int led = 13;
+int ledState = HIGH;
+unsigned long ledTime;
 
 WiFiServer server(port);
 
@@ -35,6 +37,9 @@ void setup() {
   Serial.print(WiFi.softAPIP());
   Serial.print(":");
   Serial.println(port);
+
+  digitalWrite(led, HIGH);
+  ledTime = millis();
 }
 
 String readLine(WiFiClient &client) {
@@ -59,13 +64,18 @@ void loop() {
   WiFiClient client = server.available();
   if(client) {
     Serial.println("Client connected");
+    digitalWrite(led, HIGH);
     while(client.connected()) {
       String command = readLine(client);
-      if(command == "SetOnBoardLEDOn") {
-        digitalWrite(led, HIGH);
-      } else if(command == "SetOnBoardLEDOff") {
-        digitalWrite(led, LOW);
+      if(command == "") {
+        
       }
+    }
+  } else {
+    unsigned long now = millis();
+    if((now - ledTime) > 500) {
+      ledState = !ledState;
+      digitalWrite(led, ledState);
     }
   }
 }

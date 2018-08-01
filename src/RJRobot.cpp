@@ -72,22 +72,42 @@ RJRobot::~RJRobot() {
 #endif
 }
 
-void RJRobot::SetOnBoardLED(bool on) {
-    if(on) {
-        sendCommand("SetOnBoardLEDOn\n");
-    } else {
-        sendCommand("SetOnBoardLEDOff\n");
-    }
-}
-
-void RJRobot::SetMotor(const MotorPort &port, const int &speed) {
+void RJRobot::SetMotor(const Motor &port, const int &speed) {
     assert(speed <= 255);
     assert(speed >= -255);
-//    serial_port_.Write(string{"SetMotor"} + (port == MotorPort::A ? "A" : "B") + to_string(speed) + "\n");
+    string motorName;
+    switch(port) {
+    case Motor::LEFT:
+        motorName = "Left";
+        break;
+    case Motor::RIGHT:
+        motorName = "Right";
+        break;
+    case Motor::LIFT:
+        motorName = "Lift";
+        break;
+    }
+    sendCommand(("SetMotor" + motorName + to_string(speed) + "\n").c_str());
 }
 
 void RJRobot::StopMotors() {
-//    serial_port_.Write("StopMotors");
+    sendCommand("StopMotors");
+}
+
+int RJRobot::GetLightValue(const LightSensor &sensor) {
+    sendCommand((sensor == LightSensor::CENTER ? "GetLightCenter" : "GetLightRight"));
+
+    auto response = getResponse();
+
+    return std::stoi(response);
+}
+
+double RJRobot::GetUltrasonicDistance() {
+    sendCommand("GetUltrasonic");
+
+    auto response = getResponse();
+
+    return std::stod(response);
 }
 
 void RJRobot::Wait(std::chrono::microseconds duration) {
@@ -112,6 +132,26 @@ void RJRobot::sendCommand(const char *command) {
             current_pos += bytes_sent;
         } else {
             handleError("send failed");
+        }
+    }
+}
+
+std::string RJRobot::getResponse() {
+    std::string response;
+    constexpr auto buffer_size = 10ul;
+    auto buffer = new char[buffer_size];
+    auto bytes_received = recv(socket_handle, buffer, buffer_size, 0);
+    if(bytes_received == -1) {
+        handleError("recv failed");
+    } else if(bytes_received == 0) {
+        std::cout << "Unexpected disconnect! (recv() returned 0)\n";
+        return response;
+    } else {
+        response.insert(response.size(), buffer, bytes_received);
+        for(auto i = 0; i < bytes_received; i++) {
+            if(buffer[i] == '\n') {
+                return response.erase(i);
+            }
         }
     }
 }

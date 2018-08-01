@@ -10,9 +10,15 @@ using socket_t = unsigned long long;
 using socket_t = int;
 #endif
 
-enum class MotorPort {
-    A,
-    B
+enum class Motor {
+    LEFT,
+    RIGHT,
+    LIFT
+};
+
+enum class LightSensor {
+    CENTER,
+    RIGHT
 };
 
 class RJRobot {
@@ -22,11 +28,13 @@ public:
 
     ~RJRobot();
 
-    void SetOnBoardLED(bool on);
-
-    void SetMotor(const MotorPort &port, const int &speed);
+    void SetMotor(const Motor &port, const int &speed);
 
     void StopMotors();
+
+    int GetLightValue(const LightSensor &sensor);
+
+    double GetUltrasonicDistance();
 
     void Wait(std::chrono::microseconds duration);
 
@@ -37,6 +45,8 @@ private:
     bool isValidSocketHandle(const socket_t &socket);
 
     void sendCommand(const char* command);
+
+    std::string getResponse();
 
     void handleError(const char *message);
 
