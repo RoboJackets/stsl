@@ -110,6 +110,37 @@ double RJRobot::GetUltrasonicDistance() {
     return std::stod(response);
 }
 
+double RJRobot::GetProximity() {
+    sendCommand("GetProximity");
+    auto response = getResponse();
+    return std::stod(response);
+}
+
+Gesture RJRobot::GetGesture() {
+    sendCommand("GetGesture");
+    auto response = getResponse();
+    if(response == "UP") return Gesture::UP;
+    if(response == "DOWN") return Gesture::DOWN;
+    if(response == "LEFT") return Gesture::LEFT;
+    if(response == "RIGHT") return Gesture::RIGHT;
+    return Gesture::NONE;
+}
+
+Color RJRobot::GetColor() {
+    sendCommand("GetColor");
+    auto response = getResponse();
+    auto firstSpace = response.find(' ');
+    auto secondSpace = response.find(' ', firstSpace+1);
+    auto thirdSpace = response.find(' ', secondSpace+1);
+    auto r = std::stoi(response.substr(0, firstSpace));
+    auto g = std::stoi(response.substr(firstSpace+1,secondSpace-(firstSpace+1)));
+    auto b = std::stoi(response.substr(secondSpace+1,thirdSpace-(secondSpace+1)));
+    auto c = std::stoi(response.substr(thirdSpace+1));
+    if(r > b) return Color::RED;
+    if(b > r) return Color::BLUE;
+    return Color::UNKNOWN;
+}
+
 void RJRobot::Wait(std::chrono::microseconds duration) {
     sleep(duration);
 }

@@ -21,6 +21,20 @@ enum class LightSensor {
     RIGHT
 };
 
+enum class Color {
+    RED,
+    BLUE,
+    UNKNOWN
+};
+
+enum class Gesture {
+    DOWN,
+    UP,
+    LEFT,
+    RIGHT,
+    NONE
+};
+
 class RJRobot {
 
 public:
@@ -35,6 +49,12 @@ public:
     int GetLightValue(const LightSensor &sensor);
 
     double GetUltrasonicDistance();
+
+    double GetProximity();
+
+    Gesture GetGesture();
+
+    Color GetColor();
 
     void Wait(std::chrono::microseconds duration);
 

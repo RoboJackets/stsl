@@ -1,4 +1,5 @@
 #include <WiFi.h>
+#include <Adafruit_APDS9960.h>
 
 const char * ssid = "RJ_TRAINII_00";
 const char * password = "robojackets";
@@ -12,6 +13,8 @@ unsigned long ledTime;
 
 WiFiServer server(port);
 
+Adafruit_APDS9960 apds;
+
 void setup() {
   Serial.begin(115200);
   Serial.println("Setting up...");
@@ -19,6 +22,16 @@ void setup() {
   pinMode(led, OUTPUT);
 
   Serial.println("Pins ready.");
+
+  Serial.println("Setting up ADPS 9960");
+  if(apds.begin()) {
+    apds.enableProximity(true);
+    apds.enableGesture(true);
+    apds.enableColor(true);
+    Serial.println("ADPS 9960 Ready.");
+  } else {
+    Serial.println("ADPS 9960 Failed to initialize.");
+  }
 
   Serial.println("Enabling AP.");
   WiFi.mode(WIFI_AP);
@@ -60,6 +73,18 @@ String readLine(WiFiClient &client) {
   return line;
 }
 
+void writeString(WiFiClient &client, String &str) {
+  size_t totalBytesSent = 0;
+  const char* buf = str.c_str();
+  size_t bufSize = str.length();
+  while(totalBytesSent < str.length()) {
+    size_t bytesSent = client.write(buf, bufSize);
+    buf += bytesSent;
+    bufSize -= bytesSent;
+    totalBytesSent += bytesSent;
+  }
+}
+
 void loop() {
   WiFiClient client = server.available();
   if(client) {
@@ -67,8 +92,27 @@ void loop() {
     digitalWrite(led, HIGH);
     while(client.connected()) {
       String command = readLine(client);
-      if(command == "") {
-        
+      if(command == "GetGesture") {
+        uint8_t gesture = apds.readGesture();
+        String response = "";
+        if(gesture == APDS9960_DOWN) response = "DOWN\n";
+        else if(gesture == APDS9960_UP) response = "UP\n";
+        else if(gesture == APDS9960_LEFT) response = "LEFT\n";
+        else if(gesture == APDS9960_RIGHT) response = "RIGHT\n";
+        else response = "NONE\n";
+        writeString(client, response);
+      }
+      else if(command == "GetColor") {
+        while(!apds.colorDataReady()) {
+          delay(5);
+        }
+        uint16_t r, g, b, c;
+        apds.getColorData(&r, &g, &b, &c);
+        String response = String(r) + " " + String(g) + " " + String(b) + " " + String(c) + "\n";
+        writeString(client, response);
+      }
+      else if(command == "GetProximity") {
+        writeString(client, String(apds.readProximity()) + "\n");
       }
     }
   } else {
