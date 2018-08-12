@@ -112,6 +112,7 @@ void loop() {
         writeString(client, response);
       }
       else if(command == "GetProximity") {
+        // TODO scale proximity readings to real world units
         writeString(client, String(apds.readProximity()) + "\n");
       }
     }
