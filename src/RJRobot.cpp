@@ -141,6 +141,12 @@ Color RJRobot::GetColor() {
     return Color::UNKNOWN;
 }
 
+int RJRobot::GetLineValue(const LineSensor &sensor) {
+    sendCommand(sensor == LineSensor::CENTER ? "GetLineCenter" : "GetLineOffset");
+    auto response = getResponse();
+    return std::stoi(response);
+}
+
 void RJRobot::Wait(std::chrono::microseconds duration) {
     sleep(duration);
 }

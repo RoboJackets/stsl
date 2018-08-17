@@ -11,6 +11,9 @@ int led = 13;
 int ledState = HIGH;
 unsigned long ledTime;
 
+int lineSensorCenterPin = A2;
+int lineSensorOffsetPin = A3;
+
 WiFiServer server(port);
 
 Adafruit_APDS9960 apds;
@@ -20,6 +23,9 @@ void setup() {
   Serial.println("Setting up...");
   
   pinMode(led, OUTPUT);
+
+  pinMode(lineSensorCenterPin, INPUT);
+  pinMode(lineSensorOffsetPin, INPUT);
 
   Serial.println("Pins ready.");
 
@@ -114,6 +120,12 @@ void loop() {
       else if(command == "GetProximity") {
         // TODO scale proximity readings to real world units
         writeString(client, String(apds.readProximity()) + "\n");
+      }
+      else if(command == "GetLineCenter") {
+        writeString(client, String(analogRead(lineSensorCenterPin)) + "\n");
+      }
+      else if(command == "GetLineOffset") {
+        writeString(client, String(analogRead(lineSensorOffsetPin)) + "\n");
       }
     }
   } else {

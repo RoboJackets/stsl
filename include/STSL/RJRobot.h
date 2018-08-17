@@ -21,6 +21,11 @@ enum class LightSensor {
     RIGHT
 };
 
+enum class LineSensor {
+    CENTER,
+    OFFSET
+};
+
 enum class Color {
     RED,
     BLUE,
@@ -55,6 +60,8 @@ public:
     Gesture GetGesture();
 
     Color GetColor();
+
+    int GetLineValue(const LineSensor &sensor);
 
     void Wait(std::chrono::microseconds duration);
 
