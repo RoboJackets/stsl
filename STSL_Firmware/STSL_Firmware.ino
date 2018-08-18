@@ -133,6 +133,7 @@ void loop() {
     if((now - ledTime) > 500) {
       ledState = !ledState;
       digitalWrite(led, ledState);
+      ledTime = now;
     }
   }
 }
