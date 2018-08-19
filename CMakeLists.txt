@@ -16,14 +16,6 @@ if(WIN32)
     target_link_libraries(STSL ws2_32 )
 endif()
 
-if(UNIX AND NOT APPLE)
-    target_link_libraries(STSL udev)
-endif()
-
-if(APPLE)
-    target_link_libraries(STSL "-framework IOKit")
-endif()
-
 add_executable(Example example/main.cpp)
 target_link_libraries(Example STSL)
 
