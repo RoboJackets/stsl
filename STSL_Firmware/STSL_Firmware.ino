@@ -14,6 +14,10 @@ unsigned long ledTime;
 int lineSensorCenterPin = A2;
 int lineSensorOffsetPin = A3;
 
+// NOTE: These will change when the new board design comes in
+int usTriggerPin = A0;
+int usEchoPin = 33;
+
 WiFiServer server(port);
 
 Adafruit_APDS9960 apds;
@@ -26,6 +30,9 @@ void setup() {
 
   pinMode(lineSensorCenterPin, INPUT);
   pinMode(lineSensorOffsetPin, INPUT);
+  
+  pinMode(usTriggerPin, OUTPUT);
+  pinMode(usEchoPin, INPUT);
 
   Serial.println("Pins ready.");
 
@@ -91,6 +98,17 @@ void writeString(WiFiClient &client, String &str) {
   }
 }
 
+double getUltrasonicDistance() {
+  digitalWrite(usTriggerPin, LOW);
+  delayMicroseconds(2);
+  // Send the ping
+  digitalWrite(usTriggerPin, HIGH);
+  delayMicroseconds(10);
+  digitalWrite(usTriggerPin, LOW);
+  // Measure how long the echo pin was held high (pulse width)
+  return pulseIn(usEchoPin, HIGH) / 58.0;
+}
+
 void loop() {
   WiFiClient client = server.available();
   if(client) {
@@ -126,6 +144,8 @@ void loop() {
       }
       else if(command == "GetLineOffset") {
         writeString(client, String(analogRead(lineSensorOffsetPin)) + "\n");
+      } else if(command == "GetUltrasonic") {
+        writeString(client, String(getUltrasonicDistance()) + "\n");
       }
     }
   } else {
