@@ -1,90 +1,32 @@
 # Software Training Support Library (STSL)
 
-The STSL is a cross-platform library and accompanying Arduino firmware sketch which provides control over the Arduino-based LEGO robotics kits used in the RoboJackets Software Training program.
+[![Maintainer](https://img.shields.io/badge/Maintainer-Matthew%20Barulic-blue.svg)](https://github.com/barulicm)
+
+The STSL is a cross-platform library and accompanying Arduino firmware which provides control over the Arduino-based robotics kits used in the RoboJackets Software Training program.
 
 ## Dependencies
 
-### Linux
-
-* cmake
-* libudev
-
-### Windows
-
-* MinGW
-* cmake
-* WinSock32
-
-### Max OS X
-
-* cmake
-* 
+* [CMake](https://cmake.org/)
+* [MinGW](http://mingw.org/) (Windows only) 
 
 ## Installation
 
-### Linux
+This library is intended to be used as part of the RoboJackets Software Training Program. The code for the hardware exercises used in that program will automatically fetch and install this library.
 
-1. Clone repository
+## Flashing Firmware
 
-    ```
-    git clone https://github.com/RoboJackets/stsl
-    ```
-    
-3. Build library
+Before you can update the firmware on the robots, you'll need to install a few things:
 
-    ```
-    mkdir build && cd build
-    cmake ..
-    make
-    ```
+1. Install the [Arduino IDE](https://www.arduino.cc/)
+2. Follow the instructions for installing the Espresiff Systems [esp32 boards](https://github.com/espressif/arduino-esp32/blob/master/docs/arduino-ide/boards_manager.md)
+3. Install the _Adafruit APDS9960 Library_ via the Arduino IDE library manager
 
-### Windows
+With those dependencies installed, you can now flash the firmware.
 
-1. Install dependencies
-
-   Download Stephan T. Lavavej's MinGW distribution (without git):
-
-    [https://nuwen.net/mingw.html](https://nuwen.net/mingw.html)
-
-2. Install the GitHub desktop app
-
-   Install from [https://desktop.github.com/](https://desktop.github.com/)
-
-3. Install cmake
-
-   Install from [https://cmake.org/download/](https://cmake.org/download/)
-
-4. Clone repository using the GitHub gui
-
-   **TODO**
-
-5. Build library
-
-   Using the cmake gui tool or an IDE such as JetBrains' CLion
-   
-   
-### Mac OS X
-
-1. Clone repository
-
-   ```
-   git clone **TODO**
-   ```
-   
-2. Build library
-
-   ```
-   mkdir build && cd build
-   cmake ..
-   make
-   ```
-   
-   __Note:__ If you encounter errors where the compiler is unable to find standard C++ headers, it may be caused by these headers being moved by Xcode. You may be able to resolve this issue by re-installing the Xcode command line tools using the following command.
-
-   ```
-   xcode-select --install
-   ```
-   On my machine (running OS X Mavericks, 10.9.5), I also had to change the compiler to use Apple's clang compiler instead of the GNU compiler in Xcode. This can be done by replacing the cmake command above with the following.
-   ```
-   cmake -DCMAKE_C_COMPILER=/usr/bin/gcc -DCMAKE_CXX_COMPILER=/usr/bin/g++ ..
-   ```
+1. Open STSL_Firmware/STSL_Firmware.ino with the Arduino IDE
+2. Select the "Adafruit ESP32 Feather board
+   * Tools->Board->Adafruit ESP32 Feather
+   * Other board options can be left at default values
+3. Plug the robot in to your computer via USB
+4. Set the port as needed for the IDE to find the board
+5. Press "Upload"
