@@ -4,20 +4,20 @@
 
 const char * ssid = "RJ_TRAINII_00";
 const char * password = "robojackets";
-IPAddress huzzahIP(10,10,10,1);
-IPAddress networkMask(255,255,255,0);
+IPAddress huzzah_ip(10,10,10,1);
+IPAddress network_mask(255,255,255,0);
 uint16_t port = 80;
 
 int led = 13;
-int ledState = HIGH;
-unsigned long ledTime;
+int led_state = HIGH;
+unsigned long led_time;
 
-int lineSensorCenterPin = A2;
-int lineSensorOffsetPin = A3;
+int line_center_pin = A2;
+int line_offset_pin = A3;
 
 // NOTE: These will change when the new board design comes in
-int usTriggerPin = A0;
-int usEchoPin = 33;
+int us_trigger_pin = A0;
+int us_echo_pin = 33;
 
 int left_a_pin = A1;
 int left_b_pin = A12;
@@ -43,11 +43,11 @@ void setup() {
   
   pinMode(led, OUTPUT);
 
-  pinMode(lineSensorCenterPin, INPUT);
-  pinMode(lineSensorOffsetPin, INPUT);
+  pinMode(line_center_pin, INPUT);
+  pinMode(line_offset_pin, INPUT);
   
-  pinMode(usTriggerPin, OUTPUT);
-  pinMode(usEchoPin, INPUT);
+  pinMode(us_trigger_pin, OUTPUT);
+  pinMode(us_echo_pin, INPUT);
 
   Serial.println("Pins ready.");
 
@@ -82,7 +82,7 @@ void setup() {
   Serial.println("Wait 100 ms for AP_START...");
   delay(100);
   Serial.println("Configurnig AP.");
-  WiFi.softAPConfig(huzzahIP, huzzahIP, networkMask);
+  WiFi.softAPConfig(huzzah_ip, huzzah_ip, network_mask);
 
   Serial.println("WiFi ready.");
 
@@ -95,7 +95,7 @@ void setup() {
   Serial.println(port);
 
   digitalWrite(led, HIGH);
-  ledTime = millis();
+  led_time = millis();
 }
 
 String readLine(WiFiClient &client) {
@@ -129,14 +129,14 @@ void writeString(WiFiClient &client, String &str) {
 }
 
 double getUltrasonicDistance() {
-  digitalWrite(usTriggerPin, LOW);
+  digitalWrite(us_trigger_pin, LOW);
   delayMicroseconds(2);
   // Send the ping
-  digitalWrite(usTriggerPin, HIGH);
+  digitalWrite(us_trigger_pin, HIGH);
   delayMicroseconds(10);
-  digitalWrite(usTriggerPin, LOW);
+  digitalWrite(us_trigger_pin, LOW);
   // Measure how long the echo pin was held high (pulse width)
-  return pulseIn(usEchoPin, HIGH) / 58.0;
+  return pulseIn(us_echo_pin, HIGH) / 58.0;
 }
 
 void stopMotors() {
@@ -179,10 +179,10 @@ void loop() {
         writeString(client, String(apds.readProximity()) + "\n");
       }
       else if(command == "GetLineCenter") {
-        writeString(client, String(analogRead(lineSensorCenterPin)) + "\n");
+        writeString(client, String(analogRead(line_center_pin)) + "\n");
       }
       else if(command == "GetLineOffset") {
-        writeString(client, String(analogRead(lineSensorOffsetPin)) + "\n");
+        writeString(client, String(analogRead(line_offset_pin)) + "\n");
       } else if(command == "GetUltrasonic") {
         writeString(client, String(getUltrasonicDistance()) + "\n");
       } else if(command == "StopMotors") {
@@ -206,10 +206,10 @@ void loop() {
     }
   } else {
     unsigned long now = millis();
-    if((now - ledTime) > 500) {
-      ledState = !ledState;
-      digitalWrite(led, ledState);
-      ledTime = now;
+    if((now - led_time) > 500) {
+      led_state = !led_state;
+      digitalWrite(led, led_state);
+      led_time = now;
     }
   }
 }
