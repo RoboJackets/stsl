@@ -78,13 +78,13 @@ void RJRobot::SetMotor(const Motor &port, const int &speed) {
     string motorName;
     switch(port) {
     case Motor::LEFT:
-        motorName = "Left";
+        motorName = "L";
         break;
     case Motor::RIGHT:
-        motorName = "Right";
+        motorName = "R";
         break;
     case Motor::LIFT:
-        motorName = "Lift";
+        motorName = "I";
         break;
     }
     sendCommand(("SetMotor" + motorName + to_string(speed) + "\n").c_str());

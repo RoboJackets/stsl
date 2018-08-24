@@ -1,5 +1,6 @@
 #include <WiFi.h>
 #include <Adafruit_APDS9960.h>
+#include <esp32-hal-ledc.h>
 
 const char * ssid = "RJ_TRAINII_00";
 const char * password = "robojackets";
@@ -17,6 +18,20 @@ int lineSensorOffsetPin = A3;
 // NOTE: These will change when the new board design comes in
 int usTriggerPin = A0;
 int usEchoPin = 33;
+
+int left_a_pin = A1;
+int left_b_pin = A12;
+int right_a_pin = A10;
+int right_b_pin = A8;
+int lift_a_pin = A7;
+int lift_b_pin = A6;
+
+int left_a_channel = 1;
+int left_b_channel = 2;
+int right_a_channel = 3;
+int right_b_channel = 4;
+int lift_a_channel = 5;
+int lift_b_channel = 6;
 
 WiFiServer server(port);
 
@@ -45,6 +60,21 @@ void setup() {
   } else {
     Serial.println("ADPS 9960 Failed to initialize.");
   }
+
+  Serial.println("Setting up motors");
+  ledcSetup(left_a_channel,50,8);
+  ledcSetup(left_b_channel,50,8);
+  ledcSetup(right_a_channel,50,8);
+  ledcSetup(right_b_channel,50,8);
+  ledcSetup(lift_a_channel,50,8);
+  ledcSetup(lift_b_channel,50,8);
+  ledcAttachPin(left_a_pin, left_a_channel);
+  ledcAttachPin(left_b_pin, left_b_channel);
+  ledcAttachPin(right_a_pin, right_a_channel);
+  ledcAttachPin(right_b_pin, right_b_channel);
+  ledcAttachPin(lift_a_pin, lift_a_channel);
+  ledcAttachPin(lift_b_pin, lift_b_channel);
+  stopMotors();
 
   Serial.println("Enabling AP.");
   WiFi.mode(WIFI_AP);
@@ -109,6 +139,15 @@ double getUltrasonicDistance() {
   return pulseIn(usEchoPin, HIGH) / 58.0;
 }
 
+void stopMotors() {
+  ledcWrite(left_a_channel, 0);
+  ledcWrite(left_b_channel, 0);
+  ledcWrite(right_a_channel, 0);
+  ledcWrite(right_b_channel, 0);
+  ledcWrite(lift_a_channel, 0);
+  ledcWrite(lift_b_channel, 0);
+}
+
 void loop() {
   WiFiClient client = server.available();
   if(client) {
@@ -147,9 +186,22 @@ void loop() {
       } else if(command == "GetUltrasonic") {
         writeString(client, String(getUltrasonicDistance()) + "\n");
       } else if(command == "StopMotors") {
-        
+        stopMotors();
       } else if(command.substring(0,8) == "SetMotor") {
-        int speed = command.substring(8).toInt();
+        String motor = command.substring(8,9);
+        int channel = 0;
+        int speed = command.substring(9).toInt();
+        if(speed > 0) {
+          if(motor == "L") channel = left_a_channel;
+          else if(motor == "R") channel = right_a_channel;
+          else if(motor == "I") channel = lift_a_channel;
+        } else {
+          speed *= -1;
+          if(motor == "L") channel = left_b_channel;
+          else if(motor == "R") channel = right_b_channel;
+          else if(motor == "I") channel = lift_b_channel;
+        }
+        ledcWrite(channel, speed);
       }
     }
   } else {
