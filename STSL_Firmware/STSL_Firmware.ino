@@ -146,6 +146,10 @@ void loop() {
         writeString(client, String(analogRead(lineSensorOffsetPin)) + "\n");
       } else if(command == "GetUltrasonic") {
         writeString(client, String(getUltrasonicDistance()) + "\n");
+      } else if(command == "StopMotors") {
+        
+      } else if(command.substring(0,8) == "SetMotor") {
+        int speed = command.substring(8).toInt();
       }
     }
   } else {
