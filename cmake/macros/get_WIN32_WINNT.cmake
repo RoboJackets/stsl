@@ -1,3 +1,5 @@
+# Written by Stack Overflow user KneLL
+# https://stackoverflow.com/a/17845462/1478658
 macro(get_WIN32_WINNT version)
     if (CMAKE_SYSTEM_VERSION)
         set(ver ${CMAKE_SYSTEM_VERSION})
@@ -15,3 +17,4 @@ macro(get_WIN32_WINNT version)
         set(${version} "0x${ver}")
     endif(CMAKE_SYSTEM_VERSION)
 endmacro(get_WIN32_WINNT)
+
