@@ -38,7 +38,7 @@ RJRobot::RJRobot() {
 
     sockaddr_in serv_addr{};
     serv_addr.sin_family = AF_INET;
-    serv_addr.sin_port = htons(80);
+    serv_addr.sin_port = htons(8008);
 
     if(auto ret = inet_pton(AF_INET, HUZZAH_IP, &serv_addr.sin_addr); ret != 1) {
         handleError("inet_pton failed");

@@ -6,7 +6,7 @@ const char * ssid = "RJ_TRAINII_00";
 const char * password = "robojackets";
 IPAddress huzzah_ip(10,10,10,1);
 IPAddress network_mask(255,255,255,0);
-uint16_t port = 80;
+uint16_t port = 8008;
 
 int led = 13;
 int led_state = HIGH;
@@ -16,12 +16,12 @@ int line_center_pin = A2;
 int line_offset_pin = A3;
 
 // NOTE: These will change when the new board design comes in
-int us_trigger_pin = A0;
-int us_echo_pin = 33;
+int us_trigger_pin = 18;
+int us_echo_pin = 19;
 
 int left_a_pin = A1;
-int left_b_pin = A12;
-int right_a_pin = A10;
+int left_b_pin = A10;
+int right_a_pin = A9;
 int right_b_pin = A8;
 int lift_a_pin = A7;
 int lift_b_pin = A6;
@@ -213,4 +213,3 @@ void loop() {
     }
   }
 }
-
