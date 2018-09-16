@@ -18,9 +18,7 @@
 
 using namespace std;
 
-constexpr const char* HUZZAH_IP = "10.10.10.1";
-
-RJRobot::RJRobot() {
+RJRobot::RJRobot(RobotType type) {
     cout << "Initializing..." << endl;
 
 #ifdef _WIN32
@@ -29,6 +27,16 @@ RJRobot::RJRobot() {
         handleError(ret, "WSAStartup failed");
     }
 #endif
+
+    const char* HUZZAH_IP;
+
+    if(type == REAL) {
+        HUZZAH_IP = "10.10.10.1";
+        cout << "Looking for a real robot." << endl;
+    } else {
+        HUZZAH_IP = "127.0.0.1";
+        cout << "Looking for the simulator." << endl;
+    }
 
     socket_handle = socket(AF_INET, SOCK_STREAM, 0);
 

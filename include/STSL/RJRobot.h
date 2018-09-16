@@ -40,10 +40,15 @@ enum class Gesture {
     NONE
 };
 
+enum RobotType {
+    REAL,
+    SIMULATOR
+};
+
 class RJRobot {
 
 public:
-    RJRobot();
+    RJRobot(RobotType type);
 
     ~RJRobot();
 

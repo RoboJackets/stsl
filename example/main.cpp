@@ -5,7 +5,7 @@ using namespace std;
 
 int main() {
 
-    RJRobot robot;
+    RJRobot robot(REAL);
 
     while(true) {
 
