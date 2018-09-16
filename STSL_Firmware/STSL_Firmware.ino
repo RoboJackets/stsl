@@ -183,11 +183,14 @@ void loop() {
       }
       else if(command == "GetLineOffset") {
         writeString(client, String(analogRead(line_offset_pin)) + "\n");
-      } else if(command == "GetUltrasonic") {
+      }
+      else if(command == "GetUltrasonic") {
         writeString(client, String(getUltrasonicDistance()) + "\n");
-      } else if(command == "StopMotors") {
+      }
+      else if(command == "StopMotors") {
         stopMotors();
-      } else if(command.substring(0,8) == "SetMotor") {
+      }
+      else if(command.substring(0,8) == "SetMotor") {
         String motor = command.substring(8,9);
         int channel = 0;
         int speed = command.substring(9).toInt();
