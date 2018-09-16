@@ -204,6 +204,7 @@ void loop() {
         ledcWrite(channel, speed);
       }
     }
+    stopMotors();
   } else {
     unsigned long now = millis();
     if((now - led_time) > 500) {

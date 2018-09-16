@@ -10,6 +10,10 @@ int main() {
     while(true) {
 
         robot.Wait(1000ms);
+        robot.SetMotor(Motor::LEFT, -255);
+        robot.SetMotor(Motor::RIGHT, 255);
+        robot.Wait(2000ms);
+        robot.StopMotors();
     }
 
     return 0;

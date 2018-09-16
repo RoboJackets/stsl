@@ -99,11 +99,11 @@ void RJRobot::SetMotor(const Motor &port, const int &speed) {
 }
 
 void RJRobot::StopMotors() {
-    sendCommand("StopMotors");
+    sendCommand("StopMotors\n");
 }
 
 int RJRobot::GetLightValue(const LightSensor &sensor) {
-    sendCommand((sensor == LightSensor::CENTER ? "GetLightCenter" : "GetLightRight"));
+    sendCommand((sensor == LightSensor::CENTER ? "GetLightCenter\n" : "GetLightRight\n"));
 
     auto response = getResponse();
 
@@ -111,7 +111,7 @@ int RJRobot::GetLightValue(const LightSensor &sensor) {
 }
 
 double RJRobot::GetUltrasonicDistance() {
-    sendCommand("GetUltrasonic");
+    sendCommand("GetUltrasonic\n");
 
     auto response = getResponse();
 
@@ -119,13 +119,13 @@ double RJRobot::GetUltrasonicDistance() {
 }
 
 double RJRobot::GetProximity() {
-    sendCommand("GetProximity");
+    sendCommand("GetProximity\n");
     auto response = getResponse();
     return std::stod(response);
 }
 
 Gesture RJRobot::GetGesture() {
-    sendCommand("GetGesture");
+    sendCommand("GetGesture\n");
     auto response = getResponse();
     if(response == "UP") return Gesture::UP;
     if(response == "DOWN") return Gesture::DOWN;
@@ -135,7 +135,7 @@ Gesture RJRobot::GetGesture() {
 }
 
 Color RJRobot::GetColor() {
-    sendCommand("GetColor");
+    sendCommand("GetColor\n");
     auto response = getResponse();
     auto firstSpace = response.find(' ');
     auto secondSpace = response.find(' ', firstSpace+1);
@@ -150,7 +150,7 @@ Color RJRobot::GetColor() {
 }
 
 int RJRobot::GetLineValue(const LineSensor &sensor) {
-    sendCommand(sensor == LineSensor::CENTER ? "GetLineCenter" : "GetLineOffset");
+    sendCommand(sensor == LineSensor::CENTER ? "GetLineCenter\n" : "GetLineOffset\n");
     auto response = getResponse();
     return std::stoi(response);
 }
