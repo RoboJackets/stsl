@@ -36,6 +36,7 @@ int lift_b_channel = 6;
 WiFiServer server(port);
 
 Adafruit_APDS9960 apds;
+bool apds_ready = false;
 
 void setup() {
   Serial.begin(115200);
@@ -57,8 +58,16 @@ void setup() {
     apds.enableGesture(true);
     apds.enableColor(true);
     Serial.println("ADPS 9960 Ready.");
+    apds_ready = true;
   } else {
     Serial.println("ADPS 9960 Failed to initialize.");
+    for(int flash = 0; flash < 3; flash++) {
+      // ERROR FLASH!
+      delay(100);
+      digitalWrite(led, HIGH);
+      delay(100);
+      digitalWrite(led, LOW);
+    }
   }
 
   Serial.println("Setting up motors");
@@ -116,7 +125,7 @@ String readLine(WiFiClient &client) {
   return line;
 }
 
-void writeString(WiFiClient &client, String &str) {
+void writeString(WiFiClient &client, const String &str) {
   size_t totalBytesSent = 0;
   const char* buf = str.c_str();
   size_t bufSize = str.length();
@@ -156,7 +165,10 @@ void loop() {
     while(client.connected()) {
       String command = readLine(client);
       if(command == "GetGesture") {
-        uint8_t gesture = apds.readGesture();
+        uint8_t gesture = 0;
+        if(apds_ready) {
+          gesture = apds.readGesture();
+        }
         String response = "";
         if(gesture == APDS9960_DOWN) response = "DOWN\n";
         else if(gesture == APDS9960_UP) response = "UP\n";
@@ -166,17 +178,30 @@ void loop() {
         writeString(client, response);
       }
       else if(command == "GetColor") {
-        while(!apds.colorDataReady()) {
-          delay(5);
+        uint16_t r = 0;
+        uint16_t g = 0;
+        uint16_t b = 0;
+        uint16_t c = 0;
+        if(apds_ready) {
+          for(int attempt = 0; attempt < 10; attempt++) {
+            if(apds.colorDataReady()) {
+              break;
+            }
+            delay(5);
+          }
+          apds.getColorData(&r, &g, &b, &c);
         }
-        uint16_t r, g, b, c;
-        apds.getColorData(&r, &g, &b, &c);
         String response = String(r) + " " + String(g) + " " + String(b) + " " + String(c) + "\n";
         writeString(client, response);
+        
       }
       else if(command == "GetProximity") {
-        // TODO scale proximity readings to real world units
-        writeString(client, String(apds.readProximity()) + "\n");
+        if(apds_ready) {
+          // TODO scale proximity readings to real world units
+          writeString(client, String(apds.readProximity()) + "\n");
+        } else {
+          writeString(client, "0\n");
+        }
       }
       else if(command == "GetLineCenter") {
         writeString(client, String(analogRead(line_center_pin)) + "\n");
