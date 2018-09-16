@@ -1,41 +1,89 @@
 #ifndef TRAININGSUPPORTLIBRARY_RJROBOT_H
 #define TRAININGSUPPORTLIBRARY_RJROBOT_H
 
-#include "SerialPort.h"
-#include "OSUtils.h"
 #include <memory>
+#include <chrono>
 
-enum class MotorPort {
-    A,
-    B
+#ifdef _WIN32
+using socket_t = unsigned long long;
+#else
+using socket_t = int;
+#endif
+
+enum class Motor {
+    LEFT,
+    RIGHT,
+    LIFT
+};
+
+enum class LightSensor {
+    CENTER,
+    RIGHT
+};
+
+enum class LineSensor {
+    CENTER,
+    OFFSET
+};
+
+enum class Color {
+    RED,
+    BLUE,
+    UNKNOWN
+};
+
+enum class Gesture {
+    DOWN,
+    UP,
+    LEFT,
+    RIGHT,
+    NONE
+};
+
+enum RobotType {
+    REAL,
+    SIMULATOR
 };
 
 class RJRobot {
 
 public:
-    RJRobot();
+    RJRobot(RobotType type);
 
     ~RJRobot();
 
-    bool IsButtonPressed();
-
-    uint8_t LightValue();
-
-    void SetFloodlight(bool on);
-
-    void SetMotor(const MotorPort &port, const int &speed);
+    void SetMotor(const Motor &port, const int &speed);
 
     void StopMotors();
+
+    int GetLightValue(const LightSensor &sensor);
+
+    double GetUltrasonicDistance();
+
+    double GetProximity();
+
+    Gesture GetGesture();
+
+    Color GetColor();
+
+    int GetLineValue(const LineSensor &sensor);
 
     void Wait(std::chrono::microseconds duration);
 
 private:
 
-    SerialPort serial_port_;
+    socket_t socket_handle;
 
-    std::unique_ptr<OSUtils> os_utils_;
+    bool isValidSocketHandle(const socket_t &socket);
+
+    void sendCommand(const char* command);
+
+    std::string getResponse();
+
+    void handleError(const char *message);
+
+    void handleError(int retval, const char *message);
 
 };
-
 
 #endif //TRAININGSUPPORTLIBRARY_RJROBOT_H

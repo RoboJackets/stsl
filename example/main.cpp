@@ -5,19 +5,15 @@ using namespace std;
 
 int main() {
 
-    RJRobot robot;
-
-    bool floodlight = true;
-
-    int speed = 255;
+    RJRobot robot(REAL);
 
     while(true) {
-        robot.SetFloodlight(floodlight);
-        floodlight = !floodlight;
-        robot.SetMotor(MotorPort::A, speed);
-        speed = (speed == 255 ? 0 : 255);
-        cout << "\r" << robot.IsButtonPressed() << "\t" << static_cast<int>(robot.LightValue()) << endl;
-        robot.Wait(500ms);
+
+        robot.Wait(1000ms);
+        robot.SetMotor(Motor::LEFT, -255);
+        robot.SetMotor(Motor::RIGHT, 255);
+        robot.Wait(2000ms);
+        robot.StopMotors();
     }
 
     return 0;
