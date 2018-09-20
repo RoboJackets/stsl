@@ -102,14 +102,6 @@ void RJRobot::StopMotors() {
     sendCommand("StopMotors\n");
 }
 
-int RJRobot::GetLightValue(const LightSensor &sensor) {
-    sendCommand((sensor == LightSensor::CENTER ? "GetLightCenter\n" : "GetLightRight\n"));
-
-    auto response = getResponse();
-
-    return std::stoi(response);
-}
-
 double RJRobot::GetUltrasonicDistance() {
     sendCommand("GetUltrasonic\n");
 

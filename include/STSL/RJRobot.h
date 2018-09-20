@@ -16,11 +16,6 @@ enum class Motor {
     LIFT
 };
 
-enum class LightSensor {
-    CENTER,
-    RIGHT
-};
-
 enum class LineSensor {
     CENTER,
     OFFSET
@@ -55,8 +50,6 @@ public:
     void SetMotor(const Motor &port, const int &speed);
 
     void StopMotors();
-
-    int GetLightValue(const LightSensor &sensor);
 
     double GetUltrasonicDistance();
 
