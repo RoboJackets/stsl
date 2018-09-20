@@ -15,6 +15,7 @@
 
 #include <STSL/RJRobot.h>
 #include <STSL/Sleep.h>
+#include <netinet/tcp.h>
 
 using namespace std;
 
@@ -55,6 +56,10 @@ RJRobot::RJRobot(RobotType type) {
     if(auto ret = connect(socket_handle, reinterpret_cast<sockaddr*>(&serv_addr), sizeof(serv_addr)); ret != 0) {
         handleError("connect failed");
     }
+
+    // TODO Why does this make it work? Learn something please.
+    int one = 1;
+    setsockopt(socket_handle, SOL_TCP, TCP_NODELAY, &one, sizeof(one));
 
     cout << "Robot ready!" << endl;
 }
