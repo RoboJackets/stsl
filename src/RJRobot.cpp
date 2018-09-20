@@ -80,22 +80,13 @@ RJRobot::~RJRobot() {
 #endif
 }
 
-void RJRobot::SetMotor(const Motor &port, const int &speed) {
-    assert(speed <= 255);
-    assert(speed >= -255);
-    string motorName;
-    switch(port) {
-    case Motor::LEFT:
-        motorName = "L";
-        break;
-    case Motor::RIGHT:
-        motorName = "R";
-        break;
-    case Motor::LIFT:
-        motorName = "I";
-        break;
-    }
-    sendCommand(("SetMotor" + motorName + to_string(speed) + "\n").c_str());
+void RJRobot::SetDriveMotors(int leftPower, int rightPower) {
+    // leftPower is negated so that positive powers result in forward motion on both drive motors
+    sendCommand(("SetDrive" + to_string(-1*leftPower) + "|" + to_string(rightPower) + "\n").c_str());
+}
+
+void RJRobot::SetLiftMotor(int power) {
+    sendCommand(("SetLift" + to_string(power) + "\n").c_str());
 }
 
 void RJRobot::StopMotors() {

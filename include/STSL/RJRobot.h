@@ -10,12 +10,6 @@ using socket_t = unsigned long long;
 using socket_t = int;
 #endif
 
-enum class Motor {
-    LEFT,
-    RIGHT,
-    LIFT
-};
-
 enum class LineSensor {
     CENTER,
     OFFSET
@@ -47,7 +41,9 @@ public:
 
     ~RJRobot();
 
-    void SetMotor(const Motor &port, const int &speed);
+    void SetDriveMotors(int leftPower, int rightPower);
+
+    void SetLiftMotor(int power);
 
     void StopMotors();
 

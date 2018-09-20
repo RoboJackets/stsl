@@ -157,6 +157,16 @@ void stopMotors() {
   ledcWrite(lift_b_channel, 0);
 }
 
+void setMotorPower(int channel_a, int channel_b, int power) {
+  if(power > 0) {
+    ledcWrite(channel_a, power);
+    ledcWrite(channel_b, 0);
+  } else {
+    ledcWrite(channel_a, 0);
+    ledcWrite(channel_b, -1*power);
+  }
+}
+
 void loop() {
   WiFiClient client = server.available();
   if(client) {
@@ -215,21 +225,16 @@ void loop() {
       else if(command == "StopMotors") {
         stopMotors();
       }
-      else if(command.substring(0,8) == "SetMotor") {
-        String motor = command.substring(8,9);
-        int channel = 0;
-        int speed = command.substring(9).toInt();
-        if(speed > 0) {
-          if(motor == "L") channel = left_a_channel;
-          else if(motor == "R") channel = right_a_channel;
-          else if(motor == "I") channel = lift_a_channel;
-        } else {
-          speed *= -1;
-          if(motor == "L") channel = left_b_channel;
-          else if(motor == "R") channel = right_b_channel;
-          else if(motor == "I") channel = lift_b_channel;
-        }
-        ledcWrite(channel, speed);
+      else if(command.substring(0,7) == "SetLift") {
+        int power = command.substring(7).toInt();
+        setMotorPower(lift_a_channel, lift_b_channel, power);
+      }
+      else if(command.substring(0,8) == "SetDrive") {
+        int delimIndex = command.indexOf('|');
+        int leftPower = command.substring(8,delimIndex).toInt();
+        int rightPower = command.substring(delimIndex+1).toInt();
+        setMotorPower(left_a_channel, left_b_channel, leftPower);
+        setMotorPower(right_a_channel, right_b_channel, rightPower);
       }
     }
     stopMotors();
