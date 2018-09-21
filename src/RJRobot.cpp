@@ -11,11 +11,11 @@
     #include <arpa/inet.h>
     #include <netdb.h>
     #include <unistd.h>
+    #include <netinet/tcp.h>
 #endif
 
 #include <STSL/RJRobot.h>
 #include <STSL/Sleep.h>
-#include <netinet/tcp.h>
 
 using namespace std;
 
@@ -58,8 +58,8 @@ RJRobot::RJRobot(RobotType type) {
     }
 
     // TODO Why does this make it work? Learn something please.
-    int one = 1;
-    setsockopt(socket_handle, SOL_TCP, TCP_NODELAY, &one, sizeof(one));
+    char one = 1;
+    setsockopt(socket_handle, IPPROTO_TCP, TCP_NODELAY, &one, sizeof(one));
 
     cout << "Robot ready!" << endl;
 }
