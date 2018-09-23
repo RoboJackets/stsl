@@ -2,7 +2,7 @@
 #include <Adafruit_APDS9960.h>
 #include <esp32-hal-ledc.h>
 
-const char * ssid = "RJ_TRAINII_00";
+const char * ssid = "RJ_TRAINII_THOMAS";
 const char * password = "robojackets";
 IPAddress huzzah_ip(10,10,10,1);
 IPAddress network_mask(255,255,255,0);
@@ -33,10 +33,17 @@ int right_b_channel = 4;
 int lift_a_channel = 5;
 int lift_b_channel = 6;
 
+int battery_pin = A13;
+double low_battery_voltage = 3.6;
+
 WiFiServer server(port);
 
 Adafruit_APDS9960 apds;
 bool apds_ready = false;
+
+double bitsToVolts(int bits) {
+  return (bits / 4096.0) * 7.4;
+}
 
 void setup() {
   Serial.begin(115200);
@@ -50,7 +57,23 @@ void setup() {
   pinMode(us_trigger_pin, OUTPUT);
   pinMode(us_echo_pin, INPUT);
 
+  pinMode(battery_pin, INPUT);
+
   Serial.println("Pins ready.");
+
+  double battery_voltage = bitsToVolts(analogRead(battery_pin));
+  Serial.print("Battery: ");
+  Serial.print(battery_voltage);
+  Serial.println("v");
+  if(battery_voltage <= 3.6) {
+    while(true) {
+      // ERROR FLASH!
+      delay(100);
+      digitalWrite(led, HIGH);
+      delay(100);
+      digitalWrite(led, LOW);
+    }
+  }
 
   Serial.println("Setting up ADPS 9960");
   if(apds.begin()) {
