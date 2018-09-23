@@ -2,7 +2,7 @@
 #include <Adafruit_APDS9960.h>
 #include <esp32-hal-ledc.h>
 
-const char * ssid = "RJ_TRAINII_00";
+const char * ssid = "RJ_TRAINII_THOMAS";
 const char * password = "robojackets";
 IPAddress huzzah_ip(10,10,10,1);
 IPAddress network_mask(255,255,255,0);
@@ -51,6 +51,17 @@ void setup() {
   pinMode(us_echo_pin, INPUT);
 
   Serial.println("Pins ready.");
+
+  while(analogRead(A13) * 2 < 4000) {
+    for(int flash = 0; flash < 3; flash++) {
+      // ERROR FLASH!
+      delay(100);
+      digitalWrite(led, HIGH);
+      delay(100);
+      digitalWrite(led, LOW);
+    }
+    delay(300);
+  }
 
   Serial.println("Setting up ADPS 9960");
   if(apds.begin()) {
