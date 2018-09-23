@@ -7,7 +7,8 @@ The STSL is a cross-platform library and accompanying Arduino firmware which pro
 ## Dependencies
 
 * [CMake](https://cmake.org/)
-* [MinGW](http://mingw.org/) (Windows only) 
+* MinGW (Windows only)
+** I recomend installing via [MSYS2](https://www.msys2.org/)
 
 ## Installation
 
