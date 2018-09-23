@@ -3,6 +3,11 @@
 
 using namespace std;
 
+/*
+ * This example code demonstrates how to interact with all of the motors and sensors on Trainii.
+ * This also doubles a system check program to debug malfunctioning robots.
+ */
+
 int main() {
 
     RJRobot robot(RobotType::REAL);

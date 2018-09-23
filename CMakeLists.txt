@@ -24,8 +24,8 @@ if(WIN32)
     target_link_libraries(STSL ws2_32 )
 endif()
 
-add_executable(system_test example/system_test.cpp)
-target_link_libraries(system_test STSL)
+add_executable(Example example/main.cpp)
+target_link_libraries(Example STSL)
 
 install(TARGETS STSL
         ARCHIVE DESTINATION lib)
