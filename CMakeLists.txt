@@ -1,6 +1,14 @@
 cmake_minimum_required(VERSION 3.10)
 project(SoftwareTrainingSupportLibrary)
 
+if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
+    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
+        message(FATAL_ERROR "STSL requires version 7 or newer of the GNU compiler (GCC). You currently have version ${CMAKE_CXX_COMPILER_VERSION}")
+    endif()
+else()
+    message(FATAL_ERROR "STSL currently only supports the GNU compiler (GCC). You are currently running ${CMAKE_CXX_COMPILER_ID}")
+endif()
+
 set(CMAKE_CXX_STANDARD 17)
 
 include_directories(include)
