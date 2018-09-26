@@ -129,9 +129,10 @@ Color RJRobot::GetColor() {
     auto secondSpace = response.find(' ', firstSpace+1);
     auto thirdSpace = response.find(' ', secondSpace+1);
     auto r = std::stoi(response.substr(0, firstSpace));
-    auto g = std::stoi(response.substr(firstSpace+1,secondSpace-(firstSpace+1)));
+    // Unused values commented out but left here incase we'd like to add more colors
+//    auto g = std::stoi(response.substr(firstSpace+1,secondSpace-(firstSpace+1)));
     auto b = std::stoi(response.substr(secondSpace+1,thirdSpace-(secondSpace+1)));
-    auto c = std::stoi(response.substr(thirdSpace+1));
+//    auto c = std::stoi(response.substr(thirdSpace+1));
     if(r > b) return Color::RED;
     if(b > r) return Color::BLUE;
     return Color::UNKNOWN;
@@ -176,6 +177,7 @@ std::string RJRobot::getResponse() {
     auto bytes_received = recv(socket_handle, buffer, buffer_size, 0);
     if(bytes_received == -1) {
         handleError("recv failed");
+        return ""; // This is just to supress warnings. handleError will always throw
     } else if(bytes_received == 0) {
         std::cout << "Unexpected disconnect! (recv() returned 0)\n";
         return response;
@@ -183,9 +185,11 @@ std::string RJRobot::getResponse() {
         response.insert(response.size(), buffer, bytes_received);
         for(auto i = 0; i < bytes_received; i++) {
             if(buffer[i] == '\n') {
-                return response.erase(i);
+                return response.substr(0, i);
             }
         }
+        std::cerr << "WARNING: Response received without newline character. This is unusal." << std::endl;
+        return response;
     }
 }
 
