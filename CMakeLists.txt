@@ -1,37 +1,13 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.7.2)
 project(SoftwareTrainingSupportLibrary)
 
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "7")
-        message(FATAL_ERROR "STSL requires version 7 or newer of the GNU compiler (GCC). You currently have version ${CMAKE_CXX_COMPILER_VERSION}")
-    endif()
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "AppleClang")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "10")
-        message(FATAL_ERROR "STSL requires version 10 or newer of the Apple Clang compiler. You currently have version ${CMAKE_CXX_COMPILER_VERSION}")
-    endif()
-    # TODO determine minimum version for C++17 compatibility
-elseif(CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-    if(CMAKE_CXX_COMPILER_VERSION VERSION_LESS "3.9")
-        message(FATAL_ERROR "STSL requires version 3.9 or newer of the Clang compiler. You currently have version ${CMAKE_CXX_COMPILER_VERSION}")
-    endif()
-else()
-    message(WARNING "STSL does not currently support your selected compiler: ${CMAKE_CXX_COMPILER_ID}")
-endif()
-
-set(CMAKE_CXX_STANDARD 17)
+set(CMAKE_CXX_STANDARD 14)
 
 include_directories(include)
 
 set(LIB_SOURCE_FILES src/RJRobot.cpp)
 
 add_library(STSL ${LIB_SOURCE_FILES})
-
-if(WIN32)
-    include(cmake/macros/get_WIN32_WINNT.cmake)
-    get_WIN32_WINNT(ver)
-    add_definitions(-D_WIN32_WINNT=${ver})
-    target_link_libraries(STSL ws2_32)
-endif()
 
 add_executable(Example example/main.cpp)
 target_link_libraries(Example STSL)
@@ -42,3 +18,7 @@ install(TARGETS STSL
 file(GLOB_RECURSE HDRS include/*.h)
 
 install(FILES ${HDRS} DESTINATION include/STSL)
+
+install(FILES "C++ (RoboJackets).run" 
+	DESTINATION /var/lib/cloud9/.c9/runners
+	PERMISSIONS WORLD_READ WORLD_WRITE)
