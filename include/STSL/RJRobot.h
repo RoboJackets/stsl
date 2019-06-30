@@ -8,7 +8,15 @@ public:
 
     ~RJRobot();
 
+    void setDriveMotors(double leftPower, double rightPower);
+
+    void stopMotors();
+
 private:
+
+    void checkForBattery();
+
+    bool battery_found = false;
 
 };
 

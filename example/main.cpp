@@ -1,10 +1,16 @@
-#include <iostream>
+#include <unistd.h>
+#include <STSL/RJRobot.h>
 
 using namespace std;
 
 int main() {
+    RJRobot robot;
 
-    cout << "example coming soon, to a theater near you." << endl;
+    robot.setDriveMotors(1.0, 1.0);
+
+    usleep(2'000'000);
+
+    robot.stopMotors();
 
     return 0;
 }
