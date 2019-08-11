@@ -21,5 +21,10 @@ file(GLOB_RECURSE HDRS include/*.h)
 install(FILES ${HDRS} DESTINATION include/STSL)
 
 install(FILES "C++ (RoboJackets).run" 
-	DESTINATION /var/lib/cloud9/.c9/runners
+	DESTINATION /home/debian/c9sdk/.c9/runners
 	PERMISSIONS WORLD_READ WORLD_WRITE)
+
+install(FILES rjresetworkspace.sh
+        DESTINATION /usr/bin
+        RENAME rjresetworkspace
+        PERMISSIONS WORLD_READ WORLD_WRITE WORLD_EXECUTE)
