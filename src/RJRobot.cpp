@@ -52,9 +52,9 @@ double RJRobot::getBatteryVoltage() {
 }
 
 void RJRobot::checkForBattery() {
-    battery_found = rc_adc_batt() >= 6.0;
+    battery_found = (rc_adc_batt() >= 6.0) && !(rc_adc_dc_jack() >= 1.0);
     if(!battery_found) {
-        std::cerr << "ERROR: Battery not found (or undercharged). Motors and servos disabled.\n";
+        std::cerr << "ERROR: Battery is either low, disconnected, or being charged on the DC jack. Motors and servos disabled.\n";
     }
 }
 
