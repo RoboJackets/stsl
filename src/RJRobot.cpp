@@ -47,7 +47,7 @@ void RJRobot::stopMotors() {
     if(rc_motor_free_spin(2)) exit(-1);
 }
 
-double RJRobot::getBatteryLevel() {
+double RJRobot::getBatteryVoltage() {
     return rc_adc_batt();
 }
 

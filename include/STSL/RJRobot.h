@@ -12,7 +12,7 @@ public:
 
     void stopMotors();
 
-    double getBatteryLevel();
+    double getBatteryVoltage();
 
 private:
 
