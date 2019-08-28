@@ -10,6 +10,10 @@
 using namespace std;
 
 RJRobot::RJRobot() {
+    if(rc_adc_init()) {
+        std::cerr << "ERROR: Failed to run rc_adc_init()\n";
+        exit(EXIT_FAILURE);
+    }
     checkForBattery();
     if(battery_found) {
         if(rc_motor_init()) {
@@ -25,6 +29,10 @@ RJRobot::~RJRobot() {
             std::cerr << "ERROR: Failed to cleanup motors\n";
         }
     }
+    if(rc_adc_cleanup()) {
+        std::cerr << "ERROR: Failed to run rc_adc_cleanup()\n";
+        exit(EXIT_FAILURE);
+    }
 }
 
 void RJRobot::setDriveMotors(double left_power, double right_power) {
@@ -39,18 +47,14 @@ void RJRobot::stopMotors() {
     if(rc_motor_free_spin(2)) exit(-1);
 }
 
+double RJRobot::getBatteryLevel() {
+    return rc_adc_batt();
+}
+
 void RJRobot::checkForBattery() {
-    if(rc_adc_init()) {
-        std::cerr << "ERROR: Failed to run rc_adc_init()\n";
-	exit(EXIT_FAILURE);
-    }
     battery_found = rc_adc_batt() >= 6.0;
     if(!battery_found) {
         std::cerr << "ERROR: Battery not found (or undercharged). Motors and servos disabled.\n";
-    }
-    if(rc_adc_cleanup()) {
-        std::cerr << "ERROR: Failed to run rc_adc_cleanup()\n";
-	exit(EXIT_FAILURE);
     }
 }
 

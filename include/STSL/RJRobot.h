@@ -12,6 +12,8 @@ public:
 
     void stopMotors();
 
+    double getBatteryLevel();
+
 private:
 
     void checkForBattery();
