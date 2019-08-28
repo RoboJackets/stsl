@@ -21,6 +21,11 @@ RJRobot::RJRobot() {
 	    exit(EXIT_FAILURE);
         }
     }
+    auto mpu_config = rc_mpu_default_config();
+    if(rc_mpu_initialize_dmp(&mpu_data, mpu_config)) {
+        std::cout << "ERROR: Failed to initialize MPU\n";
+        exit(EXIT_FAILURE);
+    }
 }
 
 RJRobot::~RJRobot() {
@@ -31,6 +36,10 @@ RJRobot::~RJRobot() {
     }
     if(rc_adc_cleanup()) {
         std::cerr << "ERROR: Failed to run rc_adc_cleanup()\n";
+        exit(EXIT_FAILURE);
+    }
+    if(rc_mpu_power_off()) {
+        std::cerr << "ERROR: Failed to power down MPU\n";
         exit(EXIT_FAILURE);
     }
 }
@@ -49,6 +58,10 @@ void RJRobot::stopMotors() {
 
 double RJRobot::getBatteryVoltage() {
     return rc_adc_batt();
+}
+
+const rc_mpu_data_t &RJRobot::getMPUData() {
+    return mpu_data;
 }
 
 void RJRobot::checkForBattery() {
