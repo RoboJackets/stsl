@@ -109,7 +109,7 @@ void RJRobot::encoderMonitorWorker(std::future<void> exitFuture) {
     int last_encoder_position_right = 0;
     rc_encoder_eqep_write(LEFT_ENCODER_CHANNEL, 0);
     rc_encoder_eqep_write(RIGHT_ENCODER_CHANNEL, 0);
-    while (exitFuture.wait_for(std::chrono::milliseconds(1)) ==
+    while (exitFuture.wait_for(std::chrono::milliseconds(MS_PER_ENCODER_SAMPLE)) ==
            std::future_status::timeout) {
         auto left_position = rc_encoder_eqep_read(LEFT_ENCODER_CHANNEL);
         auto right_position = rc_encoder_eqep_read(RIGHT_ENCODER_CHANNEL);
@@ -134,8 +134,5 @@ void RJRobot::encoderMonitorWorker(std::future<void> exitFuture) {
         }
 
         buffer_index = (buffer_index + 1) % ENCODER_BUFFER_SIZE;
-
-        std::this_thread::sleep_for(
-            std::chrono::milliseconds(MS_PER_ENCODER_SAMPLE));
     }
 }

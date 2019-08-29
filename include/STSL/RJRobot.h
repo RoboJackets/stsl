@@ -61,7 +61,7 @@ private:
     std::thread encoder_monitor_thread;
     std::promise<void> encoder_thread_exit_signal;
 
-    static const int MS_PER_ENCODER_SAMPLE = 10;
+    const int64_t MS_PER_ENCODER_SAMPLE = 10;
     static const size_t ENCODER_BUFFER_SIZE = 10;
     static const int ENCODER_POS_ROLLOVER_THRESHOLD = 536870912; // (2^29)
     std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_left;
