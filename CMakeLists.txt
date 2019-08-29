@@ -3,12 +3,14 @@ project(SoftwareTrainingSupportLibrary)
 
 set(CMAKE_CXX_STANDARD 14)
 
+FindThreads()
+
 include_directories(include)
 
 set(LIB_SOURCE_FILES src/RJRobot.cpp)
 
 add_library(STSL ${LIB_SOURCE_FILES})
-target_link_libraries(STSL robotcontrol)
+target_link_libraries(STSL robotcontrol Threads::Threads)
 
 add_executable(Example example/main.cpp)
 target_link_libraries(Example STSL)
@@ -20,7 +22,7 @@ file(GLOB_RECURSE HDRS include/*.h)
 
 install(FILES ${HDRS} DESTINATION include/STSL)
 
-install(FILES "C++ (RoboJackets).run" 
+install(FILES "C++ (RoboJackets).run"
 	DESTINATION /home/debian/c9sdk/.c9/runners
 	PERMISSIONS WORLD_READ WORLD_WRITE)
 
