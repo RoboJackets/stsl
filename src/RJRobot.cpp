@@ -4,6 +4,7 @@
 #include <rc/adc.h>
 #include <rc/dsm.h>
 #include <rc/motor.h>
+#include <rc/encoder_eqep.h>
 
 #include <STSL/RJRobot.h>
 
@@ -23,9 +24,14 @@ RJRobot::RJRobot() {
     }
     auto mpu_config = rc_mpu_default_config();
     if(rc_mpu_initialize_dmp(&mpu_data, mpu_config)) {
-        std::cout << "ERROR: Failed to initialize MPU\n";
+        std::cerr << "ERROR: Failed to initialize MPU\n";
         exit(EXIT_FAILURE);
     }
+    if(rc_encoder_eqep_init()) {
+        std::cerr << "ERROR: Failed to initialize eQEP encoders\n";
+        exit(EXIT_FAILURE);
+    }
+    encoder_monitor_thread = std::thread(&RJRobot::encoderMonitorWorker, this, std::move(encoder_thread_exit_signal.get_future()));
 }
 
 RJRobot::~RJRobot() {
@@ -42,6 +48,12 @@ RJRobot::~RJRobot() {
         std::cerr << "ERROR: Failed to power down MPU\n";
         exit(EXIT_FAILURE);
     }
+    if(rc_encoder_eqep_cleanup()) {
+        std::cerr << "ERROR: Failed to cleanup eQEP encoders\n";
+        exit(EXIT_FAILURE);
+    }
+    encoder_thread_exit_signal.set_value();
+    encoder_monitor_thread.join();
 }
 
 void RJRobot::setDriveMotors(double left_power, double right_power) {
@@ -91,3 +103,10 @@ void RJRobot::checkForBattery() {
     }
 }
 
+void RJRobot::encoderMonitorWorker(std::future<void> exitFuture) {
+    while(exitFuture.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout) {
+        std::cout << "looping\n";
+        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    }
+    std::cout << "Thread ended!\n";
+}

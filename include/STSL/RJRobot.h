@@ -2,6 +2,8 @@
 #define TRAININGSUPPORTLIBRARY_RJROBOT_H
 
 #include <rc/mpu.h>
+#include <thread>
+#include <future>
 
 class RJRobot {
 
@@ -50,9 +52,14 @@ private:
 
     void checkForBattery();
 
+    void encoderMonitorWorker(std::future<void> exitFuture);
+
     bool battery_found = false;
 
     rc_mpu_data_t mpu_data = {};
+
+    std::thread encoder_monitor_thread;
+    std::promise<void> encoder_thread_exit_signal;
 
     static const int CENTER_LINE_SENSOR_CHANNEL = 3;
     static const int OFFSET_LINE_SENSOR_CHANNEL = 4;
