@@ -104,9 +104,38 @@ void RJRobot::checkForBattery() {
 }
 
 void RJRobot::encoderMonitorWorker(std::future<void> exitFuture) {
-    while(exitFuture.wait_for(std::chrono::milliseconds(1)) == std::future_status::timeout) {
-        std::cout << "looping\n";
-        std::this_thread::sleep_for(std::chrono::milliseconds(10));
+    size_t buffer_index = 0;
+    int last_encoder_position_left = 0;
+    int last_encoder_position_right = 0;
+    rc_encoder_eqep_write(LEFT_ENCODER_CHANNEL, 0);
+    rc_encoder_eqep_write(RIGHT_ENCODER_CHANNEL, 0);
+    while (exitFuture.wait_for(std::chrono::milliseconds(1)) ==
+           std::future_status::timeout) {
+        auto left_position = rc_encoder_eqep_read(LEFT_ENCODER_CHANNEL);
+        auto right_position = rc_encoder_eqep_read(RIGHT_ENCODER_CHANNEL);
+
+        encoder_buffer_left[buffer_index] =
+            left_position - last_encoder_position_left;
+        encoder_buffer_right[buffer_index] =
+            right_position - last_encoder_position_right;
+
+        last_encoder_position_left = left_position;
+        last_encoder_position_right = right_position;
+
+        if (last_encoder_position_left >= ENCODER_POS_ROLLOVER_THRESHOLD
+            || last_encoder_position_left <= -ENCODER_POS_ROLLOVER_THRESHOLD) {
+            rc_encoder_eqep_write(LEFT_ENCODER_CHANNEL, 0);
+            last_encoder_position_left = 0;
+        }
+        if (last_encoder_position_right >= ENCODER_POS_ROLLOVER_THRESHOLD
+            || last_encoder_position_right <= -ENCODER_POS_ROLLOVER_THRESHOLD) {
+            rc_encoder_eqep_write(RIGHT_ENCODER_CHANNEL, 0);
+            last_encoder_position_right = 0;
+        }
+
+        buffer_index = (buffer_index + 1) % ENCODER_BUFFER_SIZE;
+
+        std::this_thread::sleep_for(
+            std::chrono::milliseconds(MS_PER_ENCODER_SAMPLE));
     }
-    std::cout << "Thread ended!\n";
 }

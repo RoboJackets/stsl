@@ -61,10 +61,18 @@ private:
     std::thread encoder_monitor_thread;
     std::promise<void> encoder_thread_exit_signal;
 
+    static const int MS_PER_ENCODER_SAMPLE = 10;
+    static const size_t ENCODER_BUFFER_SIZE = 10;
+    static const int ENCODER_POS_ROLLOVER_THRESHOLD = 2e29;
+    std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_left;
+    std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_right;
+
     static const int CENTER_LINE_SENSOR_CHANNEL = 3;
     static const int OFFSET_LINE_SENSOR_CHANNEL = 4;
     static const int LEFT_MOTOR_CHANNEL = 1;
     static const int RIGHT_MOTOR_CHANNEL = 2;
+    static const int LEFT_ENCODER_CHANNEL = 1;
+    static const int RIGHT_ENCODER_CHANNEL = 2;
 
 };
 
