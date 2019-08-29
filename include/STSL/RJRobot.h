@@ -48,6 +48,12 @@ public:
      */
     double getOffsetLineSensor();
 
+    struct EncoderSpeeds {
+      double left;
+      double right;
+    };
+    EncoderSpeeds getEncoderSpeeds();
+
 private:
 
     void checkForBattery();

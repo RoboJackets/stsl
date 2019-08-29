@@ -7,6 +7,7 @@
 #include <rc/encoder_eqep.h>
 
 #include <STSL/RJRobot.h>
+#include <numeric>
 
 using namespace std;
 
@@ -94,6 +95,15 @@ double RJRobot::getCenterLineSensor() {
 
 double RJRobot::getOffsetLineSensor() {
     return rc_adc_read_volt(OFFSET_LINE_SENSOR_CHANNEL);
+}
+
+RJRobot::EncoderSpeeds RJRobot::getEncoderSpeeds() {
+    static const double buffer_duration = (MS_PER_ENCODER_SAMPLE * ENCODER_BUFFER_SIZE)  / 1000.0;
+
+    auto left_speed = std::accumulate(encoder_buffer_left.begin(), encoder_buffer_left.end(), 0) / buffer_duration;
+    auto right_speed = std::accumulate(encoder_buffer_right.begin(), encoder_buffer_right.end(), 0) / buffer_duration;
+
+    return {left_speed, right_speed};
 }
 
 void RJRobot::checkForBattery() {
