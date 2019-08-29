@@ -48,12 +48,12 @@ RJRobot::~RJRobot() {
         std::cerr << "ERROR: Failed to power down MPU\n";
         exit(EXIT_FAILURE);
     }
+    encoder_thread_exit_signal.set_value();
+    encoder_monitor_thread.join();
     if(rc_encoder_eqep_cleanup()) {
         std::cerr << "ERROR: Failed to cleanup eQEP encoders\n";
         exit(EXIT_FAILURE);
     }
-    encoder_thread_exit_signal.set_value();
-    encoder_monitor_thread.join();
 }
 
 void RJRobot::setDriveMotors(double left_power, double right_power) {
