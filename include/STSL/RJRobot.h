@@ -63,7 +63,7 @@ private:
 
     static const int MS_PER_ENCODER_SAMPLE = 10;
     static const size_t ENCODER_BUFFER_SIZE = 10;
-    static const int ENCODER_POS_ROLLOVER_THRESHOLD = 2e29;
+    static const int ENCODER_POS_ROLLOVER_THRESHOLD = 536870912; // (2^29)
     std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_left;
     std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_right;
 
