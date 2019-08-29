@@ -3,7 +3,7 @@ project(SoftwareTrainingSupportLibrary)
 
 set(CMAKE_CXX_STANDARD 14)
 
-FindThreads()
+find_package(Threads REQUIRED)
 
 include_directories(include)
 
