@@ -4,6 +4,7 @@
 #include <rc/mpu.h>
 #include <thread>
 #include <future>
+#include <cmath>
 
 class RJRobot {
 
@@ -52,6 +53,11 @@ public:
       double left;
       double right;
     };
+
+    /**
+     * Calculates the wheel ground speeds from the encoder buffer being maintained in the background.
+     * @return An EncoderSpeeds struct instance filled with the wheel speeds in m/s
+     */
     EncoderSpeeds getEncoderSpeeds();
 
 private:
@@ -70,6 +76,7 @@ private:
     const int64_t MS_PER_ENCODER_SAMPLE = 10;
     static const size_t ENCODER_BUFFER_SIZE = 10;
     static const int ENCODER_POS_ROLLOVER_THRESHOLD = 536870912; // (2^29)
+    static constexpr double M_PER_ENCODER_TICK = (M_PI * 0.065 /*wheel diameter (m)*/)  / 40 /* ticks per rev */;
     std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_left;
     std::array<int, ENCODER_BUFFER_SIZE> encoder_buffer_right;
 

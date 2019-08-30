@@ -102,8 +102,8 @@ double RJRobot::getOffsetLineSensor() {
 RJRobot::EncoderSpeeds RJRobot::getEncoderSpeeds() {
     static const double buffer_duration = (MS_PER_ENCODER_SAMPLE * ENCODER_BUFFER_SIZE)  / 1000.0;
 
-    auto left_speed = std::accumulate(encoder_buffer_left.begin(), encoder_buffer_left.end(), 0) / buffer_duration;
-    auto right_speed = std::accumulate(encoder_buffer_right.begin(), encoder_buffer_right.end(), 0) / buffer_duration;
+    auto left_speed = (std::accumulate(encoder_buffer_left.begin(), encoder_buffer_left.end(), 0) * M_PER_ENCODER_TICK) / buffer_duration;
+    auto right_speed = (std::accumulate(encoder_buffer_right.begin(), encoder_buffer_right.end(), 0) * M_PER_ENCODER_TICK) / buffer_duration;
 
     return {left_speed, right_speed};
 }
