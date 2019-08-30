@@ -12,6 +12,8 @@
 using namespace std;
 
 RJRobot::RJRobot() {
+    std::fill(encoder_buffer_left.begin(), encoder_buffer_left.end(), 0);
+    std::fill(encoder_buffer_right.begin(), encoder_buffer_right.end(), 0);
     if(rc_adc_init()) {
         std::cerr << "ERROR: Failed to run rc_adc_init()\n";
         exit(EXIT_FAILURE);
