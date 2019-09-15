@@ -5,6 +5,9 @@
 #include <thread>
 #include <future>
 #include <cmath>
+#include <chrono>
+
+using namespace std::literals::chrono_literals;
 
 class RJRobot {
 
@@ -59,6 +62,8 @@ public:
      * @return An EncoderSpeeds struct instance filled with the wheel speeds in m/s
      */
     EncoderSpeeds getEncoderSpeeds();
+
+    void wait(std::chrono::microseconds duration);
 
 private:
 

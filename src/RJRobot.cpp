@@ -1,5 +1,7 @@
 #include <iostream>
-#include <stdlib.h>
+#include <numeric>
+#include <cstdlib>
+#include <thread>
 
 #include <rc/adc.h>
 #include <rc/dsm.h>
@@ -7,7 +9,6 @@
 #include <rc/encoder_eqep.h>
 
 #include <STSL/RJRobot.h>
-#include <numeric>
 
 using namespace std;
 
@@ -106,6 +107,10 @@ RJRobot::EncoderSpeeds RJRobot::getEncoderSpeeds() {
     auto right_speed = (std::accumulate(encoder_buffer_right.begin(), encoder_buffer_right.end(), 0) * M_PER_ENCODER_TICK) / buffer_duration;
 
     return {left_speed, right_speed};
+}
+
+void RJRobot::wait(std::chrono::microseconds duration) {
+    std::this_thread::sleep_for(duration);
 }
 
 void RJRobot::checkForBattery() {
