@@ -77,6 +77,8 @@ private:
     bool battery_found = false;
 
     rc_mpu_data_t mpu_data = {};
+    
+    cv::VideoCapture camera;
 
     std::thread encoder_monitor_thread;
     std::promise<void> encoder_thread_exit_signal;

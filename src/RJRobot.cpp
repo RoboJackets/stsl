@@ -36,6 +36,10 @@ RJRobot::RJRobot() {
         exit(EXIT_FAILURE);
     }
     encoder_monitor_thread = std::thread(&RJRobot::encoderMonitorWorker, this, std::move(encoder_thread_exit_signal.get_future()));
+    camera.open(0);
+    if(!camera.isOpened()) {
+        std::cerr << "ERROR: Failed to initialize camera\n";
+    }
 }
 
 RJRobot::~RJRobot() {
@@ -155,6 +159,11 @@ void RJRobot::encoderMonitorWorker(std::future<void> exitFuture) {
 }
 
 cv::Mat RJRobot::getImage() {
-    return cv::Mat{};
+    cv::Mat frame;
+    camera.read(frame);
+    if(frame.empty()) {
+        std::cerr << "ERROR: Camera returned an empty frame!\n";
+    }
+    return frame;
 }
 
