@@ -9,7 +9,7 @@ find_package(Threads REQUIRED)
 # I'm doing this because this code is only intended to be 
 # deployed on the software training robots, which have
 # identical OpenCV instalations.
-set(OpenCV_DIR "/opt/opencv-4.1.1/lib/cmake/")
+set(OpenCV_DIR /opt/opencv-4.1.1/lib/cmake/opencv4)
 find_package(OpenCV REQUIRED)
 
 include_directories(include)
