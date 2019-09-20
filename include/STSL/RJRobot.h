@@ -6,6 +6,7 @@
 #include <future>
 #include <cmath>
 #include <chrono>
+#include <opencv2/opencv.hpp>
 
 using namespace std::literals::chrono_literals;
 
@@ -64,6 +65,8 @@ public:
     EncoderSpeeds getEncoderSpeeds();
 
     void wait(std::chrono::microseconds duration);
+    
+    cv::Mat getImage();
 
 private:
 

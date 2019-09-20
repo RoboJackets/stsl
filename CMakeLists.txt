@@ -4,13 +4,15 @@ project(SoftwareTrainingSupportLibrary)
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(Threads REQUIRED)
+find_package(OpenCV REQUIRED)
 
 include_directories(include)
 
 set(LIB_SOURCE_FILES src/RJRobot.cpp)
 
 add_library(STSL ${LIB_SOURCE_FILES})
-target_link_libraries(STSL robotcontrol Threads::Threads)
+target_include_directories(STSL PUBLIC ${OpenCV_INCLUDE_DIRS})
+target_link_libraries(STSL robotcontrol Threads::Threads ${OpenCV_LIBS})
 
 add_executable(Example example/main.cpp)
 target_link_libraries(Example STSL)

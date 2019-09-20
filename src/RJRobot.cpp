@@ -153,3 +153,8 @@ void RJRobot::encoderMonitorWorker(std::future<void> exitFuture) {
         buffer_index = (buffer_index + 1) % ENCODER_BUFFER_SIZE;
     }
 }
+
+cv::Mat RJRobot::getImage() {
+    return cv::Mat{};
+}
+
