@@ -37,7 +37,10 @@ RJRobot::RJRobot() {
     }
     encoder_monitor_thread = std::thread(&RJRobot::encoderMonitorWorker, this, std::move(encoder_thread_exit_signal.get_future()));
     camera.open(0);
-    if(!camera.isOpened()) {
+    if(camera.isOpened()) {
+        camera.set(cv::CAP_PROP_FRAME_WIDTH, 320);
+        camera.set(cv::CAP_PROP_FRAME_HEIGHT, 240);
+    } else {
         std::cerr << "ERROR: Failed to initialize camera\n";
     }
 }
