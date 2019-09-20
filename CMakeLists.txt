@@ -4,6 +4,12 @@ project(SoftwareTrainingSupportLibrary)
 set(CMAKE_CXX_STANDARD 14)
 
 find_package(Threads REQUIRED)
+
+# Setting OpenCV_DIR in this file is bad practice in general.
+# I'm doing this because this code is only intended to be 
+# deployed on the software training robots, which have
+# identical OpenCV instalations.
+set(OpenCV_DIR "/opt/opencv-4.1.1/lib/cmake/")
 find_package(OpenCV REQUIRED)
 
 include_directories(include)
