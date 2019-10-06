@@ -68,6 +68,8 @@ public:
     
     cv::Mat getImage();
 
+    float getUltrasonicDistance();
+
 private:
 
     void checkForBattery();
@@ -97,6 +99,9 @@ private:
     static const int LEFT_ENCODER_CHANNEL = 1;
     static const int RIGHT_ENCODER_CHANNEL = 2;
 
+    static const int US_GPIO_CHIP = 1;
+    static const int US_TRIGGER_PIN = 25;
+    static const int US_ECHO_PIN = 17;
 };
 
 #endif //TRAININGSUPPORTLIBRARY_RJROBOT_H

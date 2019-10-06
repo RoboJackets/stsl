@@ -7,6 +7,8 @@
 #include <rc/dsm.h>
 #include <rc/motor.h>
 #include <rc/encoder_eqep.h>
+#include <rc/gpio.h>
+#include <rc/time.h>
 
 #include <STSL/RJRobot.h>
 
@@ -43,6 +45,14 @@ RJRobot::RJRobot() {
     } else {
         std::cerr << "ERROR: Failed to initialize camera\n";
     }
+    if(rc_gpio_init(US_GPIO_CHIP, US_TRIGGER_PIN, GPIOHANDLE_REQUEST_OUTPUT)) {
+        std::cerr << "ERROR: Failed to initialize ultrasonic trigger GPIO pin.\n";
+        exit(EXIT_FAILURE);
+    }
+    if(rc_gpio_init(US_GPIO_CHIP, US_ECHO_PIN, GPIOHANDLE_REQUEST_INPUT)) {
+        std::cerr << "ERROR: Failed to initialize ultrasonic echo GPIO pin.\n";
+        exit(EXIT_FAILURE);
+    }
 }
 
 RJRobot::~RJRobot() {
@@ -59,6 +69,8 @@ RJRobot::~RJRobot() {
         std::cerr << "ERROR: Failed to power down MPU\n";
         exit(EXIT_FAILURE);
     }
+    rc_gpio_cleanup(US_GPIO_CHIP, US_TRIGGER_PIN);
+    rc_gpio_cleanup(US_GPIO_CHIP, US_ECHO_PIN);
     encoder_thread_exit_signal.set_value();
     encoder_monitor_thread.join();
     if(rc_encoder_eqep_cleanup()) {
@@ -170,3 +182,16 @@ cv::Mat RJRobot::getImage() {
     return frame;
 }
 
+float RJRobot::getUltrasonicDistance() {
+    // 10us trigger pulse to start measurement
+    rc_gpio_set_value(US_GPIO_CHIP, US_TRIGGER_PIN, 1);
+    rc_usleep(10);
+    rc_gpio_set_value(US_GPIO_CHIP, US_TRIGGER_PIN, 0);
+
+    // Get width of echo pulse
+    while(rc_gpio_get_value(US_GPIO_CHIP, US_ECHO_PIN) == 0) { }
+    auto startTime = rc_nanos_since_boot();
+    while(rc_gpio_get_value(US_GPIO_CHIP, US_ECHO_PIN) == 1) { }
+    auto endTime = rc_nanos_since_boot();
+    return (endTime - startTime) / 58'000.0f;
+}
