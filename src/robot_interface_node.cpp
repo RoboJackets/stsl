@@ -6,6 +6,7 @@
 
 #include "motor.h"
 #include "line_sensor.h"
+#include "encoder.h"
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
@@ -41,6 +42,7 @@ private:
     void periodPublishingTimerCallback()
     {
         publishLineSensors();
+        publishEncoders();
     }
 
     void publishLineSensors()
@@ -52,6 +54,17 @@ private:
         std_msgs::msg::UInt64 side_msg;
         side_msg.data = side_line_sensor_.getValue();
         side_line_publisher_->publish(side_msg);
+    }
+
+    void publishEncoders()
+    {
+        std_msgs::msg::UInt64 left_msg;
+        left_msg.data = left_encoder_.getPosition();
+        left_encoder_publisher_->publish(left_msg);
+
+        std_msgs::msg::UInt64 right_msg;
+        right_msg.data = right_encoder_.getPosition();
+        right_encoder_publisher_->publish(right_msg);
     }
 
     rclcpp::Publisher<std_msgs::msg::UInt64>::SharedPtr left_encoder_publisher_;
@@ -73,6 +86,9 @@ private:
 
     LineSensor center_line_sensor_{1};
     LineSensor side_line_sensor_{3};
+
+    Encoder left_encoder_{"GPMC_AD13"};
+    Encoder right_encoder_{""};  // TODO pick a pin
 };
 
 int main(int argc, char** argv)
