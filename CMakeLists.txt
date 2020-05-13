@@ -24,7 +24,7 @@ if(NOT LIBGPIOD_LIBRARY)
   message(FATAL_ERROR "libgpiodcxx not found!")
 endif()
 
-add_executable(robot_interface_node src/robot_interface_node.cpp src/motor.cpp src/line_sensor.cpp src/encoder.cpp)
+add_executable(robot_interface_node src/robot_interface_node.cpp src/motor.cpp src/line_sensor.cpp src/encoder.cpp src/ultrasonic_sensor.cpp)
 ament_target_dependencies(robot_interface_node rclcpp std_msgs)
 target_link_libraries(robot_interface_node ${LIBGPIOD_LIBRARY} pthread)
 

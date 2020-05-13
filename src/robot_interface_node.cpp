@@ -7,6 +7,7 @@
 #include "motor.h"
 #include "line_sensor.h"
 #include "encoder.h"
+#include "ultrasonic_sensor.h"
 
 using namespace std::chrono_literals;
 using std::placeholders::_1;
@@ -43,6 +44,7 @@ private:
     {
         publishLineSensors();
         publishEncoders();
+        publishUltrasonic();
     }
 
     void publishLineSensors()
@@ -67,6 +69,13 @@ private:
         right_encoder_publisher_->publish(right_msg);
     }
 
+    void publishUltrasonic()
+    {
+        std_msgs::msg::Float32 msg;
+        msg.data = ultrasonic_sensor_.getDistance();
+        ultrasonic_publisher_->publish(msg);
+    }
+
     rclcpp::Publisher<std_msgs::msg::UInt64>::SharedPtr left_encoder_publisher_;
     rclcpp::Publisher<std_msgs::msg::UInt64>::SharedPtr right_encoder_publisher_;
 
@@ -89,6 +98,8 @@ private:
 
     Encoder left_encoder_{"GPMC_AD13"};
     Encoder right_encoder_{""};  // TODO pick a pin
+
+    UltrasonicSensor ultrasonic_sensor_{"", ""};  // TODO get line names
 };
 
 int main(int argc, char** argv)
