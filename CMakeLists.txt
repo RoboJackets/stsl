@@ -6,10 +6,7 @@ if(NOT CMAKE_C_STANDARD)
   set(CMAKE_C_STANDARD 99)
 endif()
 
-# Default to C++14
-if(NOT CMAKE_CXX_STANDARD)
-  set(CMAKE_CXX_STANDARD 14)
-endif()
+set(CMAKE_CXX_STANDARD 17)
 
 if(CMAKE_COMPILER_IS_GNUCXX OR CMAKE_CXX_COMPILER_ID MATCHES "Clang")
   add_compile_options(-Wall -Wextra -Wpedantic)
@@ -20,11 +17,19 @@ find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
 
-add_executable(stsl_node src/stsl_node.cpp)
-ament_target_dependencies(stsl_node rclcpp std_msgs)
+find_library(LIBGPIOD_LIBRARY
+  NAMES libgpiodcxx.so libgpiodcxx.so.1 libgpiodcxx.so.1.0.0
+)
+if(NOT LIBGPIOD_LIBRARY)
+  message(FATAL_ERROR "libgpiodcxx not found!")
+endif()
+
+add_executable(robot_interface_node src/robot_interface_node.cpp src/motor.cpp)
+ament_target_dependencies(robot_interface_node rclcpp std_msgs)
+target_link_libraries(robot_interface_node ${LIBGPIOD_LIBRARY} pthread)
 
 install(TARGETS
-    stsl_node
+    robot_interface_node
     DESTINATION lib/${PROJECT_NAME})
 
 if(BUILD_TESTING)
