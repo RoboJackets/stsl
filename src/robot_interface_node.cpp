@@ -97,9 +97,9 @@ private:
     LineSensor side_line_sensor_{3};
 
     Encoder left_encoder_{"GPMC_AD13"};
-    Encoder right_encoder_{""};  // TODO pick a pin
+    Encoder right_encoder_{"GPMC_AD12"};
 
-    UltrasonicSensor ultrasonic_sensor_{"", ""};  // TODO get line names
+    UltrasonicSensor ultrasonic_sensor_{"LCD_DATA0", "LCD_DATA1"};
 };
 
 int main(int argc, char** argv)
