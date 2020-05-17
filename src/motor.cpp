@@ -14,7 +14,7 @@ const MotorParameters left_motor_parameters{
 
 const MotorParameters right_motor_parameters{
     "GPMC_A0",  // P9_15
-    "SPIO_CS0",  // P9_17
+    "SPI0_CS0",  // P9_17
     "P9_16",
     "48302000",
     "48302200",
