@@ -10,6 +10,10 @@ UltrasonicSensor::UltrasonicSensor(const std::string &trigger_line_name,
         throw std::logic_error("Could not find line with name: " + trigger_line_name);
     }
     trigger_line_.request({"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
+    if(!trigger_line_.is_requested())
+    {
+        throw std::logic_error("Could not take ownership of " + trigger_line_name);
+    }
 
     echo_line_ = gpiod::find_line(echo_line_name);
     if(!echo_line_)
@@ -17,6 +21,10 @@ UltrasonicSensor::UltrasonicSensor(const std::string &trigger_line_name,
         throw std::logic_error("Could not find line with name: " + echo_line_name);
     }
     echo_line_.request({"robot_interface_node", gpiod::line_request::EVENT_BOTH_EDGES, 0});
+    if(!echo_line_.is_requested())
+    {
+        throw std::logic_error("Could not take ownership of " + echo_line_name);
+    }
 }
 
 float UltrasonicSensor::getDistance() {

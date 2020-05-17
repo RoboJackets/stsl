@@ -35,7 +35,16 @@ Motor::Motor(const MotorParameters &params) {
     }
 
     direction_line_1_.request({"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
+    if(!direction_line_1_.is_requested())
+    {
+        throw std::logic_error("Could not take ownership of " + params.direction_line_1_name);
+    }
+
     direction_line_2_.request({"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
+    if(!direction_line_2_.is_requested())
+    {
+        throw std::logic_error("Could not take ownership of " + params.direction_line_2_name);
+    }
 
     std::ofstream pinmux_file{"/sys/devices/platform/ocp/ocp:" + params.pwm_pin_name + "_pinmux/state"};
     pinmux_file.seekp(0);

@@ -9,6 +9,10 @@ Encoder::Encoder(const std::string &line_name) {
         throw std::logic_error("Could not find line with name: " + line_name);
     }
     line_.request({"robot_interface_node", gpiod::line_request::EVENT_BOTH_EDGES, 0});
+    if(!line_.is_requested())
+    {
+        throw std::logic_error("Could not take ownership of " + line_name);
+    }
     encoder_thread_ = std::thread([this](){encoderWatcherFunction();});
 }
 
