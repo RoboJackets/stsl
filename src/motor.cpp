@@ -87,7 +87,7 @@ void Motor::setPower(float power) {
         direction_line_1_.set_value(1);
         direction_line_2_.set_value(0);
     }
-    power = std::clamp(power, -1.0f, 1.0f);
+    power = std::clamp(power, 0.0f, 1.0f);
     duty_cycle_file_.seekp(0);
     duty_cycle_file_ << std::to_string(power * period_);
     duty_cycle_file_.flush();

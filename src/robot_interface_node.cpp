@@ -27,21 +27,26 @@ public:
         right_motor_subscriber_ = create_subscription<std_msgs::msg::Float32>("motor_right", 1, std::bind(&RobotInterfaceNode::rightMotorCallback, this, _1));
 
         periodic_publishing_timer_ = create_wall_timer(100ms, std::bind(&RobotInterfaceNode::periodPublishingTimerCallback, this));
+
+        RCLCPP_DEBUG(this->get_logger(), "Robot interface node ready!");
     }
 
 private:
     void leftMotorCallback(const std_msgs::msg::Float32::SharedPtr msg)
     {
+        RCLCPP_DEBUG(this->get_logger(), "Motor command: LEFT " + std::to_string(msg->data));
         left_motor_.setPower(msg->data);
     }
 
     void rightMotorCallback(const std_msgs::msg::Float32::SharedPtr msg)
     {
+        RCLCPP_DEBUG(this->get_logger(), "Motor command: RIGHT " + std::to_string(msg->data));
         right_motor_.setPower(msg->data);
     }
 
     void periodPublishingTimerCallback()
     {
+        RCLCPP_DEBUG(this->get_logger(), "Publishing periodic sensor measurements.");
         publishLineSensors();
         publishEncoders();
         publishUltrasonic();
