@@ -4,8 +4,7 @@
 #include <fstream>
 #include <gpiod.hpp>
 
-struct MotorParameters
-{
+struct MotorParameters {
   std::string direction_line_1_name;
   std::string direction_line_2_name;
   std::string pwm_pin_name;
@@ -20,7 +19,7 @@ extern const MotorParameters right_motor_parameters;
 
 class Motor {
 public:
-  Motor(const MotorParameters& params);
+  Motor(const MotorParameters &params);
 
   ~Motor();
 
@@ -32,12 +31,12 @@ public:
 
 private:
 
-    gpiod::line direction_line_1_;
-    gpiod::line direction_line_2_;
-    std::ofstream duty_cycle_file_;
-    std::ofstream enable_file_;
+  gpiod::line direction_line_1_;
+  gpiod::line direction_line_2_;
+  std::ofstream duty_cycle_file_;
+  std::ofstream enable_file_;
 
-    static constexpr int period_{500'000};
+  static constexpr int period_{500'000};
 
 };
 

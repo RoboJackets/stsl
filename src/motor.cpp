@@ -24,39 +24,49 @@ const MotorParameters right_motor_parameters{
 
 Motor::Motor(const MotorParameters &params) {
     direction_line_1_ = gpiod::find_line(params.direction_line_1_name);
-    if(!direction_line_1_)
-    {
-        throw std::logic_error("Could not find line with name: " + params.direction_line_1_name);
+    if (!direction_line_1_) {
+        throw std::logic_error(
+            "Could not find line with name: " + params.direction_line_1_name);
     }
     direction_line_2_ = gpiod::find_line(params.direction_line_2_name);
-    if(!direction_line_2_)
-    {
-        throw std::logic_error("Could not find line with name: " + params.direction_line_2_name);
+    if (!direction_line_2_) {
+        throw std::logic_error(
+            "Could not find line with name: " + params.direction_line_2_name);
     }
 
-    direction_line_1_.request({"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
-    if(!direction_line_1_.is_requested())
-    {
-        throw std::logic_error("Could not take ownership of " + params.direction_line_1_name);
+    direction_line_1_.request(
+        {"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
+    if (!direction_line_1_.is_requested()) {
+        throw std::logic_error(
+            "Could not take ownership of " + params.direction_line_1_name);
     }
 
-    direction_line_2_.request({"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
-    if(!direction_line_2_.is_requested())
-    {
-        throw std::logic_error("Could not take ownership of " + params.direction_line_2_name);
+    direction_line_2_.request(
+        {"robot_interface_node", gpiod::line_request::DIRECTION_OUTPUT, 0}, 0);
+    if (!direction_line_2_.is_requested()) {
+        throw std::logic_error(
+            "Could not take ownership of " + params.direction_line_2_name);
     }
 
-    std::ofstream pinmux_file{"/sys/devices/platform/ocp/ocp:" + params.pwm_pin_name + "_pinmux/state"};
+    std::ofstream pinmux_file{
+        "/sys/devices/platform/ocp/ocp:" + params.pwm_pin_name +
+        "_pinmux/state"};
     pinmux_file.seekp(0);
     pinmux_file << "pwm";
     pinmux_file.close();
 
-    std::ofstream export_file{"/sys/devices/platform/ocp/48302000.epwmss/48302200.pwm/pwm/pwmchip4/export"};
+    std::ofstream export_file{
+        "/sys/devices/platform/ocp/" + params.pwm_chip_device + ".epwmss/" +
+        params.pwm_chip_address + ".pwm/pwm/pwmchip" + params.pwm_chip_number +
+        "/export"};
     export_file.seekp(0);
     export_file << "0";
     export_file.close();
 
-    const auto base_path = "/sys/devices/platform/ocp/" + params.pwm_chip_device + ".epwmss/" + params.pwm_chip_address + ".pwm/pwm/pwmchip" + params.pwm_chip_number + "/pwm-" + params.pwm_chip_number + ":" + params.pwm_index + "/";
+    const auto base_path =
+        "/sys/devices/platform/ocp/" + params.pwm_chip_device + ".epwmss/" +
+        params.pwm_chip_address + ".pwm/pwm/pwmchip" + params.pwm_chip_number +
+        "/pwm-" + params.pwm_chip_number + ":" + params.pwm_index + "/";
 
     std::ofstream period_file{base_path + "period"};
     period_file.seekp(0);
@@ -73,7 +83,7 @@ Motor::Motor(const MotorParameters &params) {
     duty_cycle_file_ << "0";
     duty_cycle_file_.flush();
 
-    enable_file_ = std::ofstream {base_path + "enable"};
+    enable_file_ = std::ofstream{base_path + "enable"};
     enable_file_.seekp(0);
     enable_file_ << "1";
     enable_file_.flush();
@@ -85,19 +95,16 @@ Motor::~Motor() {
 }
 
 void Motor::setPower(float power) {
-    if(power < 0)
-    {
+    if (power < 0) {
         power *= -1;
         direction_line_1_.set_value(0);
         direction_line_2_.set_value(1);
-    }
-    else
-    {
+    } else {
         direction_line_1_.set_value(1);
         direction_line_2_.set_value(0);
     }
     power = std::clamp(power, 0.0f, 1.0f);
     duty_cycle_file_.seekp(0);
-    duty_cycle_file_ << std::to_string(power * period_);
+    duty_cycle_file_ << std::to_string(static_cast<int>(power * period_));
     duty_cycle_file_.flush();
 }
