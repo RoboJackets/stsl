@@ -49,7 +49,7 @@ private:
         RCLCPP_DEBUG(this->get_logger(), "Publishing periodic sensor measurements.");
         publishLineSensors();
         publishEncoders();
-        publishUltrasonic();
+        ultrasonic_sensor_.trigger();
     }
 
     void publishLineSensors()
@@ -74,10 +74,10 @@ private:
         right_encoder_publisher_->publish(right_msg);
     }
 
-    void publishUltrasonic()
+    void publishUltrasonic(float distance)
     {
         std_msgs::msg::Float32 msg;
-        msg.data = ultrasonic_sensor_.getDistance();
+        msg.data = distance;
         ultrasonic_publisher_->publish(msg);
     }
 
@@ -104,7 +104,7 @@ private:
     Encoder left_encoder_{"GPMC_AD13"};
     Encoder right_encoder_{"GPMC_AD12"};
 
-    UltrasonicSensor ultrasonic_sensor_{"LCD_DATA0", "LCD_DATA1"};
+    UltrasonicSensor ultrasonic_sensor_{"LCD_DATA0", "LCD_DATA1", [this](float d){ publishUltrasonic(d); }};
 };
 
 int main(int argc, char** argv)
