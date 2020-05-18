@@ -13,6 +13,8 @@ public:
 
   UltrasonicSensor(const std::string& trigger_line_name, const std::string& echo_line_name, Callback_t measurement_callback);
 
+  ~UltrasonicSensor();
+
   void trigger();
 
 private:

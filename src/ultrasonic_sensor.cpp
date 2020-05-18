@@ -32,6 +32,11 @@ UltrasonicSensor::UltrasonicSensor(const std::string &trigger_line_name,
     echo_listener_thread_ = std::thread{[this](){ echoListenerThreadFunction(); }};
 }
 
+UltrasonicSensor::~UltrasonicSensor() {
+    interrupted_ = true;
+    echo_listener_thread_.join();
+}
+
 void UltrasonicSensor::trigger() {
 
     trigger_line_.set_value(1);
