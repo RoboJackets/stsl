@@ -1,0 +1,25 @@
+name: robojackets-stsl
+base: core18
+version: 'alpha'
+summary: RoboJackets Software Training Support Library
+description: |
+  Software to support the RoboJackets software training program. Currently
+  features a ROS2 interface node for custom robot platforms running Debian on
+  the Beaglebone Black Wireless SOIC board.
+
+grade: devel
+confinement: devmode
+
+architectures:
+  - build-on: amd64
+    run-on: armhf
+
+parts:
+  cross-compiled-ros-code:
+    plugin: dump
+    source-type: tar
+    source: "install_armhf.tar.gz"
+
+apps:
+  robot-interface-node:
+    command: lib/stsl/robot_interface_node

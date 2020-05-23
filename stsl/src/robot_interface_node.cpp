@@ -104,7 +104,7 @@ private:
     Encoder left_encoder_{"GPMC_AD13"};
     Encoder right_encoder_{"GPMC_AD12"};
 
-    UltrasonicSensor ultrasonic_sensor_{"LCD_DATA0", "LCD_DATA1", [this](float d){ publishUltrasonic(d); }};
+    UltrasonicSensor ultrasonic_sensor_{"GPMC_AD15", "GPMC_AD11", [this](float d){ publishUltrasonic(d); }};
 };
 
 int main(int argc, char** argv)

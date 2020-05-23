@@ -16,17 +16,11 @@ endif()
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
-
-find_library(LIBGPIOD_LIBRARY
-  NAMES libgpiodcxx.so libgpiodcxx.so.1 libgpiodcxx.so.1.0.0
-)
-if(NOT LIBGPIOD_LIBRARY)
-  message(FATAL_ERROR "libgpiodcxx not found!")
-endif()
+find_package(gpiod REQUIRED)
 
 add_executable(robot_interface_node src/robot_interface_node.cpp src/motor.cpp src/line_sensor.cpp src/encoder.cpp src/ultrasonic_sensor.cpp)
 ament_target_dependencies(robot_interface_node rclcpp std_msgs)
-target_link_libraries(robot_interface_node ${LIBGPIOD_LIBRARY} pthread)
+target_link_libraries(robot_interface_node gpiod::gpiodcxx pthread)
 
 install(TARGETS
     robot_interface_node
