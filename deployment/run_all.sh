@@ -1,4 +1,9 @@
 #! /bin/bash
 set -e
-./cross_compilation/run_cross_compilation.sh
-./packaging/run_packaging.sh
+pushd cross_compilation
+./run_cross_compile.sh
+popd
+pushd packaging
+./run_packaging.sh
+popd
+
