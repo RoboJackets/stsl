@@ -42,14 +42,18 @@ Currently, the STSL is a ROS 2 package providing an interface for controlling cu
 
 ## Deploying
 
-### Cross Compilation
+### Cross Compilation & Packaging
 
-TODO: Instructions coming soon
-
-### Packaging
-
-TODO: Instructions coming soon
+In the `deployment` directory, run `run_all.sh` to cross compile the code for
+the BeagleBone Black and package it for installation. Each step has it's own
+run script in its respective folder if you want to only run one part of the
+process.
 
 ### Installation
 
-TODO: Instructions coming soon
+Running the cross compilation and packaging script mentioned above will generate
+two files: `stsl_package.tar.gz` and `install_stsl.sh`. Copy both of these files
+to the BeagleBone's home directory and run `install_stsl.sh`.
+
+When installation is complete, restart the BeagleBone and the interface node
+should start automatically.
