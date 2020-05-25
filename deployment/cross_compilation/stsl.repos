@@ -1,7 +1,7 @@
 - git:
     local-name: stsl
     uri: https://github.com/RoboJackets/stsl.git
-    version: dev
+    version: master
 - git:
     local-name: ament_cmake/ament_cmake
     uri: https://github.com/ros2-gbp/ament_cmake-release.git

@@ -11,10 +11,18 @@ cp defaults.yaml cross_compile_ws/
 
 vcs import cross_compile_ws/src < stsl.repos
 
-cd cross_compile_ws
+GIT_COMMIT_ID=git rev-parse HEAD
+
+pushd cross_compile_ws/src/stsl
+
+git checkout $GIT_COMMIT_ID
+
+popd
+
+pushd cross_compile_ws
 
 ros_cross_compile \
-$(pwd) \
+"$(pwd)" \
 --arch armhf \
 --rosdistro eloquent \
 --os debian \
@@ -22,3 +30,4 @@ $(pwd) \
 --colcon-defaults defaults.yaml \
 --skip-rosdep-keys "libopensplice69 rti-connext-dds-5.3.1"
 
+popd
