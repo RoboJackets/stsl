@@ -32,5 +32,9 @@ install(TARGETS
     robot_interface_node
     DESTINATION lib/${PROJECT_NAME})
 
+install(FILES
+    scripts/run_node.sh
+    DESTINATION lib/${PROJECT_NAME})
+
 ament_package()
 

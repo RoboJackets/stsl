@@ -1,0 +1,9 @@
+[Unit]
+Description=RoboJackets STSL service unit
+
+[Service]
+Type=simple
+ExecStart=/home/debian/ros2/eloquent/stsl/lib/stsl/run_node.sh <ROBOT_NUMBER>
+
+[Install]
+WantedBy=multi-user.target

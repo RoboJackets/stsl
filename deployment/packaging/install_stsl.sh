@@ -4,7 +4,10 @@ set -e
 
 tar -xzf stsl_package.tar.gz
 
-# TODO setup STSL on the BBB
-# 1. setup robot number (prompt user and then add an export for ROS_DOMAIN_ID to bashrc?)
-# 2. install deps (libgpiod2, libtinyxml2, etc.)
-# 3. setup whatever it takes to make the robot_interface_node auto run on boot
+read -p 'Robot number: ' ROBOT_NUMBER
+
+sed "s/<ROBOT_NUMBER>/$ROBOT_NUMBER/g" robojacketsstsl.service.in | sudo tee /etc/systemd/system/robojacketsstsl.service
+
+sudo chmod 644 /etc/systemd/system/robojacketsstsl.service
+
+sudo systemctl enable robojacketsstsl

@@ -14,10 +14,11 @@ vcs import cross_compile_ws/src < stsl.repos
 cd cross_compile_ws
 
 ros_cross_compile \
+$(pwd) \
 --arch armhf \
 --rosdistro eloquent \
 --os debian \
 --custom-setup-script ../custom_setup_script.sh \
 --colcon-defaults defaults.yaml \
-$(pwd)
+--skip-rosdep-keys "libopensplice69 rti-connext-dds-5.3.1"
 
