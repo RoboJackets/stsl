@@ -11,7 +11,7 @@ cp defaults.yaml cross_compile_ws/
 
 vcs import cross_compile_ws/src < stsl.repos
 
-GIT_COMMIT_ID=git rev-parse HEAD
+GIT_COMMIT_ID=$(git rev-parse HEAD)
 
 pushd cross_compile_ws/src/stsl
 
