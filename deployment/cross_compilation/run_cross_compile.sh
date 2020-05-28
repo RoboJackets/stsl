@@ -2,6 +2,12 @@
 
 set -e
 
+if ! [ -x "$(command -v ros_cross_compile)" ]
+then
+sudo apt-get install -y qemu-user-static
+pip3 install ros_cross_compile==0.5.0
+fi
+
 CROSS_COMPILE_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && pwd )"
 cd "$CROSS_COMPILE_DIR"
 
