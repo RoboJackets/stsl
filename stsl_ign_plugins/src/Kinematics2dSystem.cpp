@@ -1,13 +1,13 @@
-#include "IgnKinematicsSystem.h"
+#include "Kinematics2dSystem.h"
 #include <ignition/plugin/Register.hh>
 #include <ignition/gazebo/components/CanonicalLink.hh>
 #include <ignition/gazebo/components/Pose.hh>
 #include <ignition/gazebo/components/PoseCmd.hh>
 
-namespace ign_kinematics_system
+namespace stsl_ign_plugins::systems
 {
 
-void IgnKinematicsSystem::Configure(const ignition::gazebo::Entity &entity,
+void Kinematics2dSystem::Configure(const ignition::gazebo::Entity &entity,
                    const std::shared_ptr<const sdf::Element> &sdf,
                    ignition::gazebo::EntityComponentManager &ecm,
                    ignition::gazebo::EventManager &eventMgr) 
@@ -18,22 +18,22 @@ void IgnKinematicsSystem::Configure(const ignition::gazebo::Entity &entity,
     
     if(!model.Valid(ecm))
     {
-        ignerr << "IgnKinematics plugin should be attached to a model entity. Failed to initialize." << std::endl;
+        ignerr << "Kinematics2d plugin should be attached to a model entity. Failed to initialize." << std::endl;
         return;
     }
 
     std::string topic = "/model/" + model.Name(ecm) + "/cmd_vel";
 
-    if(!node.Subscribe(topic, &IgnKinematicsSystem::OnCmdVel, this))
+    if(!node.Subscribe(topic, &Kinematics2dSystem::OnCmdVel, this))
     {
-        ignerr << "IgnKinematics plugin could not subscribe to topic: " << std::endl;
+        ignerr << "Could not subscribe to topic: " << std::endl;
         return;
     }
 
-    ignmsg << "IgnKinematics plugin ready and listening on " << topic << std::endl;
+    ignmsg << "Listening for commanded velocities on [" << topic << "]" << std::endl;
 }
 
-void IgnKinematicsSystem::PreUpdate(const ignition::gazebo::UpdateInfo& info, 
+void Kinematics2dSystem::PreUpdate(const ignition::gazebo::UpdateInfo& info, 
                    ignition::gazebo::EntityComponentManager& ecm)
 {
     if(info.paused)
@@ -55,13 +55,13 @@ void IgnKinematicsSystem::PreUpdate(const ignition::gazebo::UpdateInfo& info,
     ecm.SetChanged(entity, ignition::gazebo::components::Pose::typeId, ignition::gazebo::ComponentState::PeriodicChange);
 }
 
-void IgnKinematicsSystem::OnCmdVel(const ignition::msgs::Twist &msg)
+void Kinematics2dSystem::OnCmdVel(const ignition::msgs::Twist &msg)
 {
     std::lock_guard<std::mutex> lock(target_velocity_mutex);
     target_velocity = msg;
 }
 
-ignition::math::Pose3d IgnKinematicsSystem::getNextPose(const ignition::math::Pose3d& pose, const std::chrono::duration<double>& elapsed)
+ignition::math::Pose3d Kinematics2dSystem::getNextPose(const ignition::math::Pose3d& pose, const std::chrono::duration<double>& elapsed)
 {
     const auto [linear_velocity, angular_velocity] = [=]{
         std::lock_guard<std::mutex> lock(target_velocity_mutex);
@@ -98,8 +98,8 @@ ignition::math::Pose3d IgnKinematicsSystem::getNextPose(const ignition::math::Po
 }
 
 IGNITION_ADD_PLUGIN(
-    ign_kinematics_system::IgnKinematicsSystem,
+    stsl_ign_plugins::systems::Kinematics2dSystem,
     ignition::gazebo::System,
-    ign_kinematics_system::IgnKinematicsSystem::ISystemConfigure,
-    ign_kinematics_system::IgnKinematicsSystem::ISystemPreUpdate
+    stsl_ign_plugins::systems::Kinematics2dSystem::ISystemConfigure,
+    stsl_ign_plugins::systems::Kinematics2dSystem::ISystemPreUpdate
 )

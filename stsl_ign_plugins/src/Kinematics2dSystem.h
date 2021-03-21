@@ -5,10 +5,10 @@
 #include <ignition/gazebo/Model.hh>
 #include <mutex>
 
-namespace ign_kinematics_system
+namespace stsl_ign_plugins::systems
 {
 
-class IgnKinematicsSystem
+class Kinematics2dSystem
     : public ignition::gazebo::System,
       public ignition::gazebo::ISystemConfigure,
       public ignition::gazebo::ISystemPreUpdate
