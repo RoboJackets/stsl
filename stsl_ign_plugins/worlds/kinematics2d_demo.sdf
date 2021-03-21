@@ -82,53 +82,9 @@
             <direction>-0.5 0.1 -0.9</direction>
         </light>
 
-        <model name="ground_plane">
-            <static>true</static>
+        <model name="box">
+            <pose>0 0 0.5 0 0 0</pose>
             <link name="link">
-                <collision name="collision">
-                <geometry>
-                    <box>
-                    <size>20 20 0.1</size>
-                    </box>
-                </geometry>
-                </collision>
-                <visual name="visual">
-                <geometry>
-                    <box>
-                    <size>20 20 0.1</size>
-                    </box>
-                </geometry>
-                <material>
-                    <ambient>0.8 0.8 0.8 1</ambient>
-                    <diffuse>0.8 0.8 0.8 1</diffuse>
-                    <specular>0.8 0.8 0.8 1</specular>
-                </material>
-                </visual>
-            </link>
-            </model>
-
-            <model name="box">
-            <pose>1 0 0 0 0 0</pose>
-            <link name="link">
-                <inertial>
-                <inertia>
-                    <ixx>1</ixx>
-                    <ixy>0</ixy>
-                    <ixz>0</ixz>
-                    <iyy>1</iyy>
-                    <iyz>0</iyz>
-                    <izz>1</izz>
-                </inertia>
-                <mass>1.0</mass>
-                </inertial>
-                <collision name="collision">
-                <geometry>
-                    <box>
-                    <size>1 1 1</size>
-                    </box>
-                </geometry>
-                </collision>
-
                 <visual name="visual">
                 <geometry>
                     <box>
@@ -144,43 +100,6 @@
             </link>
 
             <plugin filename="ignition-2d-kinematics-system" name="stsl_ign_plugins::systems::Kinematics2dSystem" />
-        </model>
-
-        <model name="sphere">
-            <pose>0 0 0 0 0 0</pose>
-            <link name="link">
-                <inertial>
-                <inertia>
-                    <ixx>1</ixx>
-                    <ixy>0</ixy>
-                    <ixz>0</ixz>
-                    <iyy>1</iyy>
-                    <iyz>0</iyz>
-                    <izz>1</izz>
-                </inertia>
-                <mass>1.0</mass>
-                </inertial>
-                <collision name="collision">
-                <geometry>
-                    <sphere>
-                    <radius>0.2</radius>
-                    </sphere>
-                </geometry>
-                </collision>
-
-                <visual name="visual">
-                <geometry>
-                    <sphere>
-                    <radius>0.2</radius>
-                    </sphere>
-                </geometry>
-                <material>
-                    <ambient>1 1 0 1</ambient>
-                    <diffuse>1 1 0 1</diffuse>
-                    <specular>1 1 0 1</specular>
-                </material>
-                </visual>
-            </link>
         </model>
         
     </world>
