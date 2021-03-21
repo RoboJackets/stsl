@@ -10,7 +10,7 @@ pkg_check_modules(libgpiodcxx REQUIRED IMPORTED_TARGET libgpiodcxx)
 add_executable(robot_interface_node src/robot_interface_node.cpp src/motor.cpp src/line_sensor.cpp src/encoder.cpp src/ultrasonic_sensor.cpp)
 ament_target_dependencies(robot_interface_node rclcpp std_msgs)
 target_link_libraries(robot_interface_node PkgConfig::libgpiodcxx pthread)
-target_compile_options(robot_interface_node PRIVATE cxx_std_17)
+set_property(TARGET robot_interface_node PROPERTY CXX_STANDARD 17)
 target_compile_options(robot_interface_node PRIVATE -Wall -Wextra -Wpedantic)
 
 install(TARGETS
