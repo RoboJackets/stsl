@@ -11,13 +11,6 @@ def generate_launch_description():
 
     ign_args=' '.join(['-r',test_world_path])
 
-    env={
-        'IGN_GAZEBO_SYSTEM_PLUGIN_PATH':os.pathsep.join([
-            os.environ.get('IGN_GAZEBO_SYSTEM_PLUGIN_PATH', default=''),
-            os.environ.get('LD_LIBRARY_PATH', default='')
-        ])
-    }
-
     return LaunchDescription([
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(ros_ign_launch_path),
