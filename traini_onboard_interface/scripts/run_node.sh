@@ -14,4 +14,4 @@ else
   export ROS_DOMAIN_ID=0
 fi
 
-./robot_interface_node
+./traini_interface_node

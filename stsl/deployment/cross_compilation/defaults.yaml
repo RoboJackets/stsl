@@ -1,5 +1,0 @@
-list:
-  packages-up-to: [stsl]
-build:
-  packages-up-to: [stsl]
-  

@@ -3,7 +3,7 @@ Description=RoboJackets STSL service unit
 
 [Service]
 Type=simple
-ExecStart=/home/debian/ros2/eloquent/stsl/lib/stsl/run_node.sh <ROBOT_NUMBER>
+ExecStart=/home/debian/ros2/eloquent/traini_onboard_interface/lib/traini_onboard_interface/run_node.sh <ROBOT_NUMBER>
 User=debian
 
 [Install]
