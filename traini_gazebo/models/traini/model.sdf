@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<sdf version='1.7'>
+    <model name='Traini'>
+        <link name='link'>
+            <visual name='visual'>
+                <geometry>
+                    <mesh>
+                        <uri>model://traini/meshes/Trainiii.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <plugin filename="ignition-2d-kinematics-system" name="stsl_ign_plugins::systems::Kinematics2dSystem" />
+    </model>
+</sdf>
