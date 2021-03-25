@@ -3,18 +3,12 @@
     <model name='Floor Mat'>
         <link name='link'>
             <visual name='visual'>
+                <pose>0 0 0 3.141592 0 0</pose>
                 <geometry>
-                    <plane>
-                        <normal>0 0 1</normal>
-                        <size>20 20</size>
-                    </plane>
+                    <mesh>
+                        <uri>model://floor_mat/meshes/floor_mat_model.obj</uri>
+                    </mesh>
                 </geometry>
-                <material>
-                    <script>
-                        <uri>model://floor_mat/materials/floor_mat.material</uri>
-                        <name>Gazebo/floor_mat</name>
-                    </script>
-                </material>
             </visual>
         </link>
     </model>

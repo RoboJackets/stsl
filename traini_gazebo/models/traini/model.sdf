@@ -3,6 +3,7 @@
     <model name='Traini'>
         <link name='link'>
             <visual name='visual'>
+                <pose>0 0 0 0 0 1.57079632679</pose>
                 <geometry>
                     <mesh>
                         <uri>model://traini/meshes/Trainiii.dae</uri>
