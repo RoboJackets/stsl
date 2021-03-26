@@ -6,8 +6,6 @@
             name="ignition::gazebo::systems::SceneBroadcaster" />
 
         <gui fullscreen="0">
-
-            <!-- 3D scene -->
             <plugin filename="GzScene3D" name="3D View">
                 <ignition-gui>
                     <title>3D View</title>
@@ -15,28 +13,25 @@
                     <property type="string" key="state">docked</property>
                 </ignition-gui>
 
-                <engine>ogre2</engine>
-                <scene>scene</scene>
                 <ambient_light>1 1 1</ambient_light>
                 <background_color>0.8 0.8 0.8</background_color>
                 <camera_pose>0 0 1 0 1.5707 0</camera_pose>
             </plugin>
 
-            <!-- World control -->
             <plugin filename="WorldControl" name="World control">
                 <ignition-gui>
-                <title>World control</title>
-                <property type="bool" key="showTitleBar">false</property>
-                <property type="bool" key="resizable">false</property>
-                <property type="double" key="height">72</property>
-                <property type="double" key="width">121</property>
-                <property type="double" key="z">1</property>
+                    <title>World control</title>
+                    <property type="bool" key="showTitleBar">false</property>
+                    <property type="bool" key="resizable">false</property>
+                    <property type="double" key="height">72</property>
+                    <property type="double" key="width">121</property>
+                    <property type="double" key="z">1</property>
 
-                <property type="string" key="state">floating</property>
-                <anchors target="3D View">
-                    <line own="left" target="left"/>
-                    <line own="bottom" target="bottom"/>
-                </anchors>
+                    <property type="string" key="state">floating</property>
+                    <anchors target="3D View">
+                        <line own="left" target="left"/>
+                        <line own="bottom" target="bottom"/>
+                    </anchors>
                 </ignition-gui>
 
                 <play_pause>true</play_pause>
@@ -44,7 +39,6 @@
                 <start_paused>true</start_paused>
             </plugin>
 
-            <!-- World statistics -->
             <plugin filename="WorldStats" name="World stats">
                 <ignition-gui>
                     <title>World stats</title>
@@ -66,20 +60,11 @@
                 <real_time_factor>true</real_time_factor>
                 <iterations>true</iterations>
             </plugin>
-
-            <camera name="user_camera">
-                <track_visual>
-                    <name>Traini</name>
-                    <static>true</static>
-                    <use_model_frame>true</use_model_frame>
-                    <xyz>1 0 1</xyz>
-                    <inherit_yaw>true</inherit_yaw>
-                </track_visual>
-            </camera>
         </gui>
 
         <include>
             <uri>model://floor_mat</uri>
+            <static>true</static>
         </include>
 
         <include>

@@ -1,5 +1,4 @@
 mtllib floor_mat_model.mtl
-o Plane
 v -0.5715  1.0164 0.0
 v  0.5715  1.0164 0.0
 v  0.5715 -1.0164 0.0
@@ -9,7 +8,5 @@ vt 1.000000 1.000000
 vt 0.000000 1.000000
 vt 0.000000 0.000000
 vn 0.0000 0.0000 1.0000
-g Plane_Plane_floor_mat_material
 usemtl floor_mat_material
-s off
 f 1/1/1 2/2/1 3/3/1 4/4/1
