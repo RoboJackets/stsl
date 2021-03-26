@@ -4,6 +4,9 @@
         <plugin
             filename="libignition-gazebo-scene-broadcaster-system.so"
             name="ignition::gazebo::systems::SceneBroadcaster" />
+        <plugin
+            filename="libignition-gazebo-sensors-system.so"
+            name="ignition::gazebo::systems::Sensors" />
 
         <gui fullscreen="0">
             <plugin filename="GzScene3D" name="3D View">

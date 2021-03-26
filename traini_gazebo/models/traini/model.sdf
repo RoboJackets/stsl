@@ -1,7 +1,8 @@
 <?xml version='1.0'?>
 <sdf version='1.7'>
     <model name='Traini'>
-        <link name='link'>
+        <plugin filename="ignition-2d-kinematics-system" name="stsl_ign_plugins::systems::Kinematics2dSystem" />
+        <link name='base_link'>
             <visual name='visual'>
                 <pose>0 0 0 0 0 1.57079632679</pose>
                 <geometry>
@@ -11,6 +12,32 @@
                 </geometry>
             </visual>
         </link>
-        <plugin filename="ignition-2d-kinematics-system" name="stsl_ign_plugins::systems::Kinematics2dSystem" />
+
+        <link name="camera_link">
+            <sensor name="camera" type="camera">
+                <update_rate>10</update_rate>
+                <!-- TODO set camera settings -->
+            </sensor>
+        </link>
+        <joint name="camera_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>camera_link</child>
+            <pose>0 0 0 0 0 0</pose>
+        </joint>
+
+        <link name="light_link">
+            <light name="indicator_light" type="point">
+                <!-- TODO create and add a light control plugin -->
+                <diffuse>0 1 0 1</diffuse>
+                <attenuation>
+                    <constant>1</constant>
+                </attenuation>
+            </light>
+        </link>
+        <joint name="light_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>light_link</child>
+            <pose>0 0 0.1 0 0 0</pose>
+        </joint>
     </model>
 </sdf>

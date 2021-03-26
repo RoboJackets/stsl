@@ -29,5 +29,25 @@ def generate_launch_description():
             remappings=[
                 ('/model/Traini/cmd_vel','cmd_vel')
             ]
+        ),
+        Node(
+            name='ros_ign_bridge_camera_image',
+            package='ros_ign_bridge',
+            executable='parameter_bridge',
+            output='screen',
+            arguments=['/world/training_world/model/Traini/link/camera_link/sensor/camera/image@sensor_msgs/msg/Image[ignition.msgs.Image'],
+            remappings=[
+                ('/world/training_world/model/Traini/link/camera_link/sensor/camera/image', '/camera/image')
+            ]
+        ),
+        Node(
+            name='ros_ign_bridge_camera_image',
+            package='ros_ign_bridge',
+            executable='parameter_bridge',
+            output='screen',
+            arguments=['/world/training_world/model/Traini/link/camera_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo'],
+            remappings=[
+                ('/world/training_world/model/Traini/link/camera_link/sensor/camera/camera_info','/camera/camera_info')
+            ]
         )
     ])
