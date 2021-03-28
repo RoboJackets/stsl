@@ -65,10 +65,10 @@
             </plugin>
         </gui>
 
-        <include>
+        <!-- <include>
             <uri>model://floor_mat</uri>
             <static>true</static>
-        </include>
+        </include> -->
 
         <include>
             <uri>model://traini</uri>

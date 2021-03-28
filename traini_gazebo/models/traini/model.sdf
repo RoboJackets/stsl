@@ -2,15 +2,21 @@
 <sdf version='1.7'>
     <model name='Traini'>
         <plugin filename="ignition-2d-kinematics-system" name="stsl_ign_plugins::systems::Kinematics2dSystem" />
+
+
+        <plugin filename="ignition-light-control-system" name="stsl_ign_plugins::systems::LightControlSystem">
+            <light_name>indicator_light</light_name>
+        </plugin>
+
         <link name='base_link'>
-            <visual name='visual'>
+            <!-- <visual name='visual'>
                 <pose>0 0 0 0 0 1.57079632679</pose>
                 <geometry>
                     <mesh>
                         <uri>model://traini/meshes/Trainiii.dae</uri>
                     </mesh>
                 </geometry>
-            </visual>
+            </visual> -->
         </link>
 
         <link name="camera_link">
@@ -27,12 +33,20 @@
 
         <link name="light_link">
             <light name="indicator_light" type="point">
-                <!-- TODO create and add a light control plugin -->
                 <diffuse>0 1 0 1</diffuse>
+                <specular>0 1 0 1</specular>
                 <attenuation>
                     <constant>1</constant>
                 </attenuation>
             </light>
+            <visual name="light_box_visual">
+                <pose>0 0 -0.6 0 0 0</pose>
+                <geometry>
+                    <box>
+                        <size>0.5 0.5 0.5</size>
+                    </box>
+                </geometry>
+            </visual>
         </link>
         <joint name="light_joint" type="fixed">
             <parent>base_link</parent>

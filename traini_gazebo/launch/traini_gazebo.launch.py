@@ -15,7 +15,7 @@ def generate_launch_description():
         SetEnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', resource_path),
         SetEnvironmentVariable('IGN_GAZEBO_SYSTEM_PLUGIN_PATH', os.environ['LD_LIBRARY_PATH']),
         ExecuteProcess(
-            cmd=['ign gazebo', '-r', test_world_path],
+            cmd=['ign gazebo', '-r', '-v 4', test_world_path],
             output='screen',
             on_exit=Shutdown(),
             shell=True
