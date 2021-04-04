@@ -1,0 +1,16 @@
+material FloorMat/Image
+{
+    technique
+    {
+        pass
+        {
+            ambient 1 1 1 1
+            diffuse 1 1 1 1
+            specular 0.03 0.03 0.03 1.0
+            texture_unit
+            {
+                texture fll_mat.jpg
+            }
+        }
+    }
+}
