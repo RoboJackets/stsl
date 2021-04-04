@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<sdf version='1.6'>
+    <world name="ros_light_control_demo_world">
+        <model name="light_model">
+            <static>1</static>
+            <link name="housing">
+                <visual name="visual">
+                    <geometry>
+                        <cylinder>
+                            <radius>0.08</radius>
+                            <length>0.18</length>
+                        </cylinder>
+                    </geometry>
+                    <material>
+                        <diffuse>0 0 0 1</diffuse>
+                    </material>
+                </visual>
+            </link>
+            <link name="led_link">
+                <pose>0 0 0.09 0 0 0</pose>
+                <light name="led" type="spot">
+                    <pose>0 0 0.01 0 0 0</pose>
+                    <attenuation>
+                        <range>30</range>
+                        <linear>0.05</linear>
+                    </attenuation>
+                    <diffuse>0 1 0 1</diffuse>
+                    <specular>0 1 0 1</specular>
+                </light>
+                <visual name="led">
+                    <geometry>
+                        <sphere>
+                            <radius>0.05</radius>
+                        </sphere>
+                    </geometry>
+                    <transparency>0.4</transparency>
+                    <material>
+                        <ambient>0.5 1 0.5 1</ambient>
+                        <diffuse>0.5 1 0.5 1</diffuse>
+                        <specular>1 1 1 1</specular>
+                        <emissive>0.5 1 0.5 1</emissive>
+                    </material>
+                </visual>
+            </link>
+            <joint name="joint1" type="fixed">
+                <parent>housing</parent>
+                <child>led_link</child>
+            </joint>
+
+            <plugin name="light_control" filename="libRosLightControlPlugin.so">
+                <light_id>led_link/led</light_id>
+            </plugin>
+        </model>
+    </world>
+</sdf>
