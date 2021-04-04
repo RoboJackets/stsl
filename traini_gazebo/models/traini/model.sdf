@@ -6,10 +6,10 @@
             <publish_rate>10</publish_rate>
 
             <publish_odom>true</publish_odom>
-            <publish_odom_tf>true</publish_odom_tf>
+            <publish_odom_tf>false</publish_odom_tf>
 
-            <odometry_frame>odom_demo</odometry_frame>
-            <robot_base_frame>link</robot_base_frame>
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_link</robot_base_frame>
 
             <covariance_x>0.0001</covariance_x>
             <covariance_y>0.0001</covariance_y>
@@ -22,7 +22,7 @@
 
         <link name='base_link'>
             <visual name='visual'>
-                <pose>0 0 0 0 0 1.57079632679</pose>
+                <!-- <pose>0 0 0 0 0 1.57079632679</pose> -->
                 <geometry>
                     <mesh>
                         <uri>model://traini/meshes/Trainiii.dae</uri>
@@ -32,6 +32,7 @@
         </link>
 
         <link name="camera_link">
+            <pose>0.1 0 0.3 0 0 0</pose>
             <sensor name="camera" type="camera">
                 <update_rate>10</update_rate>
                 <camera name="camera">
@@ -54,13 +55,23 @@
                 <plugin name="camera_controller" filename="libgazebo_ros_camera.so" />
             </sensor>
         </link>
-        <joint name="camera_joint" type="fixed">
-            <parent>base_link</parent>
-            <child>camera_link</child>
+
+        <link name="imu_link">
             <pose>0 0 0 0 0 0</pose>
-        </joint>
+            <sensor name="imu" type="imu">
+                <always_on>true</always_on>
+                <update_rate>30</update_rate>
+                <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+                    <ros>
+                        <namespace>/imu</namespace>
+                        <remapping>~/out:=data</remapping>
+                    </ros>
+                </plugin>
+            </sensor>
+        </link>
 
         <link name="light_link">
+            <pose>0 0 0.3 0 0 0</pose>
             <light name="indicator_light" type="point">
                 <diffuse>0 1 0 1</diffuse>
                 <specular>0 1 0 1</specular>
@@ -83,10 +94,5 @@
                 </material>
             </visual>
         </link>
-        <joint name="light_joint" type="fixed">
-            <parent>base_link</parent>
-            <child>light_link</child>
-            <pose>0 0 0.1 0 0 0</pose>
-        </joint>
     </model>
 </sdf>
