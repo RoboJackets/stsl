@@ -7,47 +7,24 @@ from ament_index_python.packages import get_package_share_directory
 from ament_index_python.packages import get_package_prefix
 
 def generate_launch_description():
-    test_world_path=os.sep.join([get_package_share_directory('traini_gazebo'),'worlds','training_world.sdf'])
-    ros_ign_launch_path=os.sep.join([get_package_share_directory('ros_ign_gazebo'),'launch','ign_gazebo.launch.py'])
-    resource_path=os.sep.join([get_package_share_directory('traini_gazebo'),'models'])
+    world_path=os.sep.join([get_package_share_directory('traini_gazebo'),'worlds','training_world.sdf'])
+    gazebo_launch_path=os.sep.join([get_package_share_directory('gazebo_ros'),'launch','gazebo.launch.py'])
+
+    traini_gazebo_model_path=os.sep.join([get_package_share_directory('traini_gazebo'),'models'])
+    gazebo_model_path=os.pathsep.join([traini_gazebo_model_path, os.getenv('GAZEBO_MODEL_PATH','')])
+
+    stsl_gazebo_plugin_path=os.sep.join([get_package_prefix('stsl_gazebo_plugins'),'lib'])
+    gazebo_plugin_path=os.pathsep.join([stsl_gazebo_plugin_path, os.getenv('GAZEBO_PLUGIN_PATH','')])
 
     return LaunchDescription([
-        SetEnvironmentVariable('IGN_GAZEBO_RESOURCE_PATH', resource_path),
-        SetEnvironmentVariable('IGN_GAZEBO_SYSTEM_PLUGIN_PATH', os.environ['LD_LIBRARY_PATH']),
-        ExecuteProcess(
-            cmd=['ign gazebo', '-r', '-v 4', test_world_path],
-            output='screen',
-            on_exit=Shutdown(),
-            shell=True
-        ),
-        Node(
-            name='ros_ign_bridge_cmd_vel',
-            package='ros_ign_bridge',
-            executable='parameter_bridge',
-            output='screen',
-            arguments=['/model/Traini/cmd_vel@geometry_msgs/msg/Twist]ignition.msgs.Twist'],
-            remappings=[
-                ('/model/Traini/cmd_vel','cmd_vel')
-            ]
-        ),
-        Node(
-            name='ros_ign_bridge_camera_image',
-            package='ros_ign_bridge',
-            executable='parameter_bridge',
-            output='screen',
-            arguments=['/world/training_world/model/Traini/link/camera_link/sensor/camera/image@sensor_msgs/msg/Image[ignition.msgs.Image'],
-            remappings=[
-                ('/world/training_world/model/Traini/link/camera_link/sensor/camera/image', '/camera/image')
-            ]
-        ),
-        Node(
-            name='ros_ign_bridge_camera_image',
-            package='ros_ign_bridge',
-            executable='parameter_bridge',
-            output='screen',
-            arguments=['/world/training_world/model/Traini/link/camera_link/sensor/camera/camera_info@sensor_msgs/msg/CameraInfo[ignition.msgs.CameraInfo'],
-            remappings=[
-                ('/world/training_world/model/Traini/link/camera_link/sensor/camera/camera_info','/camera/camera_info')
-            ]
+        SetEnvironmentVariable('GAZEBO_PLUGIN_PATH', gazebo_plugin_path),
+        SetEnvironmentVariable('GAZEBO_MODEL_PATH', gazebo_model_path),
+        IncludeLaunchDescription(
+            PythonLaunchDescriptionSource(gazebo_launch_path),
+            launch_arguments={
+                'world':world_path,
+                'verbose':'true',
+                'gui_required':'true'
+                }.items()
         )
     ])
