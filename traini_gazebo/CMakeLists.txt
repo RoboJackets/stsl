@@ -3,6 +3,10 @@ project(traini_gazebo)
 
 find_package(ament_cmake REQUIRED)
 
+install(
+  PROGRAMS scripts/kill_gazebo_server.sh
+  DESTINATION bin
+)
 
 install(
   DIRECTORY launch/

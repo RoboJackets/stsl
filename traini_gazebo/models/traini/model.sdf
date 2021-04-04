@@ -2,12 +2,6 @@
 <sdf version='1.7'>
     <model name='Traini'>
         <plugin name='planar_move' filename='libgazebo_ros_planar_move.so'>
-            <!-- <ros>
-                <namespace>/demo</namespace>
-                <remapping>cmd_vel:=cmd_demo</remapping>
-                <remapping>odom:=odom_demo</remapping>
-            </ros> -->
-
             <update_rate>100</update_rate>
             <publish_rate>10</publish_rate>
 
@@ -27,20 +21,37 @@
         </plugin>
 
         <link name='base_link'>
-            <!-- <visual name='visual'>
+            <visual name='visual'>
                 <pose>0 0 0 0 0 1.57079632679</pose>
                 <geometry>
                     <mesh>
                         <uri>model://traini/meshes/Trainiii.dae</uri>
                     </mesh>
                 </geometry>
-            </visual> -->
+            </visual>
         </link>
 
         <link name="camera_link">
             <sensor name="camera" type="camera">
                 <update_rate>10</update_rate>
-                <!-- TODO set camera settings -->
+                <camera name="camera">
+                    <horizontal_fov>1.3962634</horizontal_fov>
+                    <image>
+                        <width>640</width>
+                        <height>480</height>
+                        <format>R8G8B8</format>
+                    </image>
+                    <clip>
+                        <near>0.02</near>
+                        <far>300</far>
+                    </clip>
+                    <noise>
+                        <type>gaussian</type>
+                        <mean>0.0</mean>
+                        <stddev>0.007</stddev>
+                    </noise>
+                </camera>
+                <plugin name="camera_controller" filename="libgazebo_ros_camera.so" />
             </sensor>
         </link>
         <joint name="camera_joint" type="fixed">
