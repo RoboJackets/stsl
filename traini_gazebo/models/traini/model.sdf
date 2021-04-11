@@ -18,6 +18,7 @@
 
         <plugin name="light_control" filename="libRosLightControlPlugin.so">
             <light_id>light_link/indicator_light</light_id>
+            <visual_name>indicator_light</visual_name>
         </plugin>
 
         <link name='base_link'>

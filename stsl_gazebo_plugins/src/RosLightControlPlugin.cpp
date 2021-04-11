@@ -85,7 +85,13 @@ public:
             gzerr << "Parameter <light_id> is missing." << std::endl;
         }
 
+        if(!sdf->HasElement("visual_name"))
+        {
+            gzerr << "Parameter <visual_name> is missing." << std::endl;
+        }
+
         const auto light_id = sdf->Get<std::string>("light_id");
+        const auto visual_name = sdf->Get<std::string>("visual_name");
 
         const int sep_pos = light_id.rfind("/");
         const auto light_name = light_id.substr(sep_pos+1);
@@ -93,7 +99,7 @@ public:
 
         const auto link = findLinkForLight(parent, light_name, link_name);
 
-        const auto visual_props = getVisualProperties(link, light_name);
+        const auto visual_props = getVisualProperties(link, visual_name);
 
         light_on_range_ = getLightRange(link, light_name);
         light_off_transparency_ = visual_props.transparency();
@@ -109,10 +115,10 @@ public:
 
         visual_publisher_ = gazebo_node_->Advertise<gazebo::msgs::Visual>("~/visual");
 
-        visual_msg_.set_name(link->GetScopedName() + "::" + light_name);
+        visual_msg_.set_name(link->GetScopedName() + "::" + visual_name);
         visual_msg_.set_parent_name(link->GetScopedName());
         uint32_t visual_id;
-        link->VisualId(light_name, visual_id);
+        link->VisualId(visual_name, visual_id);
         visual_msg_.set_id(visual_id);
 
         ros_node_ = gazebo_ros::Node::Get(sdf);
