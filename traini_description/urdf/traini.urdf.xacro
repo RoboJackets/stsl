@@ -1,0 +1,73 @@
+<?xml version="1.0"?>
+<robot name="Traini" xmlns:xacro="http://ros.org/wiki/xacro">
+
+    <xacro:macro name="null_inertia">
+        <inertial>
+            <mass value="0.001"/>
+            <inertia ixx="0.001" ixy="0" ixz="0" iyy="0.001" iyz="0" izz="0.001"/>
+        </inertial>
+    </xacro:macro>
+
+    <!-- Links -->
+
+    <link name="base_footprint">
+        <xacro:null_inertia/>
+    </link>
+
+    <link name="base_link">
+        <xacro:null_inertia/>
+        <visual>
+            <origin xyz="0 0 -0.0325" rpy="0 0 0"/>
+            <geometry>
+                <mesh filename="package://traini_description/meshes/Trainiii.dae"/>
+            </geometry>
+        </visual>
+    </link>
+
+    <link name="camera_link">
+        <xacro:null_inertia/>
+    </link>
+
+    <link name="imu_link">
+        <xacro:null_inertia/>
+    </link>
+
+    <link name="light_link">
+        <xacro:null_inertia/>
+        <visual name="indicator_light">
+            <geometry>
+                <sphere radius="0.05"/>
+            </geometry>
+            <material name="indicator_light_material">
+                <color rgba="0.5 1 0.5 1"/>
+            </material>
+        </visual>
+    </link>
+
+    <!-- Joints -->
+
+    <joint name="base_joint" type="fixed">
+        <parent link="base_footprint"/>
+        <child link="base_link"/>
+        <origin xyz="0 0 0.0325" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="camera_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="camera_link"/>
+        <origin xyz="0.1 0 0.3" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="imu_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="imu_link"/>
+        <origin xyz="0 0 0" rpy="0 0 0"/>
+    </joint>
+
+    <joint name="light_joint" type="fixed">
+        <parent link="base_link"/>
+        <child link="light_link"/>
+        <origin xyz="0 0 0.3" rpy="0 0 0"/>
+    </joint>
+
+</robot>
