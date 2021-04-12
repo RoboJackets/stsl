@@ -87,6 +87,7 @@ fabric.properties
 # Deployment resources
 *.deb
 *.ddeb
+*.tar.gz
 debian/
 obj-x86_64-linux-gnu/
 log/
