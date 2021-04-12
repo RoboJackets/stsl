@@ -83,3 +83,10 @@ com_crashlytics_export_strings.xml
 crashlytics.properties
 crashlytics-build.properties
 fabric.properties
+
+# Deployment resources
+*.deb
+*.ddeb
+debian/
+obj-x86_64-linux-gnu/
+
