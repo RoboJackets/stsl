@@ -3,6 +3,6 @@ stsl_gazebo_plugins:
 traini_bringup:
   ubuntu: [ros-foxy-triani-bringup]
 traini_description:
-  ubuntu: [ros-foxy-traini-traini-description]
+  ubuntu: [ros-foxy-traini-description]
 traini_gazebo:
   ubuntu: [ros-foxy-traini-gazebo]
