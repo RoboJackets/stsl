@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <sdf version='1.7'>
-    <model name='Traini'>
+    <model name='Traini' canonical_link="base_footprint">
         <plugin name='planar_move' filename='libgazebo_ros_planar_move.so'>
             <update_rate>100</update_rate>
             <publish_rate>10</publish_rate>
@@ -21,9 +21,12 @@
             <visual_name>indicator_light</visual_name>
         </plugin>
 
+        <link name="base_footprint" />
+
         <link name='base_link'>
+            <pose relative_to="base_footprint">0 0 0.0325 0 0 0</pose>
             <visual name='visual'>
-                <!-- <pose>0 0 0 0 0 1.57079632679</pose> -->
+                <pose>0 0 -0.0325 0 0 0</pose>
                 <geometry>
                     <mesh>
                         <uri>model://traini/meshes/Trainiii.dae</uri>
@@ -33,7 +36,7 @@
         </link>
 
         <link name="camera_link">
-            <pose>0.1 0 0.055 0 0 0</pose>
+            <pose relative_to="base_link">0.1 0 0.055 0 0 0</pose>
             <sensor name="camera" type="camera">
                 <update_rate>10</update_rate>
                 <camera name="camera">
@@ -58,7 +61,7 @@
         </link>
 
         <link name="imu_link">
-            <pose>0 0 0 0 0 0</pose>
+            <pose relative_to="base_link">0 0 0 0 0 0</pose>
             <sensor name="imu" type="imu">
                 <always_on>true</always_on>
                 <update_rate>30</update_rate>
@@ -72,7 +75,7 @@
         </link>
 
         <link name="light_link">
-            <pose>0 0 0.04 0 0 0</pose>
+            <pose relative_to="base_link">0 0 0.04 0 0 0</pose>
             <light name="indicator_light" type="point">
                 <diffuse>0 1 0 1</diffuse>
                 <specular>0 1 0 1</specular>
