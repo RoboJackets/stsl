@@ -72,7 +72,7 @@
         </link>
 
         <link name="light_link">
-            <pose>0 0 0.3 0 0 0</pose>
+            <pose>0 0 0.04 0 0 0</pose>
             <light name="indicator_light" type="point">
                 <diffuse>0 1 0 1</diffuse>
                 <specular>0 1 0 1</specular>
@@ -83,7 +83,7 @@
             <visual name="indicator_light">
                 <geometry>
                     <sphere>
-                        <radius>0.05</radius>
+                        <radius>0.005</radius>
                     </sphere>
                 </geometry>
                 <transparency>0.4</transparency>
