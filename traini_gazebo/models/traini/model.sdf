@@ -33,7 +33,7 @@
         </link>
 
         <link name="camera_link">
-            <pose>0.1 0 0.3 0 0 0</pose>
+            <pose>0.1 0 0.055 0 0 0</pose>
             <sensor name="camera" type="camera">
                 <update_rate>10</update_rate>
                 <camera name="camera">
