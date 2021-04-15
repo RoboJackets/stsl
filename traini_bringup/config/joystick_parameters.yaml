@@ -1,0 +1,13 @@
+joy_node:
+  ros__parameters:
+    deadzone: 0.2
+teleop_twist_joy_node:
+  ros__parameters:
+    require_enable_button: false
+    axis_linear:
+      x: 1
+    axis_angular:
+      yaw: 3
+    scale_angular:
+      yaw: 4.0
+    
