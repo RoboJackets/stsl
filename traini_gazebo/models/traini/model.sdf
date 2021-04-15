@@ -34,6 +34,10 @@
                 </geometry>
             </visual>
         </link>
+        <joint name="base_link_joint" type="fixed">
+            <parent>base_footprint</parent>
+            <child>base_link</child>
+        </joint>
 
         <link name="camera_link">
             <pose relative_to="base_link">0.1 0 0.055 0 0 0</pose>
@@ -59,6 +63,10 @@
                 <plugin name="camera_controller" filename="libgazebo_ros_camera.so" />
             </sensor>
         </link>
+        <joint name="camera_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>camera_link</child>
+        </joint>
 
         <link name="imu_link">
             <pose relative_to="base_link">0 0 0 0 0 0</pose>
@@ -73,6 +81,10 @@
                 </plugin>
             </sensor>
         </link>
+        <joint name="imu_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>imu_link</child>
+        </joint>
 
         <link name="light_link">
             <pose relative_to="base_link">0 0 0.04 0 0 0</pose>
@@ -98,5 +110,9 @@
                 </material>
             </visual>
         </link>
+        <joint name="light_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>light_link</child>
+        </joint>
     </model>
 </sdf>
