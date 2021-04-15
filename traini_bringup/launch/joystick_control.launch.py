@@ -1,3 +1,13 @@
+"""
+Starts up nodes needed to drive the robot with a gamepad/joystick.
+
+Normal usage, with default configs for the classroom joysticks:
+$ ros2 launch traini_bringup joystick_control.launch.py
+
+To use with your own joystick, you may need to modify the gamepad settings.
+Copy config/joystick_parameters.yaml somewhere, adjust the settings within, and use this new copy
+$ ros2 launch traini_bringup joystick_control.launch.py config_file:=/path/to/your/config/file.yaml
+"""
 import os
 import launch
 from launch import LaunchDescription
