@@ -2,6 +2,15 @@ cmake_minimum_required(VERSION 3.5)
 project(traini_gazebo)
 
 find_package(ament_cmake REQUIRED)
+find_package(aruco_tag_model_generation REQUIRED)
+
+generate_aruco_tag_models(
+  IDS_START 0
+  IDS_STOP 10
+  RESOLUTION 200
+  SIZE 0.2
+  DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/models
+)
 
 install(
   PROGRAMS scripts/kill_gazebo_server.sh
@@ -9,18 +18,17 @@ install(
 )
 
 install(
-  DIRECTORY launch/
-  DESTINATION share/${PROJECT_NAME}/launch
+  DIRECTORY 
+  launch
+  models
+  worlds
+  DESTINATION share/${PROJECT_NAME}
 )
 
 install(
-  DIRECTORY models/
+  DIRECTORY
+  ${CMAKE_CURRENT_BINARY_DIR}/models/
   DESTINATION share/${PROJECT_NAME}/models
-)
-
-install(
-  DIRECTORY worlds/
-  DESTINATION share/${PROJECT_NAME}/worlds
 )
 
 ament_package()
