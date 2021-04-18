@@ -22,12 +22,7 @@ rclcpp_components_register_node(
   EXECUTABLE ${PROJECT_NAME}_node
 )
 
-add_executable(marker_generator src/marker_generator.cpp)
-ament_target_dependencies(marker_generator
-  "OpenCV"
-)
-
-install(TARGETS ${PROJECT_NAME}_component marker_generator
+install(TARGETS ${PROJECT_NAME}_component
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
