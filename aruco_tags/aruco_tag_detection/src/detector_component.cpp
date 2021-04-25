@@ -56,10 +56,8 @@ private:
     auto dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
     cv::aruco::detectMarkers(cv_image->image, dictionary, marker_corners, marker_ids, detector_parameters, rejected_candidates);
 
-    cv::Mat camera_matrix(3, 3, CV_64FC1);
-    std::copy(info_msg->k.begin(), info_msg->k.end(), camera_matrix.data);
-    cv::Mat distortion_coefs(5, 1, CV_64FC1);
-    std::copy(info_msg->d.begin(), info_msg->d.end(), distortion_coefs.data);
+    const auto camera_matrix = cv::Mat(info_msg->k).reshape(1,3);
+    const auto distortion_coefs = cv::Mat(info_msg->d).reshape(1,5);
 
     std::vector<cv::Vec3d> rotations;
     std::vector<cv::Vec3d> translations;
@@ -97,7 +95,7 @@ private:
       cv::aruco::drawDetectedMarkers(debug_image, marker_corners, marker_ids);
       for(int tag_index = 0; tag_index < marker_corners.size(); tag_index++)
       {
-        cv::aruco::drawAxis(debug_image, camera_matrix, distortion_coefs, rotations[tag_index], translations[tag_index], 1.0);
+        cv::aruco::drawAxis(debug_image, camera_matrix, distortion_coefs, rotations[tag_index], translations[tag_index], 0.1);
       }
       cv_bridge::CvImage cv_debug_image(image_msg->header, "bgr8", debug_image);
       debug_publisher_.publish(cv_debug_image.toImageMsg());
