@@ -25,6 +25,7 @@
 #include <opencv2/aruco.hpp>
 #include <stsl_interfaces/msg/tag_array.hpp>
 #include <eigen3/Eigen/Dense>
+#include <vector>
 
 namespace aruco_tag_detection
 {
@@ -35,7 +36,12 @@ public:
   : rclcpp::Node("aruco_tag_detector", options)
   {
     tag_publisher_ = create_publisher<stsl_interfaces::msg::TagArray>("~/tags", 1);
-    subscriber_ = image_transport::create_camera_subscription(this, "/camera/image_raw", std::bind(&DetectorComponent::ImageCallback, this, std::placeholders::_1, std::placeholders::_2), "raw", rmw_qos_profile_sensor_data);
+    subscriber_ = image_transport::create_camera_subscription(
+      this, "/camera/image_raw",
+      std::bind(
+        &DetectorComponent::ImageCallback, this, std::placeholders::_1,
+        std::placeholders::_2),
+      "raw", rmw_qos_profile_sensor_data);
     debug_publisher_ = image_transport::create_publisher(this, "~/debug_image");
     marker_size_ = declare_parameter("tag_size", 0.2);
   }
@@ -46,7 +52,9 @@ private:
   image_transport::Publisher debug_publisher_;
   double marker_size_;
 
-  void ImageCallback(const sensor_msgs::msg::Image::ConstSharedPtr &image_msg, const sensor_msgs::msg::CameraInfo::ConstSharedPtr& info_msg)
+  void ImageCallback(
+    const sensor_msgs::msg::Image::ConstSharedPtr & image_msg,
+    const sensor_msgs::msg::CameraInfo::ConstSharedPtr & info_msg)
   {
     const auto cv_image = cv_bridge::toCvShare(image_msg, "bgr8");
     std::vector<int> marker_ids;
@@ -54,30 +62,34 @@ private:
     std::vector<std::vector<cv::Point2f>> rejected_candidates;
     auto detector_parameters = cv::aruco::DetectorParameters::create();
     auto dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
-    cv::aruco::detectMarkers(cv_image->image, dictionary, marker_corners, marker_ids, detector_parameters, rejected_candidates);
+    cv::aruco::detectMarkers(
+      cv_image->image, dictionary, marker_corners, marker_ids,
+      detector_parameters, rejected_candidates);
 
-    const auto camera_matrix = cv::Mat(info_msg->k).reshape(1,3);
-    const auto distortion_coefs = cv::Mat(info_msg->d).reshape(1,5);
+    const auto camera_matrix = cv::Mat(info_msg->k).reshape(1, 3);
+    const auto distortion_coefs = cv::Mat(info_msg->d).reshape(1, 5);
 
     std::vector<cv::Vec3d> rotations;
     std::vector<cv::Vec3d> translations;
-    cv::aruco::estimatePoseSingleMarkers(marker_corners, marker_size_, camera_matrix, distortion_coefs, rotations, translations);
+    cv::aruco::estimatePoseSingleMarkers(
+      marker_corners, marker_size_, camera_matrix,
+      distortion_coefs, rotations, translations);
 
-    if(tag_publisher_->get_subscription_count() > 0)
-    {
+    if (tag_publisher_->get_subscription_count() > 0) {
       stsl_interfaces::msg::TagArray tag_array_msg;
       tag_array_msg.header.frame_id = image_msg->header.frame_id;
       tag_array_msg.header.stamp = image_msg->header.stamp;
       const auto tag_count = marker_ids.size();
-      for(auto tag_index = 0; tag_index < tag_count; tag_index++)
-      {
+      for (auto tag_index = 0; tag_index < tag_count; tag_index++) {
         stsl_interfaces::msg::Tag tag_msg;
         tag_msg.id = marker_ids[tag_index];
         tag_msg.pose.position.x = translations[tag_index][0];
         tag_msg.pose.position.y = translations[tag_index][1];
         tag_msg.pose.position.z = translations[tag_index][2];
 
-        const auto rvec = Eigen::Vector3d(rotations[tag_index][0], rotations[tag_index][1], rotations[tag_index][2]);
+        const auto rvec = Eigen::Vector3d(
+          rotations[tag_index][0], rotations[tag_index][1],
+          rotations[tag_index][2]);
         Eigen::AngleAxisd angle_axis(rvec.norm(), rvec.normalized());
         Eigen::Quaterniond quaternion(angle_axis);
         tag_msg.pose.orientation.w = quaternion.w();
@@ -89,13 +101,13 @@ private:
       tag_publisher_->publish(tag_array_msg);
     }
 
-    if(debug_publisher_.getNumSubscribers() > 0)
-    {
+    if (debug_publisher_.getNumSubscribers() > 0) {
       auto debug_image = cv_image->image.clone();
       cv::aruco::drawDetectedMarkers(debug_image, marker_corners, marker_ids);
-      for(int tag_index = 0; tag_index < marker_corners.size(); tag_index++)
-      {
-        cv::aruco::drawAxis(debug_image, camera_matrix, distortion_coefs, rotations[tag_index], translations[tag_index], 0.1);
+      for (int tag_index = 0; tag_index < marker_corners.size(); tag_index++) {
+        cv::aruco::drawAxis(
+          debug_image, camera_matrix, distortion_coefs, rotations[tag_index],
+          translations[tag_index], 0.1);
       }
       cv_bridge::CvImage cv_debug_image(image_msg->header, "bgr8", debug_image);
       debug_publisher_.publish(cv_debug_image.toImageMsg());

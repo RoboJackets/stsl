@@ -1,3 +1,23 @@
+# Copyright 2021 RoboJackets
+#
+# Permission is hereby granted, free of charge, to any person obtaining a copy
+# of this software and associated documentation files (the "Software"), to deal
+# in the Software without restriction, including without limitation the rights
+# to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the Software is
+# furnished to do so, subject to the following conditions:
+#
+# The above copyright notice and this permission notice shall be included in
+# all copies or substantial portions of the Software.
+#
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+# IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+# FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+# THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+# LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+# OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+# THE SOFTWARE.
+
 function(generate_aruco_tag_model)
     set(oneValueArgs ID RESOLUTION SIZE DESTINATION)
     cmake_parse_arguments(_GEN_TAG_MODEL "" "${oneValueArgs}" "" ${ARGN})
@@ -14,7 +34,7 @@ function(generate_aruco_tag_model)
         COMMENT "Generating tag model ID ${_GEN_TAG_MODEL_ID}"
     )
     set(GENERATED_TAG_MODEL_FILES ${generated_model_files} PARENT_SCOPE)
-endfunction(generate_aruco_tag_model)
+endfunction()
 
 function(generate_aruco_tag_models)
     set(oneValueArgs IDS_START IDS_STOP RESOLUTION SIZE DESTINATION)
@@ -25,9 +45,9 @@ function(generate_aruco_tag_models)
     set(generated_files "")
     foreach(tag_id RANGE ${_GEN_TAG_MODELS_IDS_START} ${_GEN_TAG_MODELS_IDS_STOP})
         generate_aruco_tag_model(
-            ID ${tag_id} 
-            RESOLUTION ${_GEN_TAG_MODELS_RESOLUTION} 
-            SIZE ${_GEN_TAG_MODELS_SIZE} 
+            ID ${tag_id}
+            RESOLUTION ${_GEN_TAG_MODELS_RESOLUTION}
+            SIZE ${_GEN_TAG_MODELS_SIZE}
             DESTINATION ${_GEN_TAG_MODELS_DESTINATION})
         list(APPEND generated_files ${GENERATED_TAG_MODEL_FILES})
     endforeach()
@@ -37,4 +57,4 @@ function(generate_aruco_tag_models)
         ALL
         DEPENDS ${generated_files}
     )
-endfunction(generate_aruco_tag_models)
+endfunction()
