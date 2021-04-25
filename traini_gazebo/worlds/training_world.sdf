@@ -15,6 +15,12 @@
         <include>
             <uri>model://traini</uri>
         </include>
+
+        <include>
+            <uri>model://aruco_tag_0</uri>
+            <static>true</static>
+            <pose>1.0164 0 0.15 1.57079632679 0 -1.57079632679</pose>
+        </include>
         
     </world>
 </sdf>
