@@ -67,7 +67,7 @@ void writeMaterialScript(const std::string& model_folder, const int tag_id)
 void writeImageTexture(const std::string& model_folder, const int tag_id, const int tag_resolution)
 {
   cv::Mat markerImage;
-  cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
+  cv::Ptr<cv::aruco::Dictionary> dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
   cv::aruco::drawMarker(dictionary, tag_id, tag_resolution, markerImage, 1);
   const auto image_path = model_folder + "/materials/textures/ArUcoTag" + std::to_string(tag_id) + ".jpg";
   cv::imwrite(image_path, markerImage);

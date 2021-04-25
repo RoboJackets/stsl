@@ -53,7 +53,7 @@ private:
     std::vector<std::vector<cv::Point2f>> marker_corners;
     std::vector<std::vector<cv::Point2f>> rejected_candidates;
     auto detector_parameters = cv::aruco::DetectorParameters::create();
-    auto dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_6X6_250);
+    auto dictionary = cv::aruco::getPredefinedDictionary(cv::aruco::DICT_4X4_50);
     cv::aruco::detectMarkers(cv_image->image, dictionary, marker_corners, marker_ids, detector_parameters, rejected_candidates);
 
     const auto camera_matrix = cv::Mat(info_msg->k).reshape(1,3);
