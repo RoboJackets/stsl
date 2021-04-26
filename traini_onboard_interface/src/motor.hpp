@@ -18,17 +18,47 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "src/line_sensor.hpp"
+#ifndef MOTOR_HPP_
+#define MOTOR_HPP_
 
-LineSensor::LineSensor(int input_number)
-: file("/sys/bus/iio/devices/iio:device0/in_voltage" + std::to_string(input_number) + "_raw")
-{
-}
+#include <gpiod.hpp>
+#include <fstream>
+#include <string>
 
-int LineSensor::getValue()
+struct MotorParameters
 {
-  file.seekg(0);
-  int value;
-  file >> value;
-  return value;
-}
+  std::string direction_line_1_name;
+  std::string direction_line_2_name;
+  std::string pwm_pin_name;
+  std::string pwm_chip_device;
+  std::string pwm_chip_address;
+  std::string pwm_chip_number;
+  std::string pwm_index;
+};
+
+extern const MotorParameters left_motor_parameters;
+extern const MotorParameters right_motor_parameters;
+
+class Motor
+{
+public:
+  explicit Motor(const MotorParameters & params);
+
+  ~Motor();
+
+  /**
+   *
+   * @param power -1.0 to 1.0
+   */
+  void setPower(float power);
+
+private:
+  gpiod::line direction_line_1_;
+  gpiod::line direction_line_2_;
+  std::ofstream duty_cycle_file_;
+  std::ofstream enable_file_;
+
+  static constexpr int period_{500'000};
+};
+
+#endif  // MOTOR_HPP_

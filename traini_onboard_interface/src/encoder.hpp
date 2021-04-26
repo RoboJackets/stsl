@@ -18,17 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "src/line_sensor.hpp"
+#ifndef ENCODER_HPP_
+#define ENCODER_HPP_
 
-LineSensor::LineSensor(int input_number)
-: file("/sys/bus/iio/devices/iio:device0/in_voltage" + std::to_string(input_number) + "_raw")
-{
-}
+#include <gpiod.hpp>
+#include <atomic>
+#include <string>
+#include <thread>
 
-int LineSensor::getValue()
+class Encoder
 {
-  file.seekg(0);
-  int value;
-  file >> value;
-  return value;
-}
+public:
+  explicit Encoder(const std::string & line_name);
+
+  ~Encoder();
+
+  int getPosition();
+
+private:
+  gpiod::line line_;
+  std::atomic_bool interrupted_ {false};
+  std::atomic_int position_ {0};
+  std::thread encoder_thread_;
+
+  void encoderWatcherFunction();
+};
+
+#endif  // ENCODER_HPP_

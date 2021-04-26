@@ -18,17 +18,36 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "src/line_sensor.hpp"
+#ifndef ULTRASONIC_SENSOR_HPP_
+#define ULTRASONIC_SENSOR_HPP_
 
-LineSensor::LineSensor(int input_number)
-: file("/sys/bus/iio/devices/iio:device0/in_voltage" + std::to_string(input_number) + "_raw")
-{
-}
+#include <gpiod.hpp>
+#include <atomic>
+#include <functional>
+#include <string>
+#include <thread>
 
-int LineSensor::getValue()
+class UltrasonicSensor
 {
-  file.seekg(0);
-  int value;
-  file >> value;
-  return value;
-}
+public:
+  using Callback_t = std::function<void (float)>;
+
+  UltrasonicSensor(
+    const std::string & trigger_line_name, const std::string & echo_line_name,
+    Callback_t measurement_callback);
+
+  ~UltrasonicSensor();
+
+  void trigger();
+
+private:
+  gpiod::line trigger_line_;
+  gpiod::line echo_line_;
+  std::atomic_bool interrupted_{false};
+  std::thread echo_listener_thread_;
+  Callback_t measurement_callback_;
+
+  void echoListenerThreadFunction();
+};
+
+#endif  // ULTRASONIC_SENSOR_HPP_

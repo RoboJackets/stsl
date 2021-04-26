@@ -18,17 +18,20 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "src/line_sensor.hpp"
+#ifndef LINE_SENSOR_HPP_
+#define LINE_SENSOR_HPP_
 
-LineSensor::LineSensor(int input_number)
-: file("/sys/bus/iio/devices/iio:device0/in_voltage" + std::to_string(input_number) + "_raw")
-{
-}
+#include <fstream>
 
-int LineSensor::getValue()
+class LineSensor
 {
-  file.seekg(0);
-  int value;
-  file >> value;
-  return value;
-}
+public:
+  explicit LineSensor(int input_number);
+
+  int getValue();
+
+private:
+  std::ifstream file;
+};
+
+#endif  // LINE_SENSOR_HPP_

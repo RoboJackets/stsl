@@ -4,12 +4,17 @@ project(traini_onboard_interface)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(Threads REQUIRED)
 find_package(PkgConfig REQUIRED)
 pkg_check_modules(libgpiodcxx REQUIRED IMPORTED_TARGET libgpiodcxx)
 
 add_executable(traini_interface_node src/robot_interface_node.cpp src/motor.cpp src/line_sensor.cpp src/encoder.cpp src/ultrasonic_sensor.cpp)
-ament_target_dependencies(traini_interface_node rclcpp std_msgs)
-target_link_libraries(traini_interface_node PkgConfig::libgpiodcxx pthread)
+ament_target_dependencies(traini_interface_node
+  rclcpp
+  std_msgs
+)
+target_link_libraries(traini_interface_node PkgConfig::libgpiodcxx Threads::Threads)
+target_include_directories(traini_interface_node PRIVATE ${CMAKE_SOURCE_DIR})
 set_property(TARGET traini_interface_node PROPERTY CXX_STANDARD 17)
 target_compile_options(traini_interface_node PRIVATE -Wall -Wextra -Wpedantic)
 
@@ -22,5 +27,10 @@ install(
     PROGRAMS scripts/run_node.sh
     DESTINATION lib/${PROJECT_NAME}
 )
+
+if(BUILD_TESTING)
+  find_package(ament_lint_auto REQUIRED)
+  ament_lint_auto_find_test_dependencies()
+endif()
 
 ament_package()
