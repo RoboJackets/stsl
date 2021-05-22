@@ -28,6 +28,10 @@
         <xacro:null_inertia/>
     </link>
 
+    <link name="camera_link_optical">
+        <xacro:null_inertia/>
+    </link>
+
     <link name="imu_link">
         <xacro:null_inertia/>
     </link>
@@ -58,6 +62,12 @@
         <origin xyz="0.1 0 0.055" rpy="0 0 0"/>
     </joint>
 
+    <joint name="camera_joint_optical" type="fixed">
+        <parent link="camera_link"/>
+        <child link="camera_link_optical"/>
+        <origin xyz="0 0 0" rpy="-1.5707963 0.0 -1.5707963"/>
+    </joint>
+    
     <joint name="imu_joint" type="fixed">
         <parent link="base_link"/>
         <child link="imu_link"/>

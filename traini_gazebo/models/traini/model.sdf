@@ -51,7 +51,9 @@
                         <format>R8G8B8</format>
                     </image>
                 </camera>
-                <plugin name="camera_controller" filename="libgazebo_ros_camera.so" />
+                <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                    <frame_name>camera_link_optical</frame_name>
+                </plugin>
             </sensor>
         </link>
         <joint name="camera_joint" type="fixed">
