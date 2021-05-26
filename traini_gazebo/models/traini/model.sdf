@@ -6,10 +6,10 @@
             <publish_rate>10</publish_rate>
 
             <publish_odom>true</publish_odom>
-            <publish_odom_tf>false</publish_odom_tf>
+            <publish_odom_tf>true</publish_odom_tf>
 
             <odometry_frame>odom</odometry_frame>
-            <robot_base_frame>base_link</robot_base_frame>
+            <robot_base_frame>base_footprint</robot_base_frame>
 
             <covariance_x>0.0001</covariance_x>
             <covariance_y>0.0001</covariance_y>
