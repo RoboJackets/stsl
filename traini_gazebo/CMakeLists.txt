@@ -6,7 +6,7 @@ find_package(aruco_tag_model_generation REQUIRED)
 
 generate_aruco_tag_models(
   IDS_START 0
-  IDS_STOP 10
+  IDS_STOP 5
   RESOLUTION 200
   SIZE 0.2
   DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/models
