@@ -6,7 +6,7 @@
                 <geometry>
                     <plane>
                         <normal>0 0 1</normal>
-                        <size>2.0328 1.143</size>
+                        <size>1.2192 0.762</size>
                     </plane>
                 </geometry>
                 <material>

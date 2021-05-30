@@ -9,7 +9,7 @@ material FloorMat/Image
             specular 0.03 0.03 0.03 1.0
             texture_unit
             {
-                texture fll_mat.jpg
+                texture floor_mat.png
             }
         }
     }
