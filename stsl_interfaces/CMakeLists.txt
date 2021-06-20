@@ -10,6 +10,7 @@ rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/Tag.msg"
   "msg/TagArray.msg"
   "srv/SampleElevation.srv"
+  "action/ParkAtPeak.action"
   DEPENDENCIES std_msgs geometry_msgs
   ADD_LINTER_TESTS
 )
