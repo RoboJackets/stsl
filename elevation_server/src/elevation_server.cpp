@@ -78,24 +78,42 @@ private:
     }
     const auto distance = std::hypot(robot_x - request->x, robot_y - request->y);
     if (distance > get_parameter("max_range").as_double()) {
-      RCLCPP_ERROR(get_logger(), "Requested location out of range from robot's current position");
+      RCLCPP_ERROR(get_logger(), "Requested location out of range from robot's current position. Robot at <%f, %f>. Request at <%f, %f>.", robot_x, robot_y, request->x, request->y);
       response->success = false;
       return;
     }
-    response->elevation = GetElevation(request->x, request->y);
+    if(!IsInMap(request->x, request->y)) {
+      RCLCPP_WARN_ONCE(get_logger(), "Requested location outside of map. Elevation will be -1. This message only prints once.");
+      response->elevation = -1;
+    } else {
+      response->elevation = GetElevation(request->x, request->y);
+    }
     response->success = true;
   }
 
-  double GetElevation(const double x, const double y)
+  void MapCoordsFromMeters(const double meters_x, const double meters_y, int & map_x, int & map_y)
   {
     const auto origin_x = get_parameter("map_origin.x").as_double();
     const auto origin_y = get_parameter("map_origin.y").as_double();
     const auto resolution = get_parameter("map_resolution").as_double();
+    map_x = (meters_x - origin_x) / resolution;
+    map_y = (meters_y - origin_y) / resolution;
+  }
+
+  bool IsInMap(const double x, const double y)
+  {
+    int py;
+    int px;
+    MapCoordsFromMeters(x, y, px, py);
+    return px > 0 && px < map_.cols && py > 0 && py < map_.rows;
+  }
+
+  double GetElevation(const double x, const double y)
+  {
     const auto elevation_scale = get_parameter("elevation_scale").as_double();
-
-    const auto px = (x - origin_x) / resolution;
-    const auto py = (y - origin_y) / resolution;
-
+    int px;
+    int py;
+    MapCoordsFromMeters(x, y, px, py);
     return map_.at<double>(py, px) * elevation_scale;
   }
 
