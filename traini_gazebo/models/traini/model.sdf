@@ -21,7 +21,9 @@
             <visual_name>indicator_light</visual_name>
         </plugin>
 
-        <link name="base_footprint" />
+        <link name="base_footprint">
+            <kinematic>true</kinematic>
+        </link>
 
         <link name='base_link'>
             <pose relative_to="base_footprint">0 0 0.0325 0 0 0</pose>
