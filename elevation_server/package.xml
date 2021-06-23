@@ -14,6 +14,7 @@
   <depend>stsl_interfaces</depend>
   <depend>libopencv-dev</depend>
   <depend>tf2_ros</depend>
+  <depend>nav_msgs</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

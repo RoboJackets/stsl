@@ -4,5 +4,5 @@ elevation_server:
     map_origin:
       x: -0.6096
       y: -0.381
-    map_resolution: 0.01
+    map_resolution: 0.001
     elevation_scale: 1.0

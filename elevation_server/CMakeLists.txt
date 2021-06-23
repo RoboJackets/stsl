@@ -7,6 +7,7 @@ find_package(rclcpp_components REQUIRED)
 find_package(stsl_interfaces REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(OpenCV REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 add_library(${PROJECT_NAME}_component SHARED src/elevation_server.cpp)
 ament_target_dependencies(${PROJECT_NAME}_component
@@ -15,6 +16,7 @@ ament_target_dependencies(${PROJECT_NAME}_component
   "stsl_interfaces"
   "tf2_ros"
   "OpenCV"
+  "nav_msgs"
 )
 rclcpp_components_register_node(
   ${PROJECT_NAME}_component
