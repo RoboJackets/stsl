@@ -1,0 +1,19 @@
+<class_libraries>
+    <library path="stsl_nav_plugins">
+        <class type="stsl_nav_plugins::PointAndShootController" base_class_type="nav2_core::Controller">
+            <description>
+                The Point and Shoot controller!
+            </description>
+        </class>
+        <class type="stsl_nav_plugins::StraightLinePlanner" base_class_type="nav2_core::GlobalPlanner">
+            <description>
+                The Straight line planner!
+            </description>
+        </class>
+        <class type="stsl_nav_plugins::NoProgressChecker" base_class_type="nav2_core::ProgressChecker">
+            <description>
+                A progress checker that never returns false.
+            </description>
+        </class>
+    </library>
+</class_libraries>
