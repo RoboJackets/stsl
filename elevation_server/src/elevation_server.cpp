@@ -18,23 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <nav_msgs/msg/occupancy_grid.hpp>
+#include <opencv2/core.hpp>
+#include <opencv2/imgcodecs.hpp>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
 #include <stsl_interfaces/srv/sample_elevation.hpp>
-#include <opencv2/core.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <tf2_ros/transform_listener.h>
-#include <string>
+#include <algorithm>
 #include <memory>
-#include <nav_msgs/msg/occupancy_grid.hpp>
+#include <string>
 
 namespace elevation_server
 {
 class ElevationServer : public rclcpp::Node
 {
 public:
-  explicit ElevationServer(const rclcpp::NodeOptions& options)
-    : rclcpp::Node("elevation_server", options), tf_buffer_(get_clock()), tf_listener_(tf_buffer_)
+  explicit ElevationServer(const rclcpp::NodeOptions & options)
+  : rclcpp::Node("elevation_server", options), tf_buffer_(get_clock()), tf_listener_(tf_buffer_)
   {
     max_range_ = declare_parameter<double>("max_range", 0.1);
     origin_.x = declare_parameter<double>("map_origin.x", 0.0);
@@ -43,25 +44,24 @@ public:
     elevation_scale_ = declare_parameter<double>("elevation_scale", 1.0);
 
     const auto map_path = declare_parameter<std::string>("map_file", "");
-    if (map_path.empty())
-    {
+    if (map_path.empty()) {
       RCLCPP_ERROR(get_logger(), "Must specify map_file path");
       return;
     }
     cv::Mat map_image = cv::imread(map_path, cv::IMREAD_GRAYSCALE);
-    if (map_image.empty())
-    {
+    if (map_image.empty()) {
       RCLCPP_ERROR(get_logger(), "Could not load map from path: '%s'", map_path.c_str());
       return;
     }
     map_image.convertTo(map_, CV_64F, 1 / 255.0);
 
     service_ = create_service<stsl_interfaces::srv::SampleElevation>(
-        "/sample_elevation", std::bind(&ElevationServer::ServiceCallback, this,
-                                       std::placeholders::_1, std::placeholders::_2));
+      "/sample_elevation", std::bind(
+        &ElevationServer::ServiceCallback, this, std::placeholders::_1,
+        std::placeholders::_2));
 
     visualization_publisher_ = create_publisher<nav_msgs::msg::OccupancyGrid>(
-        "~/visualization", rclcpp::SystemDefaultsQoS().transient_local());
+      "~/visualization", rclcpp::SystemDefaultsQoS().transient_local());
 
     PublishVisualizationMessage();
   }
@@ -89,48 +89,47 @@ private:
     msg.info.origin.position.y = origin_.y;
     msg.info.resolution = resolution_;
 
-    std::transform(map_.begin<double>(), map_.end<double>(), std::back_inserter(msg.data),
-                   [](const auto& val) { return (1-val) * 100; });
+    std::transform(
+      map_.begin<double>(), map_.end<double>(), std::back_inserter(msg.data),
+      [](const auto & val) {return (1 - val) * 100;});
 
     visualization_publisher_->publish(msg);
   }
 
   void
-  ServiceCallback(const std::shared_ptr<stsl_interfaces::srv::SampleElevation::Request> request,
-                  std::shared_ptr<stsl_interfaces::srv::SampleElevation::Response> response)
+  ServiceCallback(
+    const std::shared_ptr<stsl_interfaces::srv::SampleElevation::Request> request,
+    std::shared_ptr<stsl_interfaces::srv::SampleElevation::Response> response)
   {
     double robot_x;
     double robot_y;
-    if (!GetRobotPosition(robot_x, robot_y))
-    {
+    if (!GetRobotPosition(robot_x, robot_y)) {
       response->success = false;
       return;
     }
     const auto distance = std::hypot(robot_x - request->x, robot_y - request->y);
-    if (distance > max_range_)
-    {
-      RCLCPP_ERROR(get_logger(),
-                   "Requested location out of range from robot's current position. Robot at <%f, "
-                   "%f>. Request at <%f, %f>.",
-                   robot_x, robot_y, request->x, request->y);
+    if (distance > max_range_) {
+      RCLCPP_ERROR(
+        get_logger(),
+        "Requested location out of range from robot's current position. Robot at <%f, "
+        "%f>. Request at <%f, %f>.",
+        robot_x, robot_y, request->x, request->y);
       response->success = false;
       return;
     }
-    if (!IsInMap(request->x, request->y))
-    {
-      RCLCPP_WARN_ONCE(get_logger(),
-                       "Requested location outside of map. Elevation will be -1. This message only "
-                       "prints once.");
+    if (!IsInMap(request->x, request->y)) {
+      RCLCPP_WARN_ONCE(
+        get_logger(),
+        "Requested location outside of map. Elevation will be -1. This message only "
+        "prints once.");
       response->elevation = -1;
-    }
-    else
-    {
+    } else {
       response->elevation = GetElevation(request->x, request->y);
     }
     response->success = true;
   }
 
-  void MapCoordsFromMeters(const double meters_x, const double meters_y, int& map_x, int& map_y)
+  void MapCoordsFromMeters(const double meters_x, const double meters_y, int & map_x, int & map_y)
   {
     map_x = (meters_x - origin_.x) / resolution_;
     map_y = (meters_y - origin_.y) / resolution_;
@@ -152,13 +151,13 @@ private:
     return map_.at<double>(py, px) * elevation_scale_;
   }
 
-  bool GetRobotPosition(double& x, double& y)
+  bool GetRobotPosition(double & x, double & y)
   {
     std::string tf_error_;
-    if (!tf_buffer_.canTransform("map", "base_footprint", tf2::TimePointZero, &tf_error_))
-    {
-      RCLCPP_ERROR(get_logger(), "Could not lookup transform 'map' -> 'base_footprint': %s",
-                   tf_error_.c_str());
+    if (!tf_buffer_.canTransform("map", "base_footprint", tf2::TimePointZero, &tf_error_)) {
+      RCLCPP_ERROR(
+        get_logger(), "Could not lookup transform 'map' -> 'base_footprint': %s",
+        tf_error_.c_str());
       return false;
     }
     const auto transform = tf_buffer_.lookupTransform("map", "base_footprint", tf2::TimePointZero);
