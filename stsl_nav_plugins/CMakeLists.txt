@@ -4,10 +4,12 @@ project(stsl_nav_plugins)
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(nav2_core REQUIRED)
+find_package(angles REQUIRED)
 
 set(dependencies
   rclcpp
   nav2_core
+  angles
 )
 
 add_library(${PROJECT_NAME} SHARED

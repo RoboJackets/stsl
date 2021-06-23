@@ -40,6 +40,7 @@ private:
     double max_x_vel_;
     double max_theta_vel_;
     bool match_goal_heading_;
+    bool skip_first_pose_;
 
     void turnToFaceGoal(const geometry_msgs::msg::Pose& robot_pose, const geometry_msgs::msg::Pose& goal_pose, geometry_msgs::msg::TwistStamped& cmd_vel, bool& state_done);
     void moveToGoal(const geometry_msgs::msg::Pose& robot_pose, const geometry_msgs::msg::Pose& goal_pose, geometry_msgs::msg::TwistStamped& cmd_vel, bool& state_done);

@@ -1,5 +1,6 @@
 #include "stsl_nav_plugins/point_and_shoot_controller.hpp"
 #include <pluginlib/class_list_macros.hpp>
+#include <angles/angles.h>
 
 namespace stsl_nav_plugins
 {
@@ -16,11 +17,12 @@ void PointAndShootController::configure(
   const auto angular_controller_params = node_->declare_parameters<double>(
       name + ".angular_controller", { { "kD", 0.0 }, { "kP", 1.0 } });
   angular_controller_.setParameters(angular_controller_params[1], angular_controller_params[0]);
-  yaw_threshold_ = node_->declare_parameter<double>("yaw_threshold", 0.04);
-  xy_threshold_ = node_->declare_parameter<double>("xy_threshold", 0.05);
-  max_x_vel_ = node_->declare_parameter<double>("max_x_vel", 0.3);
-  max_theta_vel_ = node_->declare_parameter<double>("max_theta_vel", 0.1);
-  match_goal_heading_ = node_->declare_parameter<double>("match_goal_heading", false);
+  yaw_threshold_ = node_->declare_parameter<double>(name + ".yaw_threshold", 0.04);
+  xy_threshold_ = node_->declare_parameter<double>(name + ".xy_threshold", 0.05);
+  max_x_vel_ = node_->declare_parameter<double>(name + ".max_x_vel", 0.3);
+  max_theta_vel_ = node_->declare_parameter<double>(name + ".max_theta_vel", 0.1);
+  match_goal_heading_ = node_->declare_parameter<bool>(name + ".match_goal_heading", false);
+  skip_first_pose_ = node_->declare_parameter<bool>(name + ".skip_first_pose", true);
 }
 
 void PointAndShootController::activate()
@@ -38,7 +40,8 @@ void PointAndShootController::cleanup()
 void PointAndShootController::setPlan(const nav_msgs::msg::Path& path)
 {
   global_path_ = path;
-  path_index_ = 0;
+  path_index_ = skip_first_pose_ ? 1 : 0;
+  state_ = State::TurnToFaceGoal;
 }
 
 geometry_msgs::msg::TwistStamped PointAndShootController::computeVelocityCommands(
@@ -106,7 +109,7 @@ void PointAndShootController::turnToFaceGoal(const geometry_msgs::msg::Pose& rob
 {
   const auto current_heading = tf2::getYaw(robot_pose.orientation);
   const auto target_heading = std::atan2(goal_pose.position.y - robot_pose.position.y, goal_pose.position.x - robot_pose.position.x);
-  const auto heading_error = target_heading - current_heading;
+  const auto heading_error = angles::shortest_angular_distance(current_heading, target_heading);
   cmd_vel.twist.angular.z = angular_controller_.step(heading_error);
   state_done = std::abs(heading_error) < yaw_threshold_;
 }
@@ -118,7 +121,7 @@ void PointAndShootController::moveToGoal(const geometry_msgs::msg::Pose& robot_p
 {
   const auto current_heading = tf2::getYaw(robot_pose.orientation);
   const auto target_heading = std::atan2(goal_pose.position.y - robot_pose.position.y, goal_pose.position.x - robot_pose.position.x);
-  const auto heading_error = target_heading - current_heading;
+  const auto heading_error = angles::shortest_angular_distance(current_heading, target_heading);
   cmd_vel.twist.angular.z = angular_controller_.step(heading_error);
   
   const auto distance = std::hypot(robot_pose.position.x - goal_pose.position.x, robot_pose.position.y - goal_pose.position.y, robot_pose.position.z - goal_pose.position.z);
@@ -139,7 +142,7 @@ void PointAndShootController::turnToMatchGoal(const geometry_msgs::msg::Pose& ro
   }
   const auto current_heading = tf2::getYaw(robot_pose.orientation);
   const auto target_heading = tf2::getYaw(goal_pose.orientation);
-  const auto heading_error = target_heading - current_heading;
+  const auto heading_error = angles::shortest_angular_distance(current_heading, target_heading);
   cmd_vel.twist.angular.z = angular_controller_.step(heading_error);
   state_done = std::abs(heading_error) < yaw_threshold_;
 }
