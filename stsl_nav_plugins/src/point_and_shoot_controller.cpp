@@ -57,7 +57,6 @@ geometry_msgs::msg::TwistStamped PointAndShootController::computeVelocityCommand
   {
     case State::TurnToFaceGoal:
     {
-      RCLCPP_INFO(node_->get_logger(), "State = TurnToFaceGoal");
       bool state_done = false;
       turnToFaceGoal(pose.pose, goal_pose.pose, cmd_vel, state_done);
       if(state_done)
@@ -70,7 +69,6 @@ geometry_msgs::msg::TwistStamped PointAndShootController::computeVelocityCommand
     }
     case State::MoveToGoal:
     {
-      RCLCPP_INFO(node_->get_logger(), "State = MoveToGoal");
       bool state_done = false;
       moveToGoal(pose.pose, goal_pose.pose, cmd_vel, state_done);
       if(state_done)
@@ -83,7 +81,6 @@ geometry_msgs::msg::TwistStamped PointAndShootController::computeVelocityCommand
     }
     case State::TurnToMatchGoal:
     {
-      RCLCPP_INFO(node_->get_logger(), "State = TurnToMatchGoal");
       bool state_done = false;
       turnToMatchGoal(pose.pose, goal_pose.pose, cmd_vel, state_done);
       if(state_done) {
@@ -110,9 +107,7 @@ void PointAndShootController::turnToFaceGoal(const geometry_msgs::msg::Pose& rob
   const auto current_heading = tf2::getYaw(robot_pose.orientation);
   const auto target_heading = std::atan2(goal_pose.position.y - robot_pose.position.y, goal_pose.position.x - robot_pose.position.x);
   const auto heading_error = target_heading - current_heading;
-  RCLCPP_INFO(node_->get_logger(), "Heading error: %f", heading_error);
   cmd_vel.twist.angular.z = angular_controller_.step(heading_error);
-  RCLCPP_INFO(node_->get_logger(), "Z vel: %f", cmd_vel.twist.angular.z);
   state_done = std::abs(heading_error) < yaw_threshold_;
 }
 
@@ -128,8 +123,6 @@ void PointAndShootController::moveToGoal(const geometry_msgs::msg::Pose& robot_p
   
   const auto distance = std::hypot(robot_pose.position.x - goal_pose.position.x, robot_pose.position.y - goal_pose.position.y, robot_pose.position.z - goal_pose.position.z);
   cmd_vel.twist.linear.x = linear_controller_.step(distance);
-  RCLCPP_INFO(node_->get_logger(), "Distance: %f", distance);
-  RCLCPP_INFO(node_->get_logger(), "X vel: %f", cmd_vel.twist.linear.x);
   
   state_done = distance < xy_threshold_;
 }
