@@ -15,6 +15,7 @@ set(dependencies
 )
 
 add_library(${PROJECT_NAME} SHARED
+  src/for_each_mineral_sample_node.cpp
   src/log_node.cpp
   src/node_registration.cpp
 )
