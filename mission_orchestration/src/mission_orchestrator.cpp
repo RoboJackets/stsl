@@ -1,11 +1,35 @@
+// Copyright 2021 RoboJackets
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
 #include <nav2_behavior_tree/behavior_tree_engine.hpp>
 #include <tf2_ros/transform_listener.h>
 #include <stsl_interfaces/action/execute_mission.hpp>
-#include <fstream>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <fstream>
+#include <memory>
+#include <set>
+#include <string>
+#include <vector>
 #include "yaml_helpers.hpp"
 
 namespace mission_orchestration
@@ -14,12 +38,15 @@ namespace mission_orchestration
 class MissionOrchestrator : public rclcpp::Node
 {
 public:
+  using ExecuteMission = stsl_interfaces::action::ExecuteMission;
+  using ServerGoalHandle = rclcpp_action::ServerGoalHandle<ExecuteMission>;
+
   explicit MissionOrchestrator(const rclcpp::NodeOptions & options)
   : rclcpp::Node("mission_orchestrator", options),
     tf_buffer_(std::make_shared<tf2_ros::Buffer>(get_clock())),
     tf_listener_(*tf_buffer_)
   {
-    action_server_ = rclcpp_action::create_server<stsl_interfaces::action::ExecuteMission>(
+    action_server_ = rclcpp_action::create_server<ExecuteMission>(
       this,
       "execute_mission",
       std::bind(&MissionOrchestrator::OnGoal, this, std::placeholders::_1, std::placeholders::_2),
@@ -90,31 +117,31 @@ private:
   std::unique_ptr<nav2_behavior_tree::BehaviorTreeEngine> bt_engine_;
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   tf2_ros::TransformListener tf_listener_;
-  rclcpp_action::Server<stsl_interfaces::action::ExecuteMission>::SharedPtr action_server_;
+  rclcpp_action::Server<ExecuteMission>::SharedPtr action_server_;
   rclcpp::Node::SharedPtr tree_ros_node_;
 
   rclcpp_action::GoalResponse OnGoal(
     const rclcpp_action::GoalUUID & uuid,
-    std::shared_ptr<const stsl_interfaces::action::ExecuteMission::Goal> goal)
+    std::shared_ptr<const ExecuteMission::Goal> goal)
   {
     return rclcpp_action::GoalResponse::ACCEPT_AND_EXECUTE;
   }
 
   rclcpp_action::CancelResponse OnCancel(
-    const std::shared_ptr<rclcpp_action::ServerGoalHandle<stsl_interfaces::action::ExecuteMission>> goal_handle)
+    const std::shared_ptr<ServerGoalHandle> goal_handle)
   {
     return rclcpp_action::CancelResponse::ACCEPT;
   }
 
   void OnAccepted(
-    const std::shared_ptr<rclcpp_action::ServerGoalHandle<stsl_interfaces::action::ExecuteMission>> goal_handle)
+    const std::shared_ptr<ServerGoalHandle> goal_handle)
   {
     std::thread{std::bind(&MissionOrchestrator::Execute, this, std::placeholders::_1),
       goal_handle}.detach();
   }
 
   void Execute(
-    const std::shared_ptr<rclcpp_action::ServerGoalHandle<stsl_interfaces::action::ExecuteMission>> goal_handle)
+    const std::shared_ptr<ServerGoalHandle> goal_handle)
   {
     RCLCPP_INFO(get_logger(), "Executing mission!");
 
@@ -132,20 +159,20 @@ private:
       switch (tree_status) {
         case nav2_behavior_tree::BtStatus::SUCCEEDED:
           RCLCPP_INFO(get_logger(), "Mission succeeded!");
-          goal_handle->succeed(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+          goal_handle->succeed(std::make_shared<ExecuteMission::Result>());
           break;
         case nav2_behavior_tree::BtStatus::FAILED:
           RCLCPP_INFO(get_logger(), "Mission failed!");
-          goal_handle->abort(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+          goal_handle->abort(std::make_shared<ExecuteMission::Result>());
           break;
         case nav2_behavior_tree::BtStatus::CANCELED:
           RCLCPP_INFO(get_logger(), "Mission cancelled!");
-          goal_handle->canceled(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+          goal_handle->canceled(std::make_shared<ExecuteMission::Result>());
           break;
       }
     } catch (const BT::RuntimeError & e) {
       RCLCPP_ERROR(get_logger(), "Mission failed with exception: %s", e.what());
-      goal_handle->abort(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+      goal_handle->abort(std::make_shared<ExecuteMission::Result>());
       return;
     }
   }
@@ -180,12 +207,14 @@ private:
     try {
       YAML::Node root_yaml_node = YAML::LoadFile(mineral_samples_file_path);
 
-      if(!root_yaml_node.IsSequence()) {
+      if (!root_yaml_node.IsSequence()) {
         RCLCPP_ERROR(get_logger(), "Root of mineral samples file should be a sequence.");
         return false;
       }
 
-      std::transform(root_yaml_node.begin(), root_yaml_node.end(), std::back_inserter(samples), yaml_helpers::fromYaml<geometry_msgs::msg::PoseWithCovarianceStamped>);
+      std::transform(
+        root_yaml_node.begin(), root_yaml_node.end(), std::back_inserter(
+          samples), yaml_helpers::fromYaml<geometry_msgs::msg::PoseWithCovarianceStamped>);
 
       RCLCPP_INFO(get_logger(), "Loaded %d mineral samples.", samples.size());
 
@@ -202,9 +231,8 @@ private:
       return false;
     }
   }
-
 };
 
-}
+}  // namespace mission_orchestration
 
 RCLCPP_COMPONENTS_REGISTER_NODE(mission_orchestration::MissionOrchestrator)

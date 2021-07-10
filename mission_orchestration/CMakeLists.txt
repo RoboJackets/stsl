@@ -11,7 +11,7 @@ find_package(stsl_interfaces REQUIRED)
 find_package(stsl_bt_nodes REQUIRED)
 find_package(yaml-cpp REQUIRED)
 
-add_library(${PROJECT_NAME}_components SHARED 
+add_library(${PROJECT_NAME}_components SHARED
   src/mission_orchestrator.cpp
   src/yaml_helpers.cpp
 )
