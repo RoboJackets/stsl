@@ -8,6 +8,7 @@ find_package(rclcpp_components REQUIRED)
 find_package(nav2_behavior_tree REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(stsl_interfaces REQUIRED)
+find_package(stsl_bt_nodes REQUIRED)
 
 add_library(${PROJECT_NAME}_components SHARED src/mission_orchestrator.cpp)
 ament_target_dependencies(${PROJECT_NAME}_components
@@ -17,6 +18,7 @@ ament_target_dependencies(${PROJECT_NAME}_components
   "nav2_behavior_tree"
   "tf2_ros"
   "stsl_interfaces"
+  "stsl_bt_nodes"
 )
 rclcpp_components_register_node(
   ${PROJECT_NAME}_components

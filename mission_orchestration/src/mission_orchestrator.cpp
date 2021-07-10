@@ -46,15 +46,20 @@ public:
       "nav2_round_robin_node_bt_node",
       "nav2_transform_available_condition_bt_node",
       "nav2_time_expired_condition_bt_node",
-      "nav2_distance_traveled_condition_bt_node"
+      "nav2_distance_traveled_condition_bt_node",
+      "stsl_bt_nodes"
     };
 
     const auto plugin_libs = declare_parameter("plugin_libs", default_plugin_libs);
     bt_engine_ = std::make_unique<nav2_behavior_tree::BehaviorTreeEngine>(plugin_libs);
 
+    tree_ros_node_ = std::make_shared<rclcpp::Node>("mission_orchestrator_behavior_tree", options);
+
     blackboard_ = BT::Blackboard::create();
 
     blackboard_->set<std::shared_ptr<tf2_ros::Buffer>>("tf_buffer", tf_buffer_);
+    blackboard_->set<rclcpp::Node::SharedPtr>("node", tree_ros_node_);
+    blackboard_->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(10));
 
     const auto bt_file_path = declare_parameter("bt_file_path", "NO_BT_FILE_PATH_SET");
 
@@ -94,6 +99,7 @@ private:
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   tf2_ros::TransformListener tf_listener_;
   rclcpp_action::Server<stsl_interfaces::action::ExecuteMission>::SharedPtr action_server_;
+  rclcpp::Node::SharedPtr tree_ros_node_;
 
   rclcpp_action::GoalResponse OnGoal(
     const rclcpp_action::GoalUUID & uuid,

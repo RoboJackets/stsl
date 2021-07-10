@@ -1,5 +1,9 @@
  <root main_tree_to_execute = "MainTree" >
      <BehaviorTree ID="MainTree">
-        <AlwaysSuccess/>
+        <Sequence>
+            <Log message="Calling /park_at_peak action..."/>
+            <ParkAtPeak />
+            <Log message="Action done!"/>
+        </Sequence>
      </BehaviorTree>
  </root>
