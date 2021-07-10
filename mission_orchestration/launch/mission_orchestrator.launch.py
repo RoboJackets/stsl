@@ -20,7 +20,7 @@
 
 import os
 from launch import LaunchDescription
-from launch.actions import DeclareLaunchArgument
+from launch.actions import DeclareLaunchArgument, LogInfo
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
@@ -30,7 +30,15 @@ def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
             name='behavior_tree',
-            default_value=os.path.join(get_package_share_directory('mission_orchestration'), 'behavior_trees', 'default_mission_tree.xml')
+            default_value=os.path.join(get_package_share_directory(
+                'mission_orchestration'), 'behavior_trees', 'default_mission_tree.xml')
+        ),
+        DeclareLaunchArgument(
+            name='mineral_samples_file',
+            default_value=''
+        ),
+        LogInfo(
+            msg=LaunchConfiguration('mineral_samples_file')
         ),
         Node(
             package='mission_orchestration',
@@ -38,6 +46,8 @@ def generate_launch_description():
             output='screen',
             parameters=[
                 {'bt_file_path': LaunchConfiguration('behavior_tree')},
+                {'mineral_samples_file': LaunchConfiguration(
+                    'mineral_samples_file')},
                 {'use_sim_time': LaunchConfiguration(
                     'use_sim_time', default='false')}
             ]

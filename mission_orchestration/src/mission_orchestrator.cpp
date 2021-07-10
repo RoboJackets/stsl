@@ -5,6 +5,8 @@
 #include <tf2_ros/transform_listener.h>
 #include <stsl_interfaces/action/execute_mission.hpp>
 #include <fstream>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include "yaml_helpers.hpp"
 
 namespace mission_orchestration
 {
@@ -55,11 +57,24 @@ public:
 
     tree_ros_node_ = std::make_shared<rclcpp::Node>("mission_orchestrator_behavior_tree", options);
 
+    const auto mineral_samples_file = declare_parameter<std::string>("mineral_samples_file", "");
+
+    std::vector<geometry_msgs::msg::PoseWithCovarianceStamped> mineral_samples;
+    if (!mineral_samples_file.empty() &&
+      !LoadMineralSamplesFile(mineral_samples_file, mineral_samples))
+    {
+      RCLCPP_ERROR(get_logger(), "Failed to load mineral samples file.");
+      exit(1);
+    }
+
     blackboard_ = BT::Blackboard::create();
 
     blackboard_->set<std::shared_ptr<tf2_ros::Buffer>>("tf_buffer", tf_buffer_);
     blackboard_->set<rclcpp::Node::SharedPtr>("node", tree_ros_node_);
     blackboard_->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(10));
+    blackboard_->set<std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>>(
+      "mineral_samples",
+      mineral_samples);
 
     const auto bt_file_path = declare_parameter("bt_file_path", "NO_BT_FILE_PATH_SET");
 
@@ -67,29 +82,6 @@ public:
       RCLCPP_ERROR(get_logger(), "Error loading behavior tree from file: %s", bt_file_path.c_str());
       exit(1);
     }
-  }
-
-  bool LoadBehaviorTree(const std::string & bt_file_path)
-  {
-    std::ifstream bt_file{bt_file_path};
-
-    if (!bt_file.good()) {
-      RCLCPP_ERROR(get_logger(), "Could not open file: %s", bt_file_path.c_str());
-      return false;
-    }
-
-    const auto xml_content = std::string(
-      std::istreambuf_iterator<char>(
-        bt_file), std::istreambuf_iterator<char>());
-
-    try {
-    tree_ = bt_engine_->createTreeFromText(xml_content, blackboard_);
-    }catch (const BT::RuntimeError& e) {
-        RCLCPP_ERROR(get_logger(), "BT exception: %s", e.what());
-        return false;
-    }
-
-    return true;
   }
 
 private:
@@ -132,23 +124,82 @@ private:
 
     auto on_loop = []() {};
 
-    const auto tree_status = bt_engine_->run(&tree_, on_loop, is_cancelling);
+    try {
+      const auto tree_status = bt_engine_->run(&tree_, on_loop, is_cancelling);
 
-    bt_engine_->haltAllActions(tree_.rootNode());
+      bt_engine_->haltAllActions(tree_.rootNode());
 
-    switch (tree_status) {
-      case nav2_behavior_tree::BtStatus::SUCCEEDED:
-        RCLCPP_INFO(get_logger(), "Mission succeeded!");
-        goal_handle->succeed(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
-        break;
-      case nav2_behavior_tree::BtStatus::FAILED:
-        RCLCPP_INFO(get_logger(), "Mission failed!");
-        goal_handle->abort(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
-        break;
-      case nav2_behavior_tree::BtStatus::CANCELED:
-        RCLCPP_INFO(get_logger(), "Mission cancelled!");
-        goal_handle->canceled(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
-        break;
+      switch (tree_status) {
+        case nav2_behavior_tree::BtStatus::SUCCEEDED:
+          RCLCPP_INFO(get_logger(), "Mission succeeded!");
+          goal_handle->succeed(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+          break;
+        case nav2_behavior_tree::BtStatus::FAILED:
+          RCLCPP_INFO(get_logger(), "Mission failed!");
+          goal_handle->abort(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+          break;
+        case nav2_behavior_tree::BtStatus::CANCELED:
+          RCLCPP_INFO(get_logger(), "Mission cancelled!");
+          goal_handle->canceled(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+          break;
+      }
+    } catch (const BT::RuntimeError & e) {
+      RCLCPP_ERROR(get_logger(), "Mission failed with exception: %s", e.what());
+      goal_handle->abort(std::make_shared<stsl_interfaces::action::ExecuteMission::Result>());
+      return;
+    }
+  }
+
+  bool LoadBehaviorTree(const std::string & bt_file_path)
+  {
+    std::ifstream bt_file{bt_file_path};
+
+    if (!bt_file.good()) {
+      RCLCPP_ERROR(get_logger(), "Could not open file: %s", bt_file_path.c_str());
+      return false;
+    }
+
+    const auto xml_content = std::string(
+      std::istreambuf_iterator<char>(
+        bt_file), std::istreambuf_iterator<char>());
+
+    try {
+      tree_ = bt_engine_->createTreeFromText(xml_content, blackboard_);
+    } catch (const BT::RuntimeError & e) {
+      RCLCPP_ERROR(get_logger(), "BT exception: %s", e.what());
+      return false;
+    }
+
+    return true;
+  }
+
+  bool LoadMineralSamplesFile(
+    const std::string & mineral_samples_file_path,
+    std::vector<geometry_msgs::msg::PoseWithCovarianceStamped> & samples)
+  {
+    try {
+      YAML::Node root_yaml_node = YAML::LoadFile(mineral_samples_file_path);
+
+      if(!root_yaml_node.IsSequence()) {
+        RCLCPP_ERROR(get_logger(), "Root of mineral samples file should be a sequence.");
+        return false;
+      }
+
+      std::transform(root_yaml_node.begin(), root_yaml_node.end(), std::back_inserter(samples), yaml_helpers::fromYaml<geometry_msgs::msg::PoseWithCovarianceStamped>);
+
+      RCLCPP_INFO(get_logger(), "Loaded %d mineral samples.", samples.size());
+
+      return true;
+    } catch (const YAML::BadFile & e) {
+      RCLCPP_ERROR(
+        get_logger(), "Could not open mineral samples file (%s): %s",
+        mineral_samples_file_path.c_str(), e.what());
+      return false;
+    } catch (const YAML::ParserException & e) {
+      RCLCPP_ERROR(
+        get_logger(), "Could not parse mineral samples file (%s): %s",
+        mineral_samples_file_path.c_str(), e.what());
+      return false;
     }
   }
 
