@@ -31,5 +31,10 @@ def generate_launch_description():
             parameters=[
                 {'tag_size': 0.1}
             ]
+        ),
+        Node(
+            package='aruco_tag_detection',
+            executable='aruco_tag_visual_node',
+            output='screen'
         )
     ])
