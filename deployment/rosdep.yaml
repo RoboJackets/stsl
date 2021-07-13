@@ -1,5 +1,19 @@
+aruco_tag_detection:
+  ubuntu: [ros-foxy-aruco-tag-detection]
+aruco_tag_model_generation:
+  ubuntu: [ros-foxy-aruco-tag-model-generation]
+elevation_server:
+  ubuntu: [ros-foxy-elevation-server]
+mission_orchestration:
+  ubuntu: [ros-foxy-mission-orchestration]
+stsl_bt_nodes:
+  ubuntu: [ros-foxy-stsl-bt-nodes]
 stsl_gazebo_plugins:
   ubuntu: [ros-foxy-stsl-gazebo-plugins]
+stsl_interfaces:
+  ubuntu: [ros-foxy-stsl-interfaces]
+stsl_nav_plugins:
+  ubuntu: [ros-foxy-stsl-nav-plugins]
 traini_bringup:
   ubuntu: [ros-foxy-triani-bringup]
 traini_description:
