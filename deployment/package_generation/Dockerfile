@@ -13,5 +13,5 @@ RUN /bin/bash -c "set -ex; \
     source /opt/ros/foxy/setup.bash; \
     rosdep update --rosdistro=foxy; \
     rosdep install --from-paths . --ignore-src -y --skip-keys=\"libgpiod2 libgpiod-dev\"; \
-    cd src/stsl/deployment; \
+    cd src/stsl/deployment/package_generation; \
     ./generate_debs_internal.sh"

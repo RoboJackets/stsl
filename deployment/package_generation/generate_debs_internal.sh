@@ -37,7 +37,7 @@ install_rosdep_keys_file
 
 source /opt/ros/foxy/setup.bash
 
-package_paths=$(colcon list -t -p --base-paths ../* --packages-skip $packages_to_skip)
+package_paths=$(colcon list -t -p --base-paths ../../* --packages-skip $packages_to_skip)
 
 for package_path in $package_paths; do
     echo -e "\n\nBuilding $package_path ...\n"
@@ -45,10 +45,10 @@ for package_path in $package_paths; do
     install_package $package_path
 done
 
-mkdir ../package_files
-pushd ../package_files > /dev/null
+mkdir ../../package_files
 for deb_file in ${generated_debs[@]}; do
-    mv $deb_file .
+    mv $deb_file ../../package_files/
 done
+pushd ../../package_files > /dev/null
 tar -czvf ../debians.tar.gz *
 popd > /dev/null
