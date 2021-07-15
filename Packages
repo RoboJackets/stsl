@@ -1,0 +1,165 @@
+Package: ros-foxy-aruco-tag-detection
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 262
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libopencv-contrib4.2 (>= 4.2.0+dfsg), libopencv-core4.2 (>= 4.2.0+dfsg), libstdc++6 (>= 9), ros-foxy-console-bridge-vendor, libeigen3-dev, libopencv-dev, ros-foxy-cv-bridge, ros-foxy-image-transport, ros-foxy-rclcpp, ros-foxy-rclcpp-components, ros-foxy-stsl-interfaces
+Filename: ./ros-foxy-aruco-tag-detection_0.0.0-0focal_amd64.deb
+Size: 55524
+MD5sum: 5c1848fed579bec88c678d77fb5de9da
+SHA1: eb39bbe300c068fcb896c892ab5aa9184f08eccc
+SHA256: 7b129c33923ce89e7d1876922c2309892fc2414a1bc898e4a34e528ec07cfdb6
+Section: misc
+Priority: optional
+Description: This package provides a component that detects ArUco tags
+
+Package: ros-foxy-aruco-tag-model-generation
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 82
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libopencv-contrib4.2 (>= 4.2.0+dfsg), libopencv-core4.2 (>= 4.2.0+dfsg), libopencv-imgcodecs4.2 (>= 4.2.0+dfsg), libstdc++6 (>= 9), libopencv-dev
+Filename: ./ros-foxy-aruco-tag-model-generation_0.0.0-0focal_amd64.deb
+Size: 16456
+MD5sum: 73e6a590215133939d48ffae5649d0c0
+SHA1: 383a1e76c4c21a6244a5d482e22d0ec86b3de5b9
+SHA256: e6250e8dd6e633b939dbbe07074763c67d6282a5994ee3f1d2af1b578182dc9d
+Section: misc
+Priority: optional
+Description: Provides tools for generating Gazebo models of ArUco tags.
+
+Package: ros-foxy-elevation-server
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 835
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libopencv-core4.2 (>= 4.2.0+dfsg), libopencv-imgcodecs4.2 (>= 4.2.0+dfsg), libstdc++6 (>= 9), ros-foxy-console-bridge-vendor, libopencv-dev, ros-foxy-nav-msgs, ros-foxy-rclcpp, ros-foxy-rclcpp-components, ros-foxy-stsl-interfaces, ros-foxy-tf2-ros
+Filename: ./ros-foxy-elevation-server_0.0.0-0focal_amd64.deb
+Size: 608720
+MD5sum: 3dba16a0a63ab7ab61f9a461b7d2563d
+SHA1: d7e28b1b0dad8d385f3d1bb69a6314ae6c8eeac3
+SHA256: 168685cc19f4a67624e9e5b707c40cba51f096e4e9d547195545fdc33e0d0a3c
+Section: misc
+Priority: optional
+Description: Provides a service for querying emulated elevation.
+
+Package: ros-foxy-mission-orchestration
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 389
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libstdc++6 (>= 6), ros-foxy-console-bridge-vendor, ros-foxy-yaml-cpp-vendor, libyaml-cpp-dev, ros-foxy-nav2-behavior-tree, ros-foxy-rclcpp, ros-foxy-rclcpp-action, ros-foxy-rclcpp-components, ros-foxy-stsl-bt-nodes, ros-foxy-stsl-interfaces, ros-foxy-tf2-ros
+Filename: ./ros-foxy-mission-orchestration_0.0.0-0focal_amd64.deb
+Size: 85468
+MD5sum: bb8ff27ac1547a949137fdafc35aff9e
+SHA1: cb4b421d3e41593811d64716f6c9685909175a7a
+SHA256: fba7deebebfd428712a77e3352e54fc2355c2dff508af9185d11b9166e2c141a
+Section: misc
+Priority: optional
+Description: Orchestration node for the RoboJackets training mission.
+
+Package: ros-foxy-stsl-bt-nodes
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 357
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libstdc++6 (>= 7), ros-foxy-behaviortree-cpp-v3, ros-foxy-nav2-behavior-tree, ros-foxy-rclcpp, ros-foxy-stsl-interfaces
+Filename: ./ros-foxy-stsl-bt-nodes_0.0.0-0focal_amd64.deb
+Size: 78820
+MD5sum: 21413f86649a6a4426f26c492266395e
+SHA1: 6d82bcf46ab333936fa1347fb7ffff8988408945
+SHA256: 6a86ff8ab503488d8e4b12616a1c29f33556d71bb63df3fd175ad3c31df14a1e
+Section: misc
+Priority: optional
+Description: Custom behavior tree nodes for RoboJackets Software Training.
+
+Package: ros-foxy-stsl-gazebo-plugins
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 671
+Depends: libc6 (>= 2.14), libgazebo11 (>= 11.5.1), libgcc-s1 (>= 3.0), libignition-math6 (>= 6.8.0), libprotobuf17, libsdformat9 (>= 9.5.0), libstdc++6 (>= 9), ros-foxy-gazebo-dev, ros-foxy-gazebo-ros, ros-foxy-rclcpp, ros-foxy-std-msgs
+Filename: ./ros-foxy-stsl-gazebo-plugins_0.0.0-0focal_amd64.deb
+Size: 141356
+MD5sum: 458287a7e8580492dfb21959c15b4e97
+SHA1: 8793e0082da69ab0a27afdd1de00f12b216cf51f
+SHA256: 081ff7bfe2f91cbd9bb2f064c173de2f0e920cee17ed77652f70027ae098409d
+Section: misc
+Priority: optional
+Description: TODO: Package description
+
+Package: ros-foxy-stsl-interfaces
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 1572
+Depends: libc6 (>= 2.4), libgcc-s1 (>= 3.0), libpython3.8 (>= 3.8.2), libstdc++6 (>= 5.2), ros-foxy-fastcdr, ros-foxy-geometry-msgs, ros-foxy-rosidl-default-runtime, ros-foxy-std-msgs
+Filename: ./ros-foxy-stsl-interfaces_0.0.0-0focal_amd64.deb
+Size: 103180
+MD5sum: fe804c9d1cecf8c7a14fc1a1a40d849a
+SHA1: d4bcb3f6f5bcc326743c9883669dea7dadb3707d
+SHA256: 0a82400c8da676a0583228107a572993ba8670bbd471182ba3556c10463b05dd
+Section: misc
+Priority: optional
+Description: TODO: Package description
+
+Package: ros-foxy-stsl-nav-plugins
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 123
+Depends: libc6 (>= 2.14), libgcc-s1 (>= 3.0), libstdc++6 (>= 5.2), ros-foxy-console-bridge-vendor, ros-foxy-angles, ros-foxy-nav2-core, ros-foxy-rclcpp
+Filename: ./ros-foxy-stsl-nav-plugins_0.0.0-0focal_amd64.deb
+Size: 26212
+MD5sum: 9cd64d0caaadd54f6ca65b099c574698
+SHA1: fe1d38a64364fd310c1a87966ca78da36fe772e5
+SHA256: 88411e7abe53c8dddbf36cdd606b80b0e8cd6d77faf9db5ff8d7d9647ba94527
+Section: misc
+Priority: optional
+Description: Navigation stack plugins provided by STSL.
+
+Package: ros-foxy-traini-bringup
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 49
+Depends: ros-foxy-traini-description, ros-foxy-traini-gazebo
+Filename: ./ros-foxy-traini-bringup_0.0.0-0focal_amd64.deb
+Size: 6356
+MD5sum: b02ef7d072e8ee22ad80fd6d0a588ea1
+SHA1: 9732d428e4cf0f4d51fdecbd51d50905119c4d05
+SHA256: aed3c76f03618c8ea819a9403670dfa7df938f2d5aa22bf1ac4322302531215d
+Section: misc
+Priority: optional
+Description: TODO: Package description
+
+Package: ros-foxy-traini-description
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 335
+Depends: ros-foxy-robot-state-publisher
+Filename: ./ros-foxy-traini-description_0.0.0-0focal_amd64.deb
+Size: 58916
+MD5sum: 6529635dbb0c7e550fd7f95cee8195cb
+SHA1: 719e59f34d5c11a6f0bd2f076fcf4b5bb736e19b
+SHA256: 20e68850e3892129aa6d67430807f6f7ede04b0d764283038e3fb5575ed48219
+Section: misc
+Priority: optional
+Description: TODO: Package description
+
+Package: ros-foxy-traini-gazebo
+Version: 0.0.0-0focal
+Architecture: amd64
+Maintainer: Matthew Barulic <matthew.barulic@gmail.com>
+Installed-Size: 417
+Depends: ros-foxy-gazebo-plugins, ros-foxy-gazebo-ros, ros-foxy-stsl-gazebo-plugins
+Filename: ./ros-foxy-traini-gazebo_0.0.0-0focal_amd64.deb
+Size: 86268
+MD5sum: 067cb6c5217b74075178b28be55d1bb2
+SHA1: ec794ed745d83abec1891edbf9140b208982d330
+SHA256: b33155e73069bd0db161f0e767540a386d8cbd25e557caae2d40c809b85e7863
+Section: misc
+Priority: optional
+Description: TODO: Package description
+
