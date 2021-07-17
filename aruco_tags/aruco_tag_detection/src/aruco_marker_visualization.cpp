@@ -14,91 +14,48 @@ public:
   ArucoVisualization(const rclcpp::NodeOptions & options)
   : rclcpp::Node("aruco_tag_visualization", options)
   {
-    timer_ = create_wall_timer(
-            1.0s, std::bind(&ArucoVisualization::PublishMarkers, this));
-    QueryMarkers();
-
-    marker_publisher_ = create_publisher<visualization_msgs::msg::MarkerArray>("true_tags", 1);
+    marker_pub_ = create_publisher<visualization_msgs::msg::MarkerArray>("true_tags", 1);
     tag_sub_ = this->create_subscription<stsl_interfaces::msg::TagArray>("/aruco_tag_detector/tags",
                10, std::bind(&ArucoVisualization::tagCallback, this, std::placeholders::_1));
   }
 private:
-  rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr marker_publisher_;
+  rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr marker_pub_;
   rclcpp::Subscription<stsl_interfaces::msg::TagArray>::SharedPtr tag_sub_;
-  visualization_msgs::msg::MarkerArray marker_array_msg_;
-  rclcpp::TimerBase::SharedPtr timer_;
-  bool publish_ = false;
 
   void tagCallback(const stsl_interfaces::msg::TagArray::SharedPtr tag_array_msg) {
-    publish_ = true;
-  }
+    visualization_msgs::msg::MarkerArray marker_array_msg;
 
-  void QueryMarkers() {
-
-    for(int i = 0; i < 2; i++) {
+    for(const stsl_interfaces::msg::Tag & tag : tag_array_msg->tags)
+    {
       visualization_msgs::msg::Marker marker_msg;
-      marker_msg.id = i;
-      marker_msg.header.frame_id = "/odom";
-      marker_msg.type = visualization_msgs::msg::Marker::CUBE_LIST;
+      marker_msg.id = tag.id;
+      marker_msg.header = tag_array_msg->header;
+      marker_msg.type = visualization_msgs::msg::Marker::CUBE;
       marker_msg.action = visualization_msgs::msg::Marker::ADD;
+      marker_msg.lifetime = rclcpp::Duration(1.0s);
 
-      marker_msg.pose.orientation.x = 0.0;
-      marker_msg.pose.orientation.y = 0.0;
-      marker_msg.pose.orientation.z = 0.0;
-      marker_msg.pose.orientation.w = 1.0;
+      marker_msg.pose.position.x = tag.pose.position.x;
+      marker_msg.pose.position.y = tag.pose.position.y;
+      marker_msg.pose.position.z = tag.pose.position.z;
+
+      marker_msg.pose.orientation.x = tag.pose.orientation.x;
+      marker_msg.pose.orientation.y = tag.pose.orientation.y;
+      marker_msg.pose.orientation.z = tag.pose.orientation.z;
+      marker_msg.pose.orientation.w = tag.pose.orientation.w;
 
       marker_msg.color.a = 0.5;
       marker_msg.color.r = 0.0;
       marker_msg.color.b = 0.0;
       marker_msg.color.g = 1.0;
 
-      marker_array_msg_.markers.push_back(marker_msg);
+      marker_msg.scale.x = 0.18;
+      marker_msg.scale.y = 0.18;
+      marker_msg.scale.z = 0.02;
+
+      marker_array_msg.markers.push_back(marker_msg);
     }
 
-    marker_array_msg_.markers[0].scale.x = 0.025;
-    marker_array_msg_.markers[0].scale.y = 0.2;
-    marker_array_msg_.markers[0].scale.z = 0.2;
-
-    marker_array_msg_.markers[0].points.resize(2);
-    marker_array_msg_.markers[0].points[0].x = 0.6096;
-    marker_array_msg_.markers[0].points[0].y = 0;
-    marker_array_msg_.markers[0].points[0].z = 0.05;
-    marker_array_msg_.markers[0].points[1].x = -0.6096;
-    marker_array_msg_.markers[0].points[1].y = 0;
-    marker_array_msg_.markers[0].points[1].z = 0.05;
-
-    marker_array_msg_.markers[1].scale.x = 0.2;
-    marker_array_msg_.markers[1].scale.y = 0.025;
-    marker_array_msg_.markers[1].scale.z = 0.2;
-
-    marker_array_msg_.markers[1].points.resize(4);
-    marker_array_msg_.markers[1].points[0].x = -0.3;
-    marker_array_msg_.markers[1].points[0].y = -0.381;
-    marker_array_msg_.markers[1].points[0].z = 0.05;
-    marker_array_msg_.markers[1].points[1].x = 0.3;
-    marker_array_msg_.markers[1].points[1].y = -0.381;
-    marker_array_msg_.markers[1].points[1].z = 0.05;
-    marker_array_msg_.markers[1].points[2].x = -0.3;
-    marker_array_msg_.markers[1].points[2].y = 0.381;
-    marker_array_msg_.markers[1].points[2].z = 0.05;
-    marker_array_msg_.markers[1].points[3].x = 0.3;
-    marker_array_msg_.markers[1].points[3].y = 0.381;
-    marker_array_msg_.markers[1].points[3].z = 0.05;
-  }
-
-  void PublishMarkers() {
-    if(!publish_)
-    {
-      return;
-    }
-    for(int i = 0; i < marker_array_msg_.markers.size(); i++) {
-      marker_array_msg_.markers[i].header.stamp = this->now();
-      marker_array_msg_.markers[i].action = 0;
-      marker_array_msg_.markers[i].lifetime = rclcpp::Duration(1.0s);
-    }
-
-    marker_publisher_->publish(marker_array_msg_);
-    publish_ = false;
+    marker_pub_->publish(marker_array_msg);
   }
 };
 }  // namespace aruco_tag_detection
