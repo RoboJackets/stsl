@@ -35,5 +35,9 @@ def generate_launch_description():
         IncludeLaunchDescription(
             PythonLaunchDescriptionSource(gazebo_launch_path)),
         IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(robot_state_pub_path))
+            PythonLaunchDescriptionSource(robot_state_pub_path),
+            launch_arguments={
+                'use_sim_time': 'true'
+            }.items()
+        )
     ])
