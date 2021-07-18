@@ -1,0 +1,17 @@
+ <root main_tree_to_execute = "MainTree" >
+     <BehaviorTree ID="MainTree">
+        <Sequence>
+            <ForEachMineralSample samples_list="{mineral_samples}" current_sample="{current_sample}">
+                <Sequence>
+                    <Log message="Moving to next sample..."/>
+                    <!-- TODO(barulicm) Add nodes for following Kalman Filter output -->
+                    <Log message="At sample!"/>
+                </Sequence>
+            </ForEachMineralSample>
+            <Log message="All samples complete"/>
+            <Log message="Calling /park_at_peak action..."/>
+            <ParkAtPeak />
+            <Log message="Action done!"/>
+        </Sequence>
+     </BehaviorTree>
+ </root>

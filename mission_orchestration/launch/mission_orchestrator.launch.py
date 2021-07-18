@@ -20,24 +20,36 @@
 
 import os
 from launch import LaunchDescription
-from launch.launch_description_sources import PythonLaunchDescriptionSource
-from launch.actions import IncludeLaunchDescription
+from launch.actions import DeclareLaunchArgument, LogInfo
+from launch.substitutions import LaunchConfiguration
+from launch_ros.actions import Node
 from ament_index_python.packages import get_package_share_directory
 
 
 def generate_launch_description():
-    gazebo_launch_path = os.sep.join([get_package_share_directory(
-        'traini_gazebo'), 'launch', 'traini_gazebo.launch.py'])
-    robot_state_pub_path = os.sep.join([get_package_share_directory(
-        'traini_description'), 'launch', 'robot_state_publisher.launch.py'])
-
     return LaunchDescription([
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(gazebo_launch_path)),
-        IncludeLaunchDescription(
-            PythonLaunchDescriptionSource(robot_state_pub_path),
-            launch_arguments={
-                'use_sim_time': 'true'
-            }.items()
+        DeclareLaunchArgument(
+            name='behavior_tree',
+            default_value=os.path.join(get_package_share_directory(
+                'mission_orchestration'), 'behavior_trees', 'default_mission_tree.xml')
+        ),
+        DeclareLaunchArgument(
+            name='mineral_samples_file',
+            default_value=''
+        ),
+        LogInfo(
+            msg=LaunchConfiguration('mineral_samples_file')
+        ),
+        Node(
+            package='mission_orchestration',
+            executable='mission_orchestrator_node',
+            output='screen',
+            parameters=[
+                {'bt_file_path': LaunchConfiguration('behavior_tree')},
+                {'mineral_samples_file': LaunchConfiguration(
+                    'mineral_samples_file')},
+                {'use_sim_time': LaunchConfiguration(
+                    'use_sim_time', default='false')}
+            ]
         )
     ])
