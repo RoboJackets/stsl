@@ -23,6 +23,7 @@ from launch.actions import DeclareLaunchArgument
 from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
+
 def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
@@ -39,7 +40,7 @@ def generate_launch_description():
                 'deposit_tag_ids': [10]
             }],
             remappings=[
-                ('~/tags','/aruco_tag_detector/tags')
+                ('~/tags', '/aruco_tag_detector/tags')
             ]
         )
     ])
