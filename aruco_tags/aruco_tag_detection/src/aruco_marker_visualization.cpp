@@ -15,18 +15,20 @@ public:
   : rclcpp::Node("aruco_tag_visualization", options)
   {
     marker_pub_ = create_publisher<visualization_msgs::msg::MarkerArray>("true_tags", 1);
-    tag_sub_ = this->create_subscription<stsl_interfaces::msg::TagArray>("/aruco_tag_detector/tags",
-               10, std::bind(&ArucoVisualization::tagCallback, this, std::placeholders::_1));
+    tag_sub_ = this->create_subscription<stsl_interfaces::msg::TagArray>(
+      "/aruco_tag_detector/tags",
+      10, std::bind(&ArucoVisualization::tagCallback, this, std::placeholders::_1));
   }
+
 private:
   rclcpp::Publisher<visualization_msgs::msg::MarkerArray>::SharedPtr marker_pub_;
   rclcpp::Subscription<stsl_interfaces::msg::TagArray>::SharedPtr tag_sub_;
 
-  void tagCallback(const stsl_interfaces::msg::TagArray::SharedPtr tag_array_msg) {
+  void tagCallback(const stsl_interfaces::msg::TagArray::SharedPtr tag_array_msg)
+  {
     visualization_msgs::msg::MarkerArray marker_array_msg;
 
-    for(const stsl_interfaces::msg::Tag & tag : tag_array_msg->tags)
-    {
+    for (const stsl_interfaces::msg::Tag & tag : tag_array_msg->tags) {
       visualization_msgs::msg::Marker marker_msg;
       marker_msg.id = tag.id;
       marker_msg.header = tag_array_msg->header;
