@@ -32,7 +32,8 @@ private:
       marker_msg.header = tag_array_msg->header;
       marker_msg.type = visualization_msgs::msg::Marker::CUBE;
       marker_msg.action = visualization_msgs::msg::Marker::ADD;
-      marker_msg.lifetime = rclcpp::Duration(1.0s);
+      marker_msg.ns = "/tag_visualization";
+      marker_msg.lifetime = rclcpp::Duration(0.15s);
 
       marker_msg.pose.position.x = tag.pose.position.x;
       marker_msg.pose.position.y = tag.pose.position.y;
