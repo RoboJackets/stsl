@@ -39,8 +39,7 @@ public:
     tf_listener_(tf_buffer_),
     deposit_ids_(declare_parameter<std::vector<int64_t>>("deposit_tag_ids", {})),
     random_engine_(std::random_device{} ()),
-    range_noise_distribution_(0.0, declare_parameter<double>("range_noise_stddev", 0.0)),
-    heading_noise_distribution_(0.0, declare_parameter<double>("heading_noise_stddev", 0.0))
+    noise_distribution_(0.0, declare_parameter<double>("noise_stddev", 0.0))
   {
     deposit_pub_ = create_publisher<stsl_interfaces::msg::MineralDepositArray>(
       "~/deposits",
@@ -56,8 +55,7 @@ private:
   tf2_ros::TransformListener tf_listener_;
   const std::vector<int64_t> deposit_ids_;
   std::default_random_engine random_engine_;
-  std::normal_distribution<double> range_noise_distribution_;
-  std::normal_distribution<double> heading_noise_distribution_;
+  std::normal_distribution<double> noise_distribution_;
   rclcpp::Publisher<stsl_interfaces::msg::MineralDepositArray>::SharedPtr deposit_pub_;
   rclcpp::Subscription<stsl_interfaces::msg::TagArray>::SharedPtr tag_sub_;
 
@@ -66,7 +64,8 @@ private:
     try {
       stsl_interfaces::msg::MineralDepositArray deposit_msg;
 
-      deposit_msg.header = tag_msg->header;
+      deposit_msg.header.stamp = tag_msg->header.stamp;
+      deposit_msg.header.frame_id = "base_link";
 
       stsl_interfaces::msg::TagArray::_tags_type deposit_tags;
       std::copy_if(
@@ -109,12 +108,12 @@ private:
 
     tf2::doTransform(tag_pose_stamped, base_link_pose, transform);
 
+    base_link_pose.pose.position.x += noise_distribution_(random_engine_);
+    base_link_pose.pose.position.y += noise_distribution_(random_engine_);
+
     deposit_msg.range = std::hypot(base_link_pose.pose.position.x, base_link_pose.pose.position.y);
     deposit_msg.heading =
-      std::atan2(base_link_pose.pose.position.y, base_link_pose.pose.position.x);
-
-    deposit_msg.range += range_noise_distribution_(random_engine_);
-    deposit_msg.heading += heading_noise_distribution_(random_engine_);
+      std::atan2(base_link_pose.pose.position.y, base_link_pose.pose.position.x); 
 
     return deposit_msg;
   }

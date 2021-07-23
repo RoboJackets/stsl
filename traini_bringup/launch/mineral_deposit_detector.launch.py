@@ -35,8 +35,7 @@ def generate_launch_description():
             executable='mineral_deposit_detector',
             parameters=[{
                 'use_sim_time': LaunchConfiguration('use_sim_time'),
-                'range_noise_stddev': 0.01,
-                'heading_noise_stddev': 0.01,
+                'noise_stddev': 0.01,
                 'deposit_tag_ids': [10]
             }],
             remappings=[
