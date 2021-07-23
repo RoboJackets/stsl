@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
-#define STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
+#ifndef FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
+#define FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
 
 #include <behaviortree_cpp_v3/decorator_node.h>
 #include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
@@ -51,4 +51,4 @@ private:
 
 }  // namespace stsl_bt_nodes
 
-#endif  // STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
+#endif  // FOR_EACH_MINERAL_SAMPLE_NODE_HPP_

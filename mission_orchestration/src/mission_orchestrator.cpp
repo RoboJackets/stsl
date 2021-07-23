@@ -85,7 +85,9 @@ public:
     rclcpp::NodeOptions tree_node_options = options;
     tree_node_options.allow_undeclared_parameters(true);
     tree_node_options.automatically_declare_parameters_from_overrides(true);
-    tree_ros_node_ = std::make_shared<rclcpp::Node>("mission_orchestrator_behavior_tree", tree_node_options);
+    tree_ros_node_ = std::make_shared<rclcpp::Node>(
+      "mission_orchestrator_behavior_tree",
+      tree_node_options);
 
     const auto mineral_samples_file = declare_parameter<std::string>("mineral_samples_file", "");
 

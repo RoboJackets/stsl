@@ -113,7 +113,7 @@ private:
 
     deposit_msg.range = std::hypot(base_link_pose.pose.position.x, base_link_pose.pose.position.y);
     deposit_msg.heading =
-      std::atan2(base_link_pose.pose.position.y, base_link_pose.pose.position.x); 
+      std::atan2(base_link_pose.pose.position.y, base_link_pose.pose.position.x);
 
     return deposit_msg;
   }

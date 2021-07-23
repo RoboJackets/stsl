@@ -153,7 +153,6 @@ stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml)
   msg.pose = fromYaml<geometry_msgs::msg::PoseWithCovariance>(yaml["pose"]);
 
   return msg;
-
 }
 
 }  // namespace mission_orchestration::yaml_helpers

@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef STSL_BT_NODES__LOG_NODE_HPP_
-#define STSL_BT_NODES__LOG_NODE_HPP_
+#ifndef LOG_NODE_HPP_
+#define LOG_NODE_HPP_
 
 #include <rclcpp/rclcpp.hpp>
 #include <behaviortree_cpp_v3/action_node.h>
@@ -44,4 +44,4 @@ private:
 
 }  // namespace stsl_bt_nodes
 
-#endif  // STSL_BT_NODES__LOG_NODE_HPP_
+#endif  // LOG_NODE_HPP_
