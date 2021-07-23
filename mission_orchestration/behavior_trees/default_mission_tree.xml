@@ -27,9 +27,9 @@
                 </Sequence>
             </ForEachMineralSample>
             <Log message="All samples complete"/>
-            <!--<Log message="Calling /park_at_peak action..."/>
+            <Log message="Calling /park_at_peak action..."/>
             <ParkAtPeak />
-            <Log message="Action done!"/>-->
+            <Log message="Action done!"/>
         </Sequence>
      </BehaviorTree>
  </root>
