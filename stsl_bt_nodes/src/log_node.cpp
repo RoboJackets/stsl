@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "stsl_bt_nodes/log_node.hpp"
+#include "log_node.hpp"
 #include <string>
 
 namespace stsl_bt_nodes
@@ -28,6 +28,9 @@ LogNode::LogNode(const std::string & xml_tag_name, const BT::NodeConfiguration &
 : BT::SyncActionNode(xml_tag_name, conf)
 {
   node_ = config().blackboard->template get<rclcpp::Node::SharedPtr>("node");
+  std::string topic;
+  node_->get_parameter("goal_updater_topic", topic);
+  RCLCPP_ERROR(node_->get_logger(), "Topic param value: %s", topic.c_str());
 }
 
 BT::PortsList LogNode::providedPorts()

@@ -22,7 +22,7 @@
 #define STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
 
 #include <behaviortree_cpp_v3/decorator_node.h>
-#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 #include <string>
 #include <vector>
 
@@ -43,8 +43,8 @@ protected:
 
 private:
   bool idle_{true};
-  std::vector<geometry_msgs::msg::PoseWithCovarianceStamped> samples_;
-  std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>::iterator samples_iter_;
+  std::vector<stsl_interfaces::msg::MineralDepositSample> samples_;
+  std::vector<stsl_interfaces::msg::MineralDepositSample>::iterator samples_iter_;
 
   void Reset();
 };
