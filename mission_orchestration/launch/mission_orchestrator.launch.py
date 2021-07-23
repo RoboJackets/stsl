@@ -45,11 +45,13 @@ def generate_launch_description():
             executable='mission_orchestrator_node',
             output='screen',
             parameters=[
-                {'bt_file_path': LaunchConfiguration('behavior_tree')},
-                {'mineral_samples_file': LaunchConfiguration(
-                    'mineral_samples_file')},
-                {'use_sim_time': LaunchConfiguration(
-                    'use_sim_time', default='false')}
+                {'bt_file_path': LaunchConfiguration('behavior_tree'),
+                 'mineral_samples_file': LaunchConfiguration(
+                    'mineral_samples_file'),
+                 'use_sim_time': LaunchConfiguration(
+                    'use_sim_time', default='false'),
+                 'goal_updater_topic': '/mineral_deposit_tracker/tracked_deposit',
+                 'goal_reached_tol': 0.01}
             ]
         )
     ])
