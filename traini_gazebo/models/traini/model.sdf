@@ -42,7 +42,7 @@
         </joint>
 
         <link name="camera_link">
-            <pose relative_to="base_link">0.1 0 0.055 0 0 0</pose>
+            <pose relative_to="base_link">0.1 0 0.055 0 0.3 0</pose>
             <sensor name="camera" type="camera">
                 <update_rate>10</update_rate>
                 <camera name="camera">
