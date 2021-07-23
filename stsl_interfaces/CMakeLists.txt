@@ -9,8 +9,10 @@ find_package(geometry_msgs REQUIRED)
 rosidl_generate_interfaces(${PROJECT_NAME}
   "msg/MineralDeposit.msg"
   "msg/MineralDepositArray.msg"
+  "msg/MineralDepositSample.msg"
   "msg/Tag.msg"
   "msg/TagArray.msg"
+  "srv/ResetMineralDepositTracking.srv"
   "srv/SampleElevation.srv"
   "action/ExecuteMission.action"
   "action/ParkAtPeak.action"
