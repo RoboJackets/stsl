@@ -18,37 +18,29 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef YAML_HELPERS_HPP_
-#define YAML_HELPERS_HPP_
+#ifndef RESET_MINERAL_DEPOSIT_TRACKER_NODE_HPP_
+#define RESET_MINERAL_DEPOSIT_TRACKER_NODE_HPP_
 
-#include <yaml-cpp/yaml.h>
-#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
+#include <nav2_behavior_tree/bt_service_node.hpp>
+#include <stsl_interfaces/srv/reset_mineral_deposit_tracking.hpp>
+#include <string>
 
-namespace mission_orchestration::yaml_helpers
+namespace stsl_bt_nodes
 {
 
-template<typename MessageType>
-MessageType fromYaml(const YAML::Node & yaml);
+class ResetMineralDepositTrackerNode
+  : public nav2_behavior_tree::BtServiceNode<stsl_interfaces::srv::ResetMineralDepositTracking>
+{
+public:
+  ResetMineralDepositTrackerNode(
+    const std::string & xml_tag_name,
+    const BT::NodeConfiguration & conf);
 
+  static BT::PortsList providedPorts();
 
-template<>
-std::array<double, 36> fromYaml(const YAML::Node & yaml);
+  void on_tick() override;
+};
 
-template<>
-geometry_msgs::msg::Point fromYaml(const YAML::Node & yaml);
+}  // namespace stsl_bt_nodes
 
-template<>
-geometry_msgs::msg::Quaternion fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Pose fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::PoseWithCovariance fromYaml(const YAML::Node & yaml);
-
-template<>
-stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml);
-
-}  // namespace mission_orchestration::yaml_helpers
-
-#endif  // YAML_HELPERS_HPP_
+#endif  // RESET_MINERAL_DEPOSIT_TRACKER_NODE_HPP_

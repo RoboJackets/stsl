@@ -1,17 +1,46 @@
- <root main_tree_to_execute = "MainTree" >
-     <BehaviorTree ID="MainTree">
+<root main_tree_to_execute="MainTree">
+    <BehaviorTree ID="BlinkLight">
+        <Sequence>
+            <SetLightState state="true" />
+            <Delay delay_msec="500">
+                <SetLightState state="false" />
+            </Delay>
+        </Sequence>
+    </BehaviorTree>
+
+    <BehaviorTree ID="MainTree">
         <Sequence>
             <ForEachMineralSample samples_list="{mineral_samples}" current_sample="{current_sample}">
                 <Sequence>
-                    <Log message="Moving to next sample..."/>
-                    <!-- TODO(barulicm) Add nodes for following Kalman Filter output -->
-                    <Log message="At sample!"/>
+                    <Log message="Moving to next sample..." />
+                    <ResetMineralDepositTracker sample="{current_sample}" service_name="/mineral_deposit_tracker/reset" />
+                    <GetSamplePose sample="{current_sample}" pose="{sample_pose}" />
+                    <PipelineSequence>
+                        <RateController hz="1.0">
+                            <Sequence>
+                                <GoalUpdater input_goal="{sample_pose}" output_goal="{updated_goal}">
+                                    <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="GridBased" />
+                                </GoalUpdater>
+                                <TruncatePath distance="1.0" input_path="{path}" output_path="{truncated_path}" />
+                            </Sequence>
+                        </RateController>
+                        <WhileDoElse>
+                            <GoalReached goal="{updated_goal}" />
+                            <AlwaysSuccess />
+                            <KeepRunningUntilFailure>
+                                <FollowPath path="{truncated_path}" controller_id="FollowPath" />
+                            </KeepRunningUntilFailure>
+                        </WhileDoElse>
+                    </PipelineSequence>
+                    <Log message="At sample!" />
+                    <SubTree ID="BlinkLight" __shared_blackboard="true" />
                 </Sequence>
             </ForEachMineralSample>
-            <Log message="All samples complete"/>
-            <Log message="Calling /park_at_peak action..."/>
+            <Log message="All samples complete" />
+            <Log message="Calling /park_at_peak action..." />
             <ParkAtPeak />
-            <Log message="Action done!"/>
+            <Log message="Action done!" />
+            <SubTree ID="BlinkLight" __shared_blackboard="true" />
         </Sequence>
-     </BehaviorTree>
- </root>
+    </BehaviorTree>
+</root>

@@ -19,9 +19,12 @@
 // THE SOFTWARE.
 
 #include "behaviortree_cpp_v3/bt_factory.h"
-#include "stsl_bt_nodes/for_each_mineral_sample_node.hpp"
-#include "stsl_bt_nodes/log_node.hpp"
-#include "stsl_bt_nodes/park_at_peak_node.hpp"
+#include "for_each_mineral_sample_node.hpp"
+#include "log_node.hpp"
+#include "park_at_peak_node.hpp"
+#include "reset_mineral_deposit_tracker_node.hpp"
+#include "get_sample_pose_node.hpp"
+#include "set_light_state_node.hpp"
 
 BT_REGISTER_NODES(factory)
 {
@@ -34,4 +37,13 @@ BT_REGISTER_NODES(factory)
   factory.registerBuilder<stsl_bt_nodes::ParkAtPeakNode>(
     "ParkAtPeak",
     BT::CreateBuilder<stsl_bt_nodes::ParkAtPeakNode>());
+  factory.registerBuilder<stsl_bt_nodes::ResetMineralDepositTrackerNode>(
+    "ResetMineralDepositTracker",
+    BT::CreateBuilder<stsl_bt_nodes::ResetMineralDepositTrackerNode>());
+  factory.registerBuilder<stsl_bt_nodes::GetSamplePose>(
+    "GetSamplePose",
+    BT::CreateBuilder<stsl_bt_nodes::GetSamplePose>());
+  factory.registerBuilder<stsl_bt_nodes::SetLightStateNode>(
+    "SetLightState",
+    BT::CreateBuilder<stsl_bt_nodes::SetLightStateNode>());
 }

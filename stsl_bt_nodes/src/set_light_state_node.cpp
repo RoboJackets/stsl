@@ -18,37 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef YAML_HELPERS_HPP_
-#define YAML_HELPERS_HPP_
+#include "set_light_state_node.hpp"
+#include <string>
 
-#include <yaml-cpp/yaml.h>
-#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
-
-namespace mission_orchestration::yaml_helpers
+namespace stsl_bt_nodes
 {
 
-template<typename MessageType>
-MessageType fromYaml(const YAML::Node & yaml);
+SetLightStateNode::SetLightStateNode(
+  const std::string & xml_tag_name,
+  const BT::NodeConfiguration & conf)
+: BT::SyncActionNode(xml_tag_name, conf)
+{
+  ros_node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
+  publisher_ = ros_node_->create_publisher<std_msgs::msg::Bool>(
+    "/light_control/indicator_light",
+    rclcpp::SystemDefaultsQoS());
+}
 
+BT::PortsList SetLightStateNode::providedPorts()
+{
+  return {
+    BT::InputPort<bool>("state")
+  };
+}
 
-template<>
-std::array<double, 36> fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Point fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Quaternion fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Pose fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::PoseWithCovariance fromYaml(const YAML::Node & yaml);
-
-template<>
-stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml);
-
-}  // namespace mission_orchestration::yaml_helpers
-
-#endif  // YAML_HELPERS_HPP_
+BT::NodeStatus SetLightStateNode::tick()
+{
+  const auto state = getInput<bool>("state");
+  if (!state.has_value()) {
+    throw BT::RuntimeError("Missing required port: state");
+  }
+  std_msgs::msg::Bool msg;
+  msg.data = state.value();
+  publisher_->publish(msg);
+  return BT::NodeStatus::SUCCESS;
+}
+}  // namespace stsl_bt_nodes

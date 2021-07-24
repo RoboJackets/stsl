@@ -18,37 +18,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef YAML_HELPERS_HPP_
-#define YAML_HELPERS_HPP_
+#ifndef SET_LIGHT_STATE_NODE_HPP_
+#define SET_LIGHT_STATE_NODE_HPP_
 
-#include <yaml-cpp/yaml.h>
-#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
+#include <behaviortree_cpp_v3/action_node.h>
+#include <rclcpp/rclcpp.hpp>
+#include <std_msgs/msg/bool.hpp>
+#include <string>
 
-namespace mission_orchestration::yaml_helpers
+namespace stsl_bt_nodes
 {
+class SetLightStateNode : public BT::SyncActionNode
+{
+public:
+  SetLightStateNode(
+    const std::string & xml_tag_name,
+    const BT::NodeConfiguration & conf);
 
-template<typename MessageType>
-MessageType fromYaml(const YAML::Node & yaml);
+  static BT::PortsList providedPorts();
+
+  BT::NodeStatus tick() override;
+
+private:
+  rclcpp::Node::SharedPtr ros_node_;
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr publisher_;
+};
+}  // namespace stsl_bt_nodes
 
 
-template<>
-std::array<double, 36> fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Point fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Quaternion fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Pose fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::PoseWithCovariance fromYaml(const YAML::Node & yaml);
-
-template<>
-stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml);
-
-}  // namespace mission_orchestration::yaml_helpers
-
-#endif  // YAML_HELPERS_HPP_
+#endif  // SET_LIGHT_STATE_NODE_HPP_

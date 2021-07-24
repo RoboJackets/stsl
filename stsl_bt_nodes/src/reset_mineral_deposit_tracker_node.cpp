@@ -18,37 +18,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
-#define STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
-
-#include <behaviortree_cpp_v3/decorator_node.h>
-#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
+#include "reset_mineral_deposit_tracker_node.hpp"
+#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 #include <string>
-#include <vector>
 
 namespace stsl_bt_nodes
 {
 
-class ForEachMineralSampleNode : public BT::DecoratorNode
+ResetMineralDepositTrackerNode::ResetMineralDepositTrackerNode(
+  const std::string & xml_tag_name,
+  const BT::NodeConfiguration & conf)
+: nav2_behavior_tree::BtServiceNode<stsl_interfaces::srv::ResetMineralDepositTracking>(xml_tag_name,
+    conf)
 {
-public:
-  ForEachMineralSampleNode(const std::string & name, const BT::NodeConfiguration & conf);
+}
 
-  static BT::PortsList providedPorts();
+BT::PortsList ResetMineralDepositTrackerNode::providedPorts()
+{
+  return providedBasicPorts(
+    {
+      BT::InputPort<stsl_interfaces::msg::MineralDepositSample>("sample")
+    });
+}
 
-  void halt() override;
-
-protected:
-  BT::NodeStatus tick() override;
-
-private:
-  bool idle_{true};
-  std::vector<geometry_msgs::msg::PoseWithCovarianceStamped> samples_;
-  std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>::iterator samples_iter_;
-
-  void Reset();
-};
+void ResetMineralDepositTrackerNode::on_tick()
+{
+  const auto sample = getInput<stsl_interfaces::msg::MineralDepositSample>("sample");
+  if (!sample) {
+    throw BT::RuntimeError("Missing value for required port: sample");
+  }
+  request_->id = sample->id;
+  request_->pose = sample->pose;
+}
 
 }  // namespace stsl_bt_nodes
-
-#endif  // STSL_BT_NODES__FOR_EACH_MINERAL_SAMPLE_NODE_HPP_

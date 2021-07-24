@@ -18,37 +18,26 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef YAML_HELPERS_HPP_
-#define YAML_HELPERS_HPP_
+#ifndef PARK_AT_PEAK_NODE_HPP_
+#define PARK_AT_PEAK_NODE_HPP_
 
-#include <yaml-cpp/yaml.h>
-#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
+#include <stsl_interfaces/action/park_at_peak.hpp>
+#include <nav2_behavior_tree/bt_action_node.hpp>
+#include <string>
 
-namespace mission_orchestration::yaml_helpers
+namespace stsl_bt_nodes
 {
 
-template<typename MessageType>
-MessageType fromYaml(const YAML::Node & yaml);
+class ParkAtPeakNode : public nav2_behavior_tree::BtActionNode<stsl_interfaces::action::ParkAtPeak>
+{
+public:
+  ParkAtPeakNode(const std::string & xml_tag_name, const BT::NodeConfiguration & conf)
+  : nav2_behavior_tree::BtActionNode<stsl_interfaces::action::ParkAtPeak>(xml_tag_name,
+      "/park_at_peak", conf)
+  {
+  }
+};
 
+}  // namespace stsl_bt_nodes
 
-template<>
-std::array<double, 36> fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Point fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Quaternion fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Pose fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::PoseWithCovariance fromYaml(const YAML::Node & yaml);
-
-template<>
-stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml);
-
-}  // namespace mission_orchestration::yaml_helpers
-
-#endif  // YAML_HELPERS_HPP_
+#endif  // PARK_AT_PEAK_NODE_HPP_

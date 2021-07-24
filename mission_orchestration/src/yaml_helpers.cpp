@@ -63,22 +63,6 @@ std::array<double, 36> fromYaml(const YAML::Node & yaml)
 }
 
 template<>
-builtin_interfaces::msg::Time fromYaml(const YAML::Node & yaml)
-{
-  assertIsMap(yaml, "builting_interfaces::msg::Time");
-
-  builtin_interfaces::msg::Time msg;
-
-  assertHasMember(yaml, "sec");
-  msg.sec = yaml["sec"].as<int>();
-
-  assertHasMember(yaml, "nanosec");
-  msg.nanosec = yaml["nanosec"].as<int>();
-
-  return msg;
-}
-
-template<>
 geometry_msgs::msg::Point fromYaml(const YAML::Node & yaml)
 {
   assertIsMap(yaml, "geometry_msgs::msg::Point");
@@ -120,24 +104,6 @@ geometry_msgs::msg::Quaternion fromYaml(const YAML::Node & yaml)
 }
 
 template<>
-std_msgs::msg::Header fromYaml(const YAML::Node & yaml)
-{
-  assertIsMap(yaml, "std_msgs::msg::Header");
-
-  std_msgs::msg::Header msg;
-
-  assertHasMember(yaml, "stamp");
-
-  msg.stamp = fromYaml<builtin_interfaces::msg::Time>(yaml["stamp"]);
-
-  assertHasMember(yaml, "frame_id");
-
-  msg.frame_id = yaml["frame_id"].as<std::string>();
-
-  return msg;
-}
-
-template<>
 geometry_msgs::msg::Pose fromYaml(const YAML::Node & yaml)
 {
   assertIsMap(yaml, "geometry_msgs::msg::Pose");
@@ -174,18 +140,16 @@ geometry_msgs::msg::PoseWithCovariance fromYaml(const YAML::Node & yaml)
 }
 
 template<>
-geometry_msgs::msg::PoseWithCovarianceStamped fromYaml(const YAML::Node & yaml)
+stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml)
 {
-  assertIsMap(yaml, "geometry_msgs::msg::PoseWithCovarianceStamped");
+  assertIsMap(yaml, "stsl_interfaces::msg::MineralDepositSample");
 
-  geometry_msgs::msg::PoseWithCovarianceStamped msg;
+  stsl_interfaces::msg::MineralDepositSample msg;
 
-  assertHasMember(yaml, "header");
-
-  msg.header = fromYaml<std_msgs::msg::Header>(yaml["header"]);
+  assertHasMember(yaml, "id");
+  msg.id = yaml["id"].as<int>();
 
   assertHasMember(yaml, "pose");
-
   msg.pose = fromYaml<geometry_msgs::msg::PoseWithCovariance>(yaml["pose"]);
 
   return msg;

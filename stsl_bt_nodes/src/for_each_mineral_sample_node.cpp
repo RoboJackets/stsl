@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "stsl_bt_nodes/for_each_mineral_sample_node.hpp"
+#include "for_each_mineral_sample_node.hpp"
 #include <string>
 #include <vector>
 
@@ -35,8 +35,8 @@ ForEachMineralSampleNode::ForEachMineralSampleNode(
 BT::PortsList ForEachMineralSampleNode::providedPorts()
 {
   return {
-    BT::InputPort<std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>>("samples_list"),
-    BT::OutputPort<geometry_msgs::msg::PoseWithCovarianceStamped>("current_sample")
+    BT::InputPort<std::vector<stsl_interfaces::msg::MineralDepositSample>>("samples_list"),
+    BT::OutputPort<stsl_interfaces::msg::MineralDepositSample>("current_sample")
   };
 }
 
@@ -49,8 +49,8 @@ void ForEachMineralSampleNode::halt()
 BT::NodeStatus ForEachMineralSampleNode::tick()
 {
   if (idle_) {
-    BT::Optional<std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>> samples_port =
-      getInput<std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>>("samples_list");
+    BT::Optional<std::vector<stsl_interfaces::msg::MineralDepositSample>> samples_port =
+      getInput<std::vector<stsl_interfaces::msg::MineralDepositSample>>("samples_list");
     if (!samples_port) {
       throw BT::RuntimeError("Missing required input [samples_list]: ", samples_port.error());
     }
@@ -87,7 +87,7 @@ void ForEachMineralSampleNode::Reset()
 {
   idle_ = true;
   samples_.clear();
-  samples_iter_ = std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>::iterator{};
+  samples_iter_ = std::vector<stsl_interfaces::msg::MineralDepositSample>::iterator{};
 }
 
 }  // namespace stsl_bt_nodes

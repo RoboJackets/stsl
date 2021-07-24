@@ -82,11 +82,16 @@ public:
     const auto plugin_libs = declare_parameter("plugin_libs", default_plugin_libs);
     bt_engine_ = std::make_unique<nav2_behavior_tree::BehaviorTreeEngine>(plugin_libs);
 
-    tree_ros_node_ = std::make_shared<rclcpp::Node>("mission_orchestrator_behavior_tree", options);
+    rclcpp::NodeOptions tree_node_options = options;
+    tree_node_options.allow_undeclared_parameters(true);
+    tree_node_options.automatically_declare_parameters_from_overrides(true);
+    tree_ros_node_ = std::make_shared<rclcpp::Node>(
+      "mission_orchestrator_behavior_tree",
+      tree_node_options);
 
     const auto mineral_samples_file = declare_parameter<std::string>("mineral_samples_file", "");
 
-    std::vector<geometry_msgs::msg::PoseWithCovarianceStamped> mineral_samples;
+    std::vector<stsl_interfaces::msg::MineralDepositSample> mineral_samples;
     if (!mineral_samples_file.empty() &&
       !LoadMineralSamplesFile(mineral_samples_file, mineral_samples))
     {
@@ -99,7 +104,7 @@ public:
     blackboard_->set<std::shared_ptr<tf2_ros::Buffer>>("tf_buffer", tf_buffer_);
     blackboard_->set<rclcpp::Node::SharedPtr>("node", tree_ros_node_);
     blackboard_->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(10));
-    blackboard_->set<std::vector<geometry_msgs::msg::PoseWithCovarianceStamped>>(
+    blackboard_->set<std::vector<stsl_interfaces::msg::MineralDepositSample>>(
       "mineral_samples",
       mineral_samples);
 
@@ -193,7 +198,7 @@ private:
     try {
       tree_ = bt_engine_->createTreeFromText(xml_content, blackboard_);
     } catch (const BT::RuntimeError & e) {
-      RCLCPP_ERROR(get_logger(), "BT exception: %s", e.what());
+      RCLCPP_ERROR(get_logger(), "Could not create behavior tree. Details: %s", e.what());
       return false;
     }
 
@@ -202,7 +207,7 @@ private:
 
   bool LoadMineralSamplesFile(
     const std::string & mineral_samples_file_path,
-    std::vector<geometry_msgs::msg::PoseWithCovarianceStamped> & samples)
+    std::vector<stsl_interfaces::msg::MineralDepositSample> & samples)
   {
     try {
       YAML::Node root_yaml_node = YAML::LoadFile(mineral_samples_file_path);
@@ -214,7 +219,7 @@ private:
 
       std::transform(
         root_yaml_node.begin(), root_yaml_node.end(), std::back_inserter(
-          samples), yaml_helpers::fromYaml<geometry_msgs::msg::PoseWithCovarianceStamped>);
+          samples), yaml_helpers::fromYaml<stsl_interfaces::msg::MineralDepositSample>);
 
       RCLCPP_INFO(get_logger(), "Loaded %d mineral samples.", samples.size());
 

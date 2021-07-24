@@ -18,30 +18,37 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef STSL_BT_NODES__LOG_NODE_HPP_
-#define STSL_BT_NODES__LOG_NODE_HPP_
+#ifndef FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
+#define FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
 
-#include <rclcpp/rclcpp.hpp>
-#include <behaviortree_cpp_v3/action_node.h>
+#include <behaviortree_cpp_v3/decorator_node.h>
+#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 #include <string>
+#include <vector>
 
 namespace stsl_bt_nodes
 {
 
-class LogNode : public BT::SyncActionNode
+class ForEachMineralSampleNode : public BT::DecoratorNode
 {
 public:
-  LogNode(const std::string & xml_tag_name, const BT::NodeConfiguration & conf);
+  ForEachMineralSampleNode(const std::string & name, const BT::NodeConfiguration & conf);
 
   static BT::PortsList providedPorts();
+
+  void halt() override;
 
 protected:
   BT::NodeStatus tick() override;
 
 private:
-  rclcpp::Node::SharedPtr node_;
+  bool idle_{true};
+  std::vector<stsl_interfaces::msg::MineralDepositSample> samples_;
+  std::vector<stsl_interfaces::msg::MineralDepositSample>::iterator samples_iter_;
+
+  void Reset();
 };
 
 }  // namespace stsl_bt_nodes
 
-#endif  // STSL_BT_NODES__LOG_NODE_HPP_
+#endif  // FOR_EACH_MINERAL_SAMPLE_NODE_HPP_

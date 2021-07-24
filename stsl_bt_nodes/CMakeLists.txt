@@ -16,12 +16,14 @@ set(dependencies
 
 add_library(${PROJECT_NAME} SHARED
   src/for_each_mineral_sample_node.cpp
+  src/get_sample_pose_node.cpp
   src/log_node.cpp
   src/node_registration.cpp
+  src/reset_mineral_deposit_tracker_node.cpp
+  src/set_light_state_node.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 target_compile_definitions(${PROJECT_NAME} PRIVATE BT_PLUGIN_EXPORT)
-target_include_directories(${PROJECT_NAME} PRIVATE include)
 
 install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
@@ -29,16 +31,10 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION bin
 )
 
-install(DIRECTORY include/
-  DESTINATION include/
-)
-
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
-
-ament_export_include_directories(include)
 
 ament_export_libraries(${PROJECT_NAME})
 

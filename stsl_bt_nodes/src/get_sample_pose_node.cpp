@@ -18,37 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef YAML_HELPERS_HPP_
-#define YAML_HELPERS_HPP_
-
-#include <yaml-cpp/yaml.h>
+#include "get_sample_pose_node.hpp"
 #include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
+#include <geometry_msgs/msg/pose_stamped.hpp>
+#include <string>
 
-namespace mission_orchestration::yaml_helpers
+namespace stsl_bt_nodes
 {
 
-template<typename MessageType>
-MessageType fromYaml(const YAML::Node & yaml);
+GetSamplePose::GetSamplePose(const std::string & name, const BT::NodeConfiguration & conf)
+: BT::SyncActionNode(name, conf)
+{
+  ros_node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
+}
 
+BT::PortsList GetSamplePose::providedPorts()
+{
+  return {
+    BT::InputPort<stsl_interfaces::msg::MineralDepositSample>("sample"),
+    BT::OutputPort<geometry_msgs::msg::PoseStamped>("pose")
+  };
+}
 
-template<>
-std::array<double, 36> fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Point fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Quaternion fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::Pose fromYaml(const YAML::Node & yaml);
-
-template<>
-geometry_msgs::msg::PoseWithCovariance fromYaml(const YAML::Node & yaml);
-
-template<>
-stsl_interfaces::msg::MineralDepositSample fromYaml(const YAML::Node & yaml);
-
-}  // namespace mission_orchestration::yaml_helpers
-
-#endif  // YAML_HELPERS_HPP_
+BT::NodeStatus GetSamplePose::tick()
+{
+  const auto sample = getInput<stsl_interfaces::msg::MineralDepositSample>("sample");
+  if (!sample) {
+    throw BT::RuntimeError("Missing required port: sample");
+  }
+  geometry_msgs::msg::PoseStamped pose;
+  pose.header.stamp = ros_node_->now();
+  pose.header.frame_id = "map";
+  pose.pose = sample->pose.pose;
+  setOutput("pose", pose);
+  return BT::NodeStatus::SUCCESS;
+}
+}  // namespace stsl_bt_nodes

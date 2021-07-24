@@ -18,26 +18,30 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef STSL_BT_NODES__PARK_AT_PEAK_NODE_HPP_
-#define STSL_BT_NODES__PARK_AT_PEAK_NODE_HPP_
+#ifndef LOG_NODE_HPP_
+#define LOG_NODE_HPP_
 
-#include <stsl_interfaces/action/park_at_peak.hpp>
-#include <nav2_behavior_tree/bt_action_node.hpp>
+#include <rclcpp/rclcpp.hpp>
+#include <behaviortree_cpp_v3/action_node.h>
 #include <string>
 
 namespace stsl_bt_nodes
 {
 
-class ParkAtPeakNode : public nav2_behavior_tree::BtActionNode<stsl_interfaces::action::ParkAtPeak>
+class LogNode : public BT::SyncActionNode
 {
 public:
-  ParkAtPeakNode(const std::string & xml_tag_name, const BT::NodeConfiguration & conf)
-  : nav2_behavior_tree::BtActionNode<stsl_interfaces::action::ParkAtPeak>(xml_tag_name,
-      "/park_at_peak", conf)
-  {
-  }
+  LogNode(const std::string & xml_tag_name, const BT::NodeConfiguration & conf);
+
+  static BT::PortsList providedPorts();
+
+protected:
+  BT::NodeStatus tick() override;
+
+private:
+  rclcpp::Node::SharedPtr node_;
 };
 
 }  // namespace stsl_bt_nodes
 
-#endif  // STSL_BT_NODES__PARK_AT_PEAK_NODE_HPP_
+#endif  // LOG_NODE_HPP_
