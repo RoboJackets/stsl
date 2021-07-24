@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>stsl_desktop</name>
+  <version>0.0.0</version>
+  <description>Meta package for the RoboJackets Software Training Support Library desktop packages</description>
+  <maintainer email="matthew.barulic@gmail.com">Matthew Barulic</maintainer>
+  <license>MIT</license>
+
+  <buildtool_depend>ament_cmake</buildtool_depend>
+
+  <exec_depend>aruco_tag_detection</exec_depend>
+  <exec_depend>aruco_tag_model_generation</exec_depend>
+  <exec_depend>elevation_server</exec_depend>
+  <exec_depend>mineral_deposit_detection</exec_depend>
+  <exec_depend>mission_orchestration</exec_depend>
+  <exec_depend>stsl_bt_nodes</exec_depend>
+  <exec_depend>stsl_gazebo_plugins</exec_depend>
+  <exec_depend>stsl_interfaces</exec_depend>
+  <exec_depend>stsl_nav_plugins</exec_depend>
+  <exec_depend>traini_bringup</exec_depend>
+  <exec_depend>traini_description</exec_depend>
+  <exec_depend>traini_gazebo</exec_depend>
+
+  <export>
+    <build_type>ament_cmake</build_type>
+  </export>
+</package>
