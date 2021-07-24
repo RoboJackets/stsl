@@ -198,7 +198,7 @@ private:
     try {
       tree_ = bt_engine_->createTreeFromText(xml_content, blackboard_);
     } catch (const BT::RuntimeError & e) {
-      RCLCPP_ERROR(get_logger(), "BT exception: %s", e.what());
+      RCLCPP_ERROR(get_logger(), "Could not create behavior tree. Details: %s", e.what());
       return false;
     }
 

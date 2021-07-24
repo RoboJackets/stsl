@@ -20,6 +20,7 @@ add_library(${PROJECT_NAME} SHARED
   src/log_node.cpp
   src/node_registration.cpp
   src/reset_mineral_deposit_tracker_node.cpp
+  src/set_light_state_node.cpp
 )
 ament_target_dependencies(${PROJECT_NAME} ${dependencies})
 target_compile_definitions(${PROJECT_NAME} PRIVATE BT_PLUGIN_EXPORT)

@@ -18,32 +18,32 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "log_node.hpp"
+#ifndef SET_LIGHT_STATE_NODE_HPP_
+#define SET_LIGHT_STATE_NODE_HPP_
+
+#include <behaviortree_cpp_v3/action_node.h>
+#include <rclcpp/rclcpp.hpp>
+#include <std_msgs/msg/bool.hpp>
 #include <string>
 
 namespace stsl_bt_nodes
 {
-
-LogNode::LogNode(const std::string & xml_tag_name, const BT::NodeConfiguration & conf)
-: BT::SyncActionNode(xml_tag_name, conf)
+class SetLightStateNode : public BT::SyncActionNode
 {
-  node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
-}
+public:
+  SetLightStateNode(
+    const std::string & xml_tag_name,
+    const BT::NodeConfiguration & conf);
 
-BT::PortsList LogNode::providedPorts()
-{
-  return {BT::InputPort<std::string>("message")};
-}
+  static BT::PortsList providedPorts();
 
-BT::NodeStatus LogNode::tick()
-{
-  BT::Optional<std::string> message = getInput<std::string>("message");
-  if (!message) {
-    throw BT::RuntimeError("Missing required input [message]: ", message.error());
-  }
-  RCLCPP_INFO(node_->get_logger(), "%s", message.value().c_str());
-  return BT::NodeStatus::SUCCESS;
-}
+  BT::NodeStatus tick() override;
 
-
+private:
+  rclcpp::Node::SharedPtr ros_node_;
+  rclcpp::Publisher<std_msgs::msg::Bool>::SharedPtr publisher_;
+};
 }  // namespace stsl_bt_nodes
+
+
+#endif  // SET_LIGHT_STATE_NODE_HPP_

@@ -29,6 +29,7 @@ namespace stsl_bt_nodes
 GetSamplePose::GetSamplePose(const std::string & name, const BT::NodeConfiguration & conf)
 : BT::SyncActionNode(name, conf)
 {
+  ros_node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
 }
 
 BT::PortsList GetSamplePose::providedPorts()
@@ -41,9 +42,6 @@ BT::PortsList GetSamplePose::providedPorts()
 
 BT::NodeStatus GetSamplePose::tick()
 {
-  if (!ros_node_) {
-    ros_node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
-  }
   const auto sample = getInput<stsl_interfaces::msg::MineralDepositSample>("sample");
   if (!sample) {
     throw BT::RuntimeError("Missing required port: sample");

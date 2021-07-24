@@ -18,32 +18,39 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "behaviortree_cpp_v3/bt_factory.h"
-#include "for_each_mineral_sample_node.hpp"
-#include "log_node.hpp"
-#include "park_at_peak_node.hpp"
-#include "reset_mineral_deposit_tracker_node.hpp"
-#include "get_sample_pose_node.hpp"
 #include "set_light_state_node.hpp"
+#include <string>
 
-BT_REGISTER_NODES(factory)
+namespace stsl_bt_nodes
 {
-  factory.registerBuilder<stsl_bt_nodes::ForEachMineralSampleNode>(
-    "ForEachMineralSample",
-    BT::CreateBuilder<stsl_bt_nodes::ForEachMineralSampleNode>());
-  factory.registerBuilder<stsl_bt_nodes::LogNode>(
-    "Log",
-    BT::CreateBuilder<stsl_bt_nodes::LogNode>());
-  factory.registerBuilder<stsl_bt_nodes::ParkAtPeakNode>(
-    "ParkAtPeak",
-    BT::CreateBuilder<stsl_bt_nodes::ParkAtPeakNode>());
-  factory.registerBuilder<stsl_bt_nodes::ResetMineralDepositTrackerNode>(
-    "ResetMineralDepositTracker",
-    BT::CreateBuilder<stsl_bt_nodes::ResetMineralDepositTrackerNode>());
-  factory.registerBuilder<stsl_bt_nodes::GetSamplePose>(
-    "GetSamplePose",
-    BT::CreateBuilder<stsl_bt_nodes::GetSamplePose>());
-  factory.registerBuilder<stsl_bt_nodes::SetLightStateNode>(
-    "SetLightState",
-    BT::CreateBuilder<stsl_bt_nodes::SetLightStateNode>());
+
+SetLightStateNode::SetLightStateNode(
+  const std::string & xml_tag_name,
+  const BT::NodeConfiguration & conf)
+: BT::SyncActionNode(xml_tag_name, conf)
+{
+  ros_node_ = config().blackboard->get<rclcpp::Node::SharedPtr>("node");
+  publisher_ = ros_node_->create_publisher<std_msgs::msg::Bool>(
+    "/light_control/indicator_light",
+    rclcpp::SystemDefaultsQoS());
 }
+
+BT::PortsList SetLightStateNode::providedPorts()
+{
+  return {
+    BT::InputPort<bool>("state")
+  };
+}
+
+BT::NodeStatus SetLightStateNode::tick()
+{
+  const auto state = getInput<bool>("state");
+  if (!state.has_value()) {
+    throw BT::RuntimeError("Missing required port: state");
+  }
+  std_msgs::msg::Bool msg;
+  msg.data = state.value();
+  publisher_->publish(msg);
+  return BT::NodeStatus::SUCCESS;
+}
+}  // namespace stsl_bt_nodes
