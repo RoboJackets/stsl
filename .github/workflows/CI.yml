@@ -29,5 +29,5 @@ jobs:
         shell: bash
         run: |
           source /opt/ros/foxy/setup.bash
-          colcon test
-          colcon test-result --verbose
+          colcon test --packages-skip traini_onboard_interface
+          colcon test-result --verbose 
