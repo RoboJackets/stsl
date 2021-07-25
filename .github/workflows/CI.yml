@@ -12,7 +12,19 @@ jobs:
       - uses: ros-tooling/setup-ros@v0.2
         with:
           required-ros-distributions: foxy
-      - uses: ros-tooling/action-ros-ci@v0.2
+      - uses: actions/checkout@v2
         with:
-          target-ros2-distro: foxy
-          vcs-repo-file-url: https://raw.githubusercontent.com/ros2/ros2/foxy/ros2.repos
+          path: src/stsl
+      - name: Install Dependencies
+        run: |
+          source /opt/ros/foxy/setup.bash
+          sudo rosdep install -iy --from-paths src
+      - name: Build
+        run: |
+          source /opt/ros/foxy/setup.bash
+          colcon build
+      - name: Test
+        run: |
+          source /opt/ros/foxy/setup.bash
+          colcon test
+          colcon test-result --verbose
