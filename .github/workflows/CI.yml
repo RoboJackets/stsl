@@ -15,16 +15,16 @@ jobs:
           path: src/stsl
       - name: Install Dependencies
         run: |
-          source /opt/ros/foxy/setup.bash
+          . /opt/ros/foxy/setup.bash
           sudo apt-get update
-          rosdep update
-          rosdep install -iy --from-paths src
+          rosdep update --rosdistro=foxy
+          rosdep install --from-paths . --ignore-src -y --skip-keys="libgpiod2 libgpiod-dev"
       - name: Build
         run: |
-          source /opt/ros/foxy/setup.bash
+          . /opt/ros/foxy/setup.bash
           colcon build
       - name: Test
         run: |
-          source /opt/ros/foxy/setup.bash
+          . /opt/ros/foxy/setup.bash
           colcon test
           colcon test-result --verbose
