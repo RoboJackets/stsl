@@ -24,7 +24,7 @@ jobs:
         shell: bash
         run: |
           source /opt/ros/foxy/setup.bash
-          colcon build
+          colcon build --packages-skip traini_onboard_interface
       - name: Test
         shell: bash
         run: |
