@@ -8,18 +8,17 @@ on:
 jobs:
   buildAndTest:
     runs-on: ubuntu-20.04
+    container: ros:foxy
     steps:
-      - uses: ros-tooling/setup-ros@v0.2
-        with:
-          required-ros-distributions: foxy
       - uses: actions/checkout@v2
         with:
           path: src/stsl
       - name: Install Dependencies
         run: |
           source /opt/ros/foxy/setup.bash
+          sudo apt-get update
           rosdep update
-          sudo rosdep install -iy --from-paths src
+          rosdep install -iy --from-paths src
       - name: Build
         run: |
           source /opt/ros/foxy/setup.bash
