@@ -19,6 +19,7 @@
 # THE SOFTWARE.
 
 from launch import LaunchDescription
+from launch.substitutions import LaunchConfiguration
 from launch_ros.actions import Node
 
 
@@ -29,7 +30,16 @@ def generate_launch_description():
             executable='aruco_tag_detection_node',
             output='screen',
             parameters=[
+                {'use_sim_time': LaunchConfiguration('use_sim_time', default='false')},
                 {'tag_size': 0.1}
+            ]
+        ),
+        Node(
+            package='aruco_tag_detection',
+            executable='aruco_tag_visual_node',
+            output='screen',
+            parameters=[
+                {'use_sim_time': LaunchConfiguration('use_sim_time', default='false')},
             ]
         )
     ])
