@@ -36,22 +36,22 @@ install(TARGETS ${PROJECT_NAME}_component
 set(NODE_NAME aruco_tag_visual)
 add_library(${NODE_NAME}_component SHARED src/aruco_marker_visualization.cpp)
 ament_target_dependencies(${NODE_NAME}_component
-        "rclcpp"
-        "rclcpp_components"
-        "visualization_msgs"
-        "stsl_interfaces"
-        )
+  "rclcpp"
+  "rclcpp_components"
+  "visualization_msgs"
+  "stsl_interfaces"
+)
 rclcpp_components_register_node(
-        ${NODE_NAME}_component
-        PLUGIN "aruco_tag_detection::ArucoVisualization"
-        EXECUTABLE ${NODE_NAME}_node
+  ${NODE_NAME}_component
+  PLUGIN "aruco_tag_detection::ArucoVisualization"
+  EXECUTABLE ${NODE_NAME}_node
 )
 
 install(TARGETS ${NODE_NAME}_component
-        ARCHIVE DESTINATION lib
-        LIBRARY DESTINATION lib
-        RUNTIME DESTINATION lib/${NODE_NAME}
-        )
+  ARCHIVE DESTINATION lib
+  LIBRARY DESTINATION lib
+  RUNTIME DESTINATION lib/${NODE_NAME}
+)
 
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)

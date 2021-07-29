@@ -31,7 +31,7 @@ namespace aruco_tag_detection
 class ArucoVisualization : public rclcpp::Node
 {
 public:
-  ArucoVisualization(const rclcpp::NodeOptions & options)
+  explicit ArucoVisualization(const rclcpp::NodeOptions & options)
   : rclcpp::Node("aruco_tag_visualization", options)
   {
     marker_pub_ = create_publisher<visualization_msgs::msg::MarkerArray>("true_tags", 1);
