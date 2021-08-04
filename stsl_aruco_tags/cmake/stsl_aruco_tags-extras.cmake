@@ -29,8 +29,8 @@ function(generate_aruco_tag_model)
     set(_model_dir_name "aruco_tag_${_GEN_TAG_MODEL_ID}")
     add_custom_command(
         OUTPUT ${generated_model_files}
-        COMMAND aruco_tag_model_generation::tag_model_generator ${_GEN_TAG_MODEL_ID} ${_GEN_TAG_MODEL_RESOLUTION} ${_GEN_TAG_MODEL_SIZE} "${_GEN_TAG_MODEL_DESTINATION}"
-        DEPENDS aruco_tag_model_generation::tag_model_generator
+        COMMAND stsl_aruco_tags::tag_model_generator ${_GEN_TAG_MODEL_ID} ${_GEN_TAG_MODEL_RESOLUTION} ${_GEN_TAG_MODEL_SIZE} "${_GEN_TAG_MODEL_DESTINATION}"
+        DEPENDS stsl_aruco_tags::tag_model_generator
         COMMENT "Generating tag model ID ${_GEN_TAG_MODEL_ID}"
     )
     set(GENERATED_TAG_MODEL_FILES ${generated_model_files} PARENT_SCOPE)

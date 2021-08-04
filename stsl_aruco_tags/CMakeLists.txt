@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.5)
-project(aruco_tag_detection)
+project(stsl_aruco_tags)
 
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
@@ -27,13 +27,20 @@ ament_target_dependencies(${PROJECT_NAME}
 )
 rclcpp_components_register_node(
   ${PROJECT_NAME}
-  PLUGIN "aruco_tag_detection::DetectorComponent"
-  EXECUTABLE ${PROJECT_NAME}_node
+  PLUGIN "stsl_aruco_tags::DetectorComponent"
+  EXECUTABLE aruco_tag_detector
 )
 rclcpp_components_register_node(
   ${PROJECT_NAME}
-  PLUGIN "aruco_tag_detection::ArucoMarkerVisualizer"
+  PLUGIN "stsl_aruco_tags::ArucoMarkerVisualizer"
   EXECUTABLE aruco_marker_visualizer
+)
+
+add_executable(tag_model_generator src/tag_model_generator.cpp)
+set_property(TARGET tag_model_generator PROPERTY CXX_STANDARD 17)
+ament_target_dependencies(
+  tag_model_generator
+  "OpenCV"
 )
 
 install(TARGETS ${PROJECT_NAME}
@@ -42,9 +49,18 @@ install(TARGETS ${PROJECT_NAME}
   RUNTIME DESTINATION lib/${PROJECT_NAME}
 )
 
+install(TARGETS tag_model_generator
+  EXPORT tag_model_generator_EXPORT
+  RUNTIME DESTINATION lib/${PROJECT_NAME}
+)
+
 if(BUILD_TESTING)
   find_package(ament_lint_auto REQUIRED)
   ament_lint_auto_find_test_dependencies()
 endif()
 
-ament_package()
+ament_export_targets(tag_model_generator_EXPORT)
+
+ament_package(
+  CONFIG_EXTRAS cmake/stsl_aruco_tags-extras.cmake
+)

@@ -27,7 +27,7 @@
 #include <eigen3/Eigen/Dense>
 #include <vector>
 
-namespace aruco_tag_detection
+namespace stsl_aruco_tags
 {
 class DetectorComponent : public rclcpp::Node
 {
@@ -114,6 +114,6 @@ private:
     }
   }
 };
-}  // namespace aruco_tag_detection
+}  // namespace stsl_aruco_tags
 
-RCLCPP_COMPONENTS_REGISTER_NODE(aruco_tag_detection::DetectorComponent)
+RCLCPP_COMPONENTS_REGISTER_NODE(stsl_aruco_tags::DetectorComponent)

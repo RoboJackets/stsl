@@ -26,7 +26,7 @@
 
 using namespace std::chrono_literals;
 
-namespace aruco_tag_detection
+namespace stsl_aruco_tags
 {
 class ArucoVisualization : public rclcpp::Node
 {
@@ -81,6 +81,6 @@ private:
     marker_pub_->publish(marker_array_msg);
   }
 };
-}  // namespace aruco_tag_detection
+}  // namespace stsl_aruco_tags
 
-RCLCPP_COMPONENTS_REGISTER_NODE(aruco_tag_detection::ArucoVisualization)
+RCLCPP_COMPONENTS_REGISTER_NODE(stsl_aruco_tags::ArucoVisualization)
