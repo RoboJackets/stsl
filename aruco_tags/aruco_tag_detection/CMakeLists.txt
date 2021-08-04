@@ -11,8 +11,11 @@ find_package(OpenCV 4 REQUIRED)
 find_package(Eigen3 REQUIRED)
 find_package(stsl_interfaces REQUIRED)
 
-add_library(${PROJECT_NAME}_component SHARED src/detector_component.cpp)
-ament_target_dependencies(${PROJECT_NAME}_component
+add_library(${PROJECT_NAME} SHARED
+  src/detector_component.cpp
+  src/aruco_marker_visualizer.cpp
+)
+ament_target_dependencies(${PROJECT_NAME}
   "rclcpp"
   "rclcpp_components"
   "cv_bridge"
@@ -20,37 +23,23 @@ ament_target_dependencies(${PROJECT_NAME}_component
   "OpenCV"
   "Eigen3"
   "stsl_interfaces"
+  "visualization_msgs"
 )
 rclcpp_components_register_node(
-  ${PROJECT_NAME}_component
+  ${PROJECT_NAME}
   PLUGIN "aruco_tag_detection::DetectorComponent"
   EXECUTABLE ${PROJECT_NAME}_node
 )
+rclcpp_components_register_node(
+  ${PROJECT_NAME}
+  PLUGIN "aruco_tag_detection::ArucoMarkerVisualizer"
+  EXECUTABLE aruco_marker_visualizer
+)
 
-install(TARGETS ${PROJECT_NAME}_component
+install(TARGETS ${PROJECT_NAME}
   ARCHIVE DESTINATION lib
   LIBRARY DESTINATION lib
   RUNTIME DESTINATION lib/${PROJECT_NAME}
-)
-
-set(NODE_NAME aruco_tag_visual)
-add_library(${NODE_NAME}_component SHARED src/aruco_marker_visualization.cpp)
-ament_target_dependencies(${NODE_NAME}_component
-  "rclcpp"
-  "rclcpp_components"
-  "visualization_msgs"
-  "stsl_interfaces"
-)
-rclcpp_components_register_node(
-  ${NODE_NAME}_component
-  PLUGIN "aruco_tag_detection::ArucoVisualization"
-  EXECUTABLE ${NODE_NAME}_node
-)
-
-install(TARGETS ${NODE_NAME}_component
-  ARCHIVE DESTINATION lib
-  LIBRARY DESTINATION lib
-  RUNTIME DESTINATION lib/${NODE_NAME}
 )
 
 if(BUILD_TESTING)
