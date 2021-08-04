@@ -9,7 +9,7 @@
 
   <buildtool_depend>ament_cmake</buildtool_depend>
 
-  <build_depend>aruco_tag_model_generation</build_depend>
+  <build_depend>stsl_aruco_tags</build_depend>
 
   <exec_depend>gazebo_ros</exec_depend>
   <exec_depend>gazebo_plugins</exec_depend>

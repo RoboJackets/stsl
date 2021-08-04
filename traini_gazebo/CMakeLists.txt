@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 project(traini_gazebo)
 
 find_package(ament_cmake REQUIRED)
-find_package(aruco_tag_model_generation REQUIRED)
+find_package(stsl_aruco_tags REQUIRED)
 
 generate_aruco_tag_models(
   IDS_START 0

@@ -26,20 +26,12 @@ from launch_ros.actions import Node
 def generate_launch_description():
     return LaunchDescription([
         Node(
-            package='aruco_tag_detection',
-            executable='aruco_tag_detection_node',
+            package='stsl_aruco_tags',
+            executable='aruco_tag_detector',
             output='screen',
             parameters=[
                 {'use_sim_time': LaunchConfiguration('use_sim_time', default='false')},
                 {'tag_size': 0.1}
-            ]
-        ),
-        Node(
-            package='aruco_tag_detection',
-            executable='aruco_tag_visual_node',
-            output='screen',
-            parameters=[
-                {'use_sim_time': LaunchConfiguration('use_sim_time', default='false')},
             ]
         )
     ])

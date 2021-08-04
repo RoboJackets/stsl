@@ -1,13 +1,11 @@
-aruco_tag_detection:
-  ubuntu: [ros-foxy-aruco-tag-detection]
-aruco_tag_model_generation:
-  ubuntu: [ros-foxy-aruco-tag-model-generation]
 elevation_server:
   ubuntu: [ros-foxy-elevation-server]
 mineral_deposit_detection:
   ubuntu: [ros-foxy-mineral-deposit-detection]
 mission_orchestration:
   ubuntu: [ros-foxy-mission-orchestration]
+stsl_aruco_tags:
+  ubuntu: [ros-foxy-stsl-aruco-tags]
 stsl_bt_nodes:
   ubuntu: [ros-foxy-stsl-bt-nodes]
 stsl_desktop:
