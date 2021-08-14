@@ -16,7 +16,7 @@ mkdir -p ros2
 
 cp -r ../cross_compilation/cross_compile_ws/install_armhf ros2/
 
-mv ros2/install_armhf ros2/eloquent
+mv ros2/install_armhf ros2/foxy
 
 tar -czf stsl_package.tar.gz ros2/ robojacketsstsl.service.in
 

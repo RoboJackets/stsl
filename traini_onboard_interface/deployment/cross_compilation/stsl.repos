@@ -1,425 +1,249 @@
-- git:
-    local-name: stsl
-    uri: https://github.com/RoboJackets/stsl.git
-    version: master
-- git:
-    local-name: ament_cmake/ament_cmake
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_core
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_core/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_export_definitions
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_export_definitions/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_export_dependencies
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_export_dependencies/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_export_include_directories
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_export_include_directories/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_export_interfaces
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_export_interfaces/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_export_libraries
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_export_libraries/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_export_link_flags
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_export_link_flags/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_gmock
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_gmock/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_gtest
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_gtest/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_include_directories
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_include_directories/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_libraries
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_libraries/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_pytest
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_pytest/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_python
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_python/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_target_dependencies
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_target_dependencies/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_test
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_test/0.8.2-1
-- git:
-    local-name: ament_cmake/ament_cmake_version
-    uri: https://github.com/ros2-gbp/ament_cmake-release.git
-    version: release/eloquent/ament_cmake_version/0.8.2-1
-- git:
-    local-name: ament_cmake_ros/ament_cmake_ros
-    uri: https://github.com/ros2-gbp/ament_cmake_ros-release.git
-    version: release/eloquent/ament_cmake_ros/0.8.0-1
-- git:
-    local-name: ament_cmake_ros/domain_coordinator
-    uri: https://github.com/ros2-gbp/ament_cmake_ros-release.git
-    version: release/eloquent/domain_coordinator/0.8.0-1
-- git:
-    local-name: ament_index/ament_index_python
-    uri: https://github.com/ros2-gbp/ament_index-release.git
-    version: release/eloquent/ament_index_python/0.7.2-1
-- git:
-    local-name: ament_lint/ament_cmake_copyright
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_copyright/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_cppcheck
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_cppcheck/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_cpplint
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_cpplint/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_flake8
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_flake8/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_lint_cmake
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_lint_cmake/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_pep257
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_pep257/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_uncrustify
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_uncrustify/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cmake_xmllint
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cmake_xmllint/0.8.1-1
-- git:
-    local-name: ament_lint/ament_copyright
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_copyright/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cppcheck
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cppcheck/0.8.1-1
-- git:
-    local-name: ament_lint/ament_cpplint
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_cpplint/0.8.1-1
-- git:
-    local-name: ament_lint/ament_flake8
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_flake8/0.8.1-1
-- git:
-    local-name: ament_lint/ament_lint
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_lint/0.8.1-1
-- git:
-    local-name: ament_lint/ament_lint_auto
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_lint_auto/0.8.1-1
-- git:
-    local-name: ament_lint/ament_lint_cmake
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_lint_cmake/0.8.1-1
-- git:
-    local-name: ament_lint/ament_lint_common
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_lint_common/0.8.1-1
-- git:
-    local-name: ament_lint/ament_pep257
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_pep257/0.8.1-1
-- git:
-    local-name: ament_lint/ament_uncrustify
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_uncrustify/0.8.1-1
-- git:
-    local-name: ament_lint/ament_xmllint
-    uri: https://github.com/ros2-gbp/ament_lint-release.git
-    version: release/eloquent/ament_xmllint/0.8.1-1
-- git:
-    local-name: ament_package
-    uri: https://github.com/ros2-gbp/ament_package-release.git
-    version: release/eloquent/ament_package/0.8.8-1
-- git:
-    local-name: common_interfaces/std_msgs
-    uri: https://github.com/ros2-gbp/common_interfaces-release.git
-    version: release/eloquent/std_msgs/0.8.1-1
-- git:
-    local-name: cyclonedds
-    uri: https://github.com/ros2-gbp/cyclonedds-release.git
-    version: release/eloquent/cyclonedds/0.1.0-7
-- git:
-    local-name: fastcdr
-    uri: https://github.com/ros2-gbp/fastcdr-release.git
-    version: release/eloquent/fastcdr/1.0.11-1
-- git:
-    local-name: fastrtps
-    uri: https://github.com/ros2-gbp/fastrtps-release.git
-    version: release/eloquent/fastrtps/1.9.3-2
-- git:
-    local-name: foonathan_memory_vendor
-    uri: https://github.com/ros2-gbp/foonathan_memory_vendor-release.git
-    version: release/eloquent/foonathan_memory_vendor/0.3.0-1
-- git:
-    local-name: googletest/gmock_vendor
-    uri: https://github.com/ros2-gbp/googletest-release.git
-    version: release/eloquent/gmock_vendor/1.8.9000-1
-- git:
-    local-name: googletest/gtest_vendor
-    uri: https://github.com/ros2-gbp/googletest-release.git
-    version: release/eloquent/gtest_vendor/1.8.9000-1
-- git:
-    local-name: launch/launch
-    uri: https://github.com/ros2-gbp/launch-release.git
-    version: release/eloquent/launch/0.9.6-1
-- git:
-    local-name: launch/launch_testing
-    uri: https://github.com/ros2-gbp/launch-release.git
-    version: release/eloquent/launch_testing/0.9.6-1
-- git:
-    local-name: launch/launch_testing_ament_cmake
-    uri: https://github.com/ros2-gbp/launch-release.git
-    version: release/eloquent/launch_testing_ament_cmake/0.9.6-1
-- git:
-    local-name: libyaml_vendor
-    uri: https://github.com/ros2-gbp/libyaml_vendor-release.git
-    version: release/eloquent/libyaml_vendor/1.0.0-1
-- git:
-    local-name: osrf_pycommon
-    uri: https://github.com/ros2-gbp/osrf_pycommon-release.git
-    version: release/eloquent/osrf_pycommon/0.1.9-2
-- git:
-    local-name: osrf_testing_tools_cpp/osrf_testing_tools_cpp
-    uri: https://github.com/ros2-gbp/osrf_testings_tools_cpp-release.git
-    version: release/eloquent/osrf_testing_tools_cpp/1.2.1-1
-- git:
-    local-name: poco_vendor
-    uri: https://github.com/ros2-gbp/poco_vendor-release.git
-    version: release/eloquent/poco_vendor/1.2.0-1
-- git:
-    local-name: python_cmake_module
-    uri: https://github.com/ros2-gbp/python_cmake_module-release.git
-    version: release/eloquent/python_cmake_module/0.8.0-2
-- git:
-    local-name: rcl/rcl
-    uri: https://github.com/ros2-gbp/rcl-release.git
-    version: release/eloquent/rcl/0.8.4-1
-- git:
-    local-name: rcl/rcl_yaml_param_parser
-    uri: https://github.com/ros2-gbp/rcl-release.git
-    version: release/eloquent/rcl_yaml_param_parser/0.8.4-1
-- git:
-    local-name: rcl_interfaces/action_msgs
-    uri: https://github.com/ros2-gbp/rcl_interfaces-release.git
-    version: release/eloquent/action_msgs/0.8.0-1
-- git:
-    local-name: rcl_interfaces/builtin_interfaces
-    uri: https://github.com/ros2-gbp/rcl_interfaces-release.git
-    version: release/eloquent/builtin_interfaces/0.8.0-1
-- git:
-    local-name: rcl_interfaces/rcl_interfaces
-    uri: https://github.com/ros2-gbp/rcl_interfaces-release.git
-    version: release/eloquent/rcl_interfaces/0.8.0-1
-- git:
-    local-name: rcl_interfaces/rosgraph_msgs
-    uri: https://github.com/ros2-gbp/rcl_interfaces-release.git
-    version: release/eloquent/rosgraph_msgs/0.8.0-1
-- git:
-    local-name: rcl_interfaces/test_msgs
-    uri: https://github.com/ros2-gbp/rcl_interfaces-release.git
-    version: release/eloquent/test_msgs/0.8.0-1
-- git:
-    local-name: rcl_logging/rcl_logging_spdlog
-    uri: https://github.com/ros2-gbp/rcl_logging-release.git
-    version: release/eloquent/rcl_logging_spdlog/0.3.3-1
-- git:
-    local-name: rclcpp/rclcpp
-    uri: https://github.com/ros2-gbp/rclcpp-release.git
-    version: release/eloquent/rclcpp/0.8.4-1
-- git:
-    local-name: rcpputils
-    uri: https://github.com/ros2-gbp/rcpputils-release.git
-    version: release/eloquent/rcpputils/0.2.1-1
-- git:
-    local-name: rcutils
-    uri: https://github.com/ros2-gbp/rcutils-release.git
-    version: release/eloquent/rcutils/0.8.4-1
-- git:
-    local-name: rmw/rmw
-    uri: https://github.com/ros2-gbp/rmw-release.git
-    version: release/eloquent/rmw/0.8.1-1
-- git:
-    local-name: rmw/rmw_implementation_cmake
-    uri: https://github.com/ros2-gbp/rmw-release.git
-    version: release/eloquent/rmw_implementation_cmake/0.8.1-1
-- git:
-    local-name: rmw_connext/rmw_connext_cpp
-    uri: https://github.com/ros2-gbp/rmw_connext-release.git
-    version: release/eloquent/rmw_connext_cpp/0.8.1-1
-- git:
-    local-name: rmw_connext/rmw_connext_shared_cpp
-    uri: https://github.com/ros2-gbp/rmw_connext-release.git
-    version: release/eloquent/rmw_connext_shared_cpp/0.8.1-1
-- git:
-    local-name: rmw_cyclonedds/cyclonedds_cmake_module
-    uri: https://github.com/ros2-gbp/rmw_cyclonedds-release.git
-    version: release/eloquent/cyclonedds_cmake_module/0.4.4-1
-- git:
-    local-name: rmw_cyclonedds/rmw_cyclonedds_cpp
-    uri: https://github.com/ros2-gbp/rmw_cyclonedds-release.git
-    version: release/eloquent/rmw_cyclonedds_cpp/0.4.4-1
-- git:
-    local-name: rmw_fastrtps/rmw_fastrtps_cpp
-    uri: https://github.com/ros2-gbp/rmw_fastrtps-release.git
-    version: release/eloquent/rmw_fastrtps_cpp/0.8.1-1
-- git:
-    local-name: rmw_fastrtps/rmw_fastrtps_shared_cpp
-    uri: https://github.com/ros2-gbp/rmw_fastrtps-release.git
-    version: release/eloquent/rmw_fastrtps_shared_cpp/0.8.1-1
-- git:
-    local-name: rmw_implementation
-    uri: https://github.com/ros2-gbp/rmw_implementation-release.git
-    version: release/eloquent/rmw_implementation/0.8.2-2
-- git:
-    local-name: rmw_opensplice_cpp
-    uri: https://github.com/ros2-gbp/rmw_opensplice-release.git
-    version: release/eloquent/rmw_opensplice_cpp/0.8.1-1
-- git:
-    local-name: ros2_tracing/tracetools
-    uri: https://gitlab.com/micro-ROS/ros_tracing/ros2_tracing-release.git
-    version: release/eloquent/tracetools/0.2.12-1
-- git:
-    local-name: rosidl/rosidl_adapter
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_adapter/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_cmake
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_cmake/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_generator_c
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_generator_c/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_generator_cpp
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_generator_cpp/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_parser
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_parser/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_typesupport_interface
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_typesupport_interface/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_typesupport_introspection_c
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_typesupport_introspection_c/0.8.2-1
-- git:
-    local-name: rosidl/rosidl_typesupport_introspection_cpp
-    uri: https://github.com/ros2-gbp/rosidl-release.git
-    version: release/eloquent/rosidl_typesupport_introspection_cpp/0.8.2-1
-- git:
-    local-name: rosidl_defaults/rosidl_default_generators
-    uri: https://github.com/ros2-gbp/rosidl_defaults-release.git
-    version: release/eloquent/rosidl_default_generators/0.8.0-1
-- git:
-    local-name: rosidl_defaults/rosidl_default_runtime
-    uri: https://github.com/ros2-gbp/rosidl_defaults-release.git
-    version: release/eloquent/rosidl_default_runtime/0.8.0-1
-- git:
-    local-name: rosidl_generator_dds_idl
-    uri: https://github.com/ros2-gbp/rosidl_dds-release.git
-    version: release/eloquent/rosidl_generator_dds_idl/0.7.1-1
-- git:
-    local-name: rosidl_generator_py
-    uri: https://github.com/ros2-gbp/rosidl_python-release.git
-    version: release/eloquent/rosidl_generator_py/0.8.1-1
-- git:
-    local-name: rosidl_typesupport/rosidl_typesupport_c
-    uri: https://github.com/ros2-gbp/rosidl_typesupport-release.git
-    version: release/eloquent/rosidl_typesupport_c/0.8.0-2
-- git:
-    local-name: rosidl_typesupport/rosidl_typesupport_cpp
-    uri: https://github.com/ros2-gbp/rosidl_typesupport-release.git
-    version: release/eloquent/rosidl_typesupport_cpp/0.8.0-2
-- git:
-    local-name: rosidl_typesupport_connext/connext_cmake_module
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_connext-release.git
-    version: release/eloquent/connext_cmake_module/0.8.4-1
-- git:
-    local-name: rosidl_typesupport_connext/rosidl_typesupport_connext_c
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_connext-release.git
-    version: release/eloquent/rosidl_typesupport_connext_c/0.8.4-1
-- git:
-    local-name: rosidl_typesupport_connext/rosidl_typesupport_connext_cpp
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_connext-release.git
-    version: release/eloquent/rosidl_typesupport_connext_cpp/0.8.4-1
-- git:
-    local-name: rosidl_typesupport_fastrtps/fastrtps_cmake_module
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_fastrtps-release.git
-    version: release/eloquent/fastrtps_cmake_module/0.8.0-1
-- git:
-    local-name: rosidl_typesupport_fastrtps/rosidl_typesupport_fastrtps_c
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_fastrtps-release.git
-    version: release/eloquent/rosidl_typesupport_fastrtps_c/0.8.0-1
-- git:
-    local-name: rosidl_typesupport_fastrtps/rosidl_typesupport_fastrtps_cpp
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_fastrtps-release.git
-    version: release/eloquent/rosidl_typesupport_fastrtps_cpp/0.8.0-1
-- git:
-    local-name: rosidl_typesupport_opensplice/opensplice_cmake_module
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_opensplice-release.git
-    version: release/eloquent/opensplice_cmake_module/0.8.1-1
-- git:
-    local-name: rosidl_typesupport_opensplice/rosidl_typesupport_opensplice_c
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_opensplice-release.git
-    version: release/eloquent/rosidl_typesupport_opensplice_c/0.8.1-1
-- git:
-    local-name: rosidl_typesupport_opensplice/rosidl_typesupport_opensplice_cpp
-    uri: https://github.com/ros2-gbp/rosidl_typesupport_opensplice-release.git
-    version: release/eloquent/rosidl_typesupport_opensplice_cpp/0.8.1-1
-- git:
-    local-name: spdlog_vendor
-    uri: https://github.com/ros2-gbp/spdlog_vendor-release.git
-    version: release/eloquent/spdlog_vendor/1.0.1-1
-- git:
-    local-name: test_interface_files
-    uri: https://github.com/ros2-gbp/test_interface_files-release.git
-    version: release/eloquent/test_interface_files/0.8.0-1
-- git:
-    local-name: tinydir_vendor
-    uri: https://github.com/ros2-gbp/tinydir_vendor-release.git
-    version: release/eloquent/tinydir_vendor/1.1.1-1
-- git:
-    local-name: uncrustify_vendor
-    uri: https://github.com/ros2-gbp/uncrustify_vendor-release.git
-    version: release/eloquent/uncrustify_vendor/1.3.0-1
-- git:
-    local-name: unique_identifier_msgs
-    uri: https://github.com/ros2-gbp/unique_identifier_msgs-release.git
-    version: release/eloquent/unique_identifier_msgs/2.1.0-1
-
+repositories:
+  stsl:
+    type: git
+    url: https://github.com/RoboJackets/stsl.git
+    version: main
+  ament/ament_cmake:
+    type: git
+    url: https://github.com/ament/ament_cmake.git
+    version: 0.5.1
+  ament/ament_index:
+    type: git
+    url: https://github.com/ament/ament_index.git
+    version: 0.5.1
+  ament/ament_lint:
+    type: git
+    url: https://github.com/ament/ament_lint.git
+    version: 0.5.2
+  ament/ament_package:
+    type: git
+    url: https://github.com/ament/ament_package.git
+    version: 0.5.2
+  ament/ament_tools:
+    type: git
+    url: https://github.com/ament/ament_tools.git
+    version: 0.5.0
+  ament/googletest:
+    type: git
+    url: https://github.com/ament/googletest.git
+    version: 4b6e624e78ba3d43c1602ffc80478ee7253e0b04
+  ament/osrf_pycommon:
+    type: git
+    url: https://github.com/osrf/osrf_pycommon.git
+    version: 0.1.5
+  ament/uncrustify:
+    type: git
+    url: https://github.com/ament/uncrustify.git
+    version: 0.66.1
+  eProsima/Fast-CDR:
+    type: git
+    url: https://github.com/eProsima/Fast-CDR.git
+    version: v1.0.7
+  eProsima/Fast-RTPS:
+    type: git
+    url: https://github.com/eProsima/Fast-RTPS.git
+    version: 7a0b0fe7ca8d2c4ea41e36744c6024c263a6505a
+  osrf/osrf_testing_tools_cpp:
+    type: git
+    url: https://github.com/osrf/osrf_testing_tools_cpp.git
+    version: 1.0.0
+  ros/class_loader:
+    type: git
+    url: https://github.com/ros/class_loader.git
+    version: 1.1.0
+  ros/console_bridge:
+    type: git
+    url: https://github.com/ros/console_bridge.git
+    version: ad25f7307da76be2857545e7e5c2a20727eee542
+  ros/pluginlib:
+    type: git
+    url: https://github.com/ros/pluginlib.git
+    version: 2.1.1
+  ros/resource_retriever:
+    type: git
+    url: https://github.com/ros/resource_retriever.git
+    version: 2.1.0
+  ros/ros_environment:
+    type: git
+    url: https://github.com/ros/ros_environment.git
+    version: 2.1.1
+  ros/urdfdom_headers:
+    type: git
+    url: https://github.com/ros/urdfdom_headers.git
+    version: e7e0972a4617b8a5df7a274ea3ba3b92e3895a35
+  ros-perception/laser_geometry:
+    type: git
+    url: https://github.com/ros-perception/laser_geometry.git
+    version: 2.0.0
+  ros-planning/navigation_msgs:
+    type: git
+    url: https://github.com/ros-planning/navigation_msgs.git
+    version: 2.0.0
+  ros2/ament_cmake_ros:
+    type: git
+    url: https://github.com/ros2/ament_cmake_ros.git
+    version: 0.5.0
+  ros2/common_interfaces:
+    type: git
+    url: https://github.com/ros2/common_interfaces.git
+    version: 0.5.1
+  ros2/demos:
+    type: git
+    url: https://github.com/ros2/demos.git
+    version: 0.5.1
+  ros2/examples:
+    type: git
+    url: https://github.com/ros2/examples.git
+    version: 0.5.1
+  ros2/example_interfaces:
+    type: git
+    url: https://github.com/ros2/example_interfaces.git
+    version: 0.5.0
+  ros2/geometry2:
+    type: git
+    url: https://github.com/ros2/geometry2.git
+    version: 0.9.1
+  ros2/kdl_parser:
+    type: git
+    url: https://github.com/ros2/kdl_parser.git
+    version: 2.1.0
+  ros2/launch:
+    type: git
+    url: https://github.com/ros2/launch.git
+    version: 0.6.0
+  ros2/libyaml_vendor:
+    type: git
+    url: https://github.com/ros2/libyaml_vendor.git
+    version: 1.0.0
+  ros2/orocos_kinematics_dynamics:
+    type: git
+    url: https://github.com/ros2/orocos_kinematics_dynamics.git
+    version: 3.0.1
+  ros2/poco_vendor:
+    type: git
+    url: https://github.com/ros2/poco_vendor.git
+    version: 1.1.1
+  ros2/rcl:
+    type: git
+    url: https://github.com/ros2/rcl.git
+    version: 0.5.1
+  ros2/rcl_interfaces:
+    type: git
+    url: https://github.com/ros2/rcl_interfaces.git
+    version: 0.5.0
+#  ros2/rclc:
+#    type: git
+#    url: https://github.com/ros2/rclc.git
+#    version: master
+  ros2/rclcpp:
+    type: git
+    url: https://github.com/ros2/rclcpp.git
+    version: 0.5.1
+  ros2/rclpy:
+    type: git
+    url: https://github.com/ros2/rclpy.git
+    version: 0.5.4
+  ros2/rcutils:
+    type: git
+    url: https://github.com/ros2/rcutils.git
+    version: 0.5.1
+  ros2/realtime_support:
+    type: git
+    url: https://github.com/ros2/realtime_support.git
+    version: 0.5.0
+  ros2/rmw:
+    type: git
+    url: https://github.com/ros2/rmw.git
+    version: 0.5.0
+  ros2/rmw_connext:
+    type: git
+    url: https://github.com/ros2/rmw_connext.git
+    version: 0.5.1
+  ros2/rmw_fastrtps:
+    type: git
+    url: https://github.com/ros2/rmw_fastrtps.git
+    version: 0.5.1
+  ros2/rmw_implementation:
+    type: git
+    url: https://github.com/ros2/rmw_implementation.git
+    version: 0.5.1
+  ros2/rmw_opensplice:
+    type: git
+    url: https://github.com/ros2/rmw_opensplice.git
+    version: 0.5.2
+  ros2/robot_state_publisher:
+    type: git
+    url: https://github.com/ros2/robot_state_publisher.git
+    version: 2.1.0
+  ros2/ros1_bridge:
+    type: git
+    url: https://github.com/ros2/ros1_bridge.git
+    version: 0.5.1
+  ros2/ros2cli:
+    type: git
+    url: https://github.com/ros2/ros2cli.git
+    version: 0.5.4
+  ros2/rosidl:
+    type: git
+    url: https://github.com/ros2/rosidl.git
+    version: 0.5.1
+  ros2/rosidl_dds:
+    type: git
+    url: https://github.com/ros2/rosidl_dds.git
+    version: 0.5.0
+  ros2/rosidl_defaults:
+    type: git
+    url: https://github.com/ros2/rosidl_defaults.git
+    version: 0.5.0
+  ros2/rosidl_python:
+    type: git
+    url: https://github.com/ros2/rosidl_python.git
+    version: 0.5.2
+  ros2/rosidl_typesupport:
+    type: git
+    url: https://github.com/ros2/rosidl_typesupport.git
+    version: 0.5.0
+  ros2/rosidl_typesupport_connext:
+    type: git
+    url: https://github.com/ros2/rosidl_typesupport_connext.git
+    version: 0.5.3
+  ros2/rosidl_typesupport_opensplice:
+    type: git
+    url: https://github.com/ros2/rosidl_typesupport_opensplice.git
+    version: 0.5.0
+  ros2/rviz:
+    type: git
+    url: https://github.com/ros2/rviz.git
+    version: 4.0.2
+  ros2/sros2:
+    type: git
+    url: https://github.com/ros2/sros2.git
+    version: 0.5.0
+  ros2/system_tests:
+    type: git
+    url: https://github.com/ros2/system_tests.git
+    version: 29c299669a766329dffcc91f459b17c0e1c46c15
+  ros2/tinyxml_vendor:
+    type: git
+    url: https://github.com/ros2/tinyxml_vendor.git
+    version: 0.5.0
+  ros2/tinyxml2_vendor:
+    type: git
+    url: https://github.com/ros2/tinyxml2_vendor.git
+    version: 0.4.0
+  ros2/tlsf:
+    type: git
+    url: https://github.com/ros2/tlsf.git
+    version: 0.5.0
+#  ros2/tutorials:
+#    type: git
+#    url: https://github.com/ros2/tutorials.git
+#    version: master
+  ros2/urdf:
+    type: git
+    url: https://github.com/ros2/urdf.git
+    version: 2.1.0
+  ros2/urdfdom:
+    type: git
+    url: https://github.com/ros2/urdfdom.git
+    version: 2.0.0
