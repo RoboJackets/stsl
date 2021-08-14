@@ -36,7 +36,9 @@ public:
   explicit ArucoMarkerVisualizer(const rclcpp::NodeOptions & options)
   : rclcpp::Node("aruco_marker_visualizer", options)
   {
-    marker_pub_ = create_publisher<visualization_msgs::msg::MarkerArray>("~/markers", 1);
+    marker_pub_ = create_publisher<visualization_msgs::msg::MarkerArray>(
+      "~/markers",
+      rclcpp::SystemDefaultsQoS());
     tag_sub_ = this->create_subscription<stsl_interfaces::msg::TagArray>(
       "~/tags",
       rclcpp::SystemDefaultsQoS(),
@@ -88,7 +90,7 @@ private:
     marker_msg.pose.orientation.z = tag.pose.orientation.z;
     marker_msg.pose.orientation.w = tag.pose.orientation.w;
 
-    const auto color = get_parameter("marker_color").as_double_array();
+    const auto color = get_parameter("marker_color_rgba").as_double_array();
 
     marker_msg.color.r = color.at(0);
     marker_msg.color.b = color.at(1);
