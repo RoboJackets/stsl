@@ -1,6 +1,6 @@
 #! /bin/bash
 
-set -ex
+set -e
 
 if ! [ -x "$(command -v ros_cross_compile)" ]
 then
@@ -32,6 +32,7 @@ ros_cross_compile \
 --arch armhf \
 --rosdistro foxy \
 --os debian \
+--sysroot-nocache \
 --custom-setup-script ../custom_setup_script.sh \
 --colcon-defaults defaults.yaml \
 --skip-rosdep-keys "libopensplice67 rti-connext-dds-5.3.1 fastrtps fastcdr"
