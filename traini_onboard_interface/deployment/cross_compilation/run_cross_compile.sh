@@ -34,6 +34,6 @@ ros_cross_compile \
 --os debian \
 --custom-setup-script ../custom_setup_script.sh \
 --colcon-defaults defaults.yaml \
---skip-rosdep-keys "libopensplice69 rti-connext-dds-5.3.1"
+--skip-rosdep-keys "libopensplice67 rti-connext-dds-5.3.1"
 
 popd
