@@ -63,3 +63,12 @@ for manifest in ${package_manifests[@]}
 do
   sed -i "s/<version>.*<\/version>/<version>$new_version<\/version>/g" $manifest
 done
+
+read -p "Do you want to commit and tag this version bump? (y/N)" should_commit
+if [[ $should_commit =~ ^[Yy]$ ]]
+then
+  git commit -a -m "Bumping version to $new_version"
+  git tag $new_version
+else
+  echo "Not commit made."
+fi
