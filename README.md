@@ -15,7 +15,7 @@ Currently, the STSL is a collection ROS 2 packages that support an interface to 
 1. Get the public key
 
    ```bash
-   wget -qO https://stslaptstorage.z13.web.core.windows.net/pubkey.txt | sudo apt-key add -
+   wget -qO - https://stslaptstorage.z13.web.core.windows.net/pubkey.txt | sudo apt-key add -
    ```
 
 1. Add the apt source repository
