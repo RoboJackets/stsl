@@ -8,6 +8,7 @@ teleop_twist_joy_node:
       x: 1
     axis_angular:
       yaw: 3
+    scale_linear:
+      x: 0.25
     scale_angular:
-      yaw: 4.0
-    
+      yaw: 2.0

@@ -39,7 +39,7 @@ from ament_index_python.packages import get_package_share_directory
 
 def generate_launch_description():
     default_parameters_file_path = os.path.join(get_package_share_directory(
-        'traini_bringup'), 'config', 'joystick_parameters.yaml')
+        'traini_bringup'), 'config', 'joystick_params_playstation.yaml')
 
     return LaunchDescription([
         DeclareLaunchArgument(
