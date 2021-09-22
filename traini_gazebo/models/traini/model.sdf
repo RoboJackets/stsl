@@ -5,6 +5,23 @@
             <update_rate>100</update_rate>
             <publish_rate>10</publish_rate>
 
+            <publish_odom>false</publish_odom>
+            <publish_odom_tf>false</publish_odom_tf>
+
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_footprint</robot_base_frame>
+
+            <covariance_x>0.0001</covariance_x>
+            <covariance_y>0.0001</covariance_y>
+            <covariance_yaw>0.01</covariance_yaw>
+        </plugin>
+
+        <plugin name='noisy_odom' filename='libRosNoisyPlanarOdomPlugin.so'>
+            <ros>
+                <remapping>/noisy_odom/odom:=/odom</remapping>
+            </ros>
+            <publish_rate>10</publish_rate>
+
             <publish_odom>true</publish_odom>
             <publish_odom_tf>true</publish_odom_tf>
 
