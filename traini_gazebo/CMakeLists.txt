@@ -13,7 +13,7 @@ generate_aruco_tag_models(
 )
 
 install(
-  PROGRAMS 
+  PROGRAMS
   scripts/kill_gazebo_server.sh
   scripts/publish_map_boundary.py
   scripts/randomize_robot_pose.py
