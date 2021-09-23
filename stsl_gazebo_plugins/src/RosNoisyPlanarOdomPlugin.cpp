@@ -73,7 +73,6 @@ public:
     tf_broadcaster_ = std::make_shared<tf2_ros::TransformBroadcaster>(ros_node_);
 
     prev_update_time_ = world_->SimTime();
-    odom_pose_ = parent_->WorldPose();
 
     update_connection_ =
       gazebo::event::Events::ConnectWorldUpdateBegin(
