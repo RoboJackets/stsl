@@ -11,7 +11,7 @@ set(CURSES_NEED_NCURSES true)
 find_package(Curses REQUIRED)
 
 add_library(stsl_utils
-  src/keyboard_teleop.cpp  
+  src/keyboard_teleop.cpp
 )
 ament_target_dependencies(
   stsl_utils
