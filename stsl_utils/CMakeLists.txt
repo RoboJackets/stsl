@@ -10,8 +10,7 @@ find_package(geometry_msgs REQUIRED)
 set(CURSES_NEED_NCURSES true)
 find_package(Curses REQUIRED)
 
-add_library(stsl_utils 
-  src/cmd_vel_repeater.cpp
+add_library(stsl_utils
   src/keyboard_teleop.cpp  
 )
 ament_target_dependencies(
