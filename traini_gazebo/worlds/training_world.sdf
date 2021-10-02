@@ -3,6 +3,12 @@
     <world name="training_world">
         <gravity>0 0 0</gravity>
 
+        <plugin name='gazebo_ros_state' filename='libgazebo_ros_state.so'>
+            <ros>
+                <namespace>gazebo</namespace>
+            </ros>
+        </plugin>
+
         <light type="directional" name="sun">
             <cast_shadows>true</cast_shadows>
             <pose>0 0 10 0 0 0</pose>

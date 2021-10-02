@@ -1,20 +1,18 @@
 <?xml version="1.0"?>
 <?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
 <package format="3">
-  <name>stsl_gazebo_plugins</name>
+  <name>stsl_utils</name>
   <version>0.0.1</version>
-  <description>TODO: Package description</description>
+  <description>Miscelanious utilities for STSL.</description>
   <maintainer email="matthew.barulic@gmail.com">Matthew Barulic</maintainer>
   <license>MIT</license>
 
-  <buildtool_depend>ament_cmake</buildtool_depend>
+  <buildtool_depend>ament_cmake_ros</buildtool_depend>
 
   <depend>rclcpp</depend>
-  <depend>gazebo_dev</depend>
-  <depend>gazebo_ros</depend>
-  <depend>std_msgs</depend>
+  <depend>rclcpp_components</depend>
   <depend>geometry_msgs</depend>
-  <depend>nav_msgs</depend>
+  <depend>libncurses</depend>
 
   <test_depend>ament_lint_auto</test_depend>
   <test_depend>ament_lint_common</test_depend>

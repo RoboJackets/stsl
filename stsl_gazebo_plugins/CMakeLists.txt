@@ -6,6 +6,8 @@ find_package(rclcpp REQUIRED)
 find_package(gazebo_dev REQUIRED)
 find_package(gazebo_ros REQUIRED)
 find_package(std_msgs REQUIRED)
+find_package(geometry_msgs REQUIRED)
+find_package(nav_msgs REQUIRED)
 
 find_library(
   LED_PLUGIN_LIBRARY
@@ -22,8 +24,18 @@ ament_target_dependencies(RosLightControlPlugin
 )
 target_link_libraries(RosLightControlPlugin ${LED_PLUGIN_LIBRARY})
 
+add_library(RosNoisyPlanarOdomPlugin SHARED src/RosNoisyPlanarOdomPlugin.cpp)
+ament_target_dependencies(RosNoisyPlanarOdomPlugin
+  "gazebo_dev"
+  "gazebo_ros"
+  "rclcpp"
+  "std_msgs"
+  "geometry_msgs"
+  "nav_msgs"
+)
+
 install(
-  TARGETS RosLightControlPlugin
+  TARGETS RosLightControlPlugin RosNoisyPlanarOdomPlugin
   DESTINATION lib
 )
 
