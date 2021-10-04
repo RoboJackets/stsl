@@ -18,7 +18,7 @@ find_package(rviz_common REQUIRED)
 find_package(pluginlib REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
-add_library(${PROJECT_NAME} SHARED 
+add_library(${PROJECT_NAME} SHARED
   src/park_at_peak_button.hpp
   src/park_at_peak_button.cpp
 )
