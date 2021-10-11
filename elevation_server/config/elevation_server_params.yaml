@@ -1,6 +1,6 @@
 elevation_server:
   ros__parameters:
-    max_range: 0.3
+    max_range: 0.15
     map_origin:
       x: -0.6096
       y: -0.381
