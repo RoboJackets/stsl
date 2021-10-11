@@ -16,6 +16,8 @@ stsl_interfaces:
   ubuntu: [ros-foxy-stsl-interfaces]
 stsl_nav_plugins:
   ubuntu: [ros-foxy-stsl-nav-plugins]
+stsl_rviz_plugins:
+  ubuntu: [ros-foxy-stsl-rviz-plugins]
 stsl_utils:
   ubuntu: [ros-foxy-stsl-utils]
 traini_bringup:

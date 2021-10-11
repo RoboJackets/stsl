@@ -1,0 +1,7 @@
+<library path="stsl_rviz_plugins">
+  <class name="stsl_rviz_plugins/ParkAtPeak Button" type="stsl_rviz_plugins::ParkAtPeakButton" base_class_type="rviz_common::Panel">
+    <description>
+      Provides a button to trigger the /park_at_peak action.
+    </description>
+  </class>
+</library>
