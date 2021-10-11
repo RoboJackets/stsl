@@ -17,6 +17,8 @@
   <exec_depend>stsl_gazebo_plugins</exec_depend>
   <exec_depend>stsl_interfaces</exec_depend>
   <exec_depend>stsl_nav_plugins</exec_depend>
+  <exec_depend>stsl_rviz_plugins</exec_depend>
+  <exec_depend>stsl_utils</exec_depend>
   <exec_depend>traini_bringup</exec_depend>
   <exec_depend>traini_description</exec_depend>
   <exec_depend>traini_gazebo</exec_depend>
