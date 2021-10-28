@@ -27,6 +27,7 @@
 #include <QStateMachine>
 #include <QTimer>
 #include <rviz_common/panel.hpp>
+#include <string>
 
 namespace stsl_rviz_plugins
 {
@@ -34,8 +35,9 @@ namespace stsl_rviz_plugins
 class ActionButton : public rviz_common::Panel
 {
   Q_OBJECT
+
 public:
-  ActionButton(const std::string & button_text, QWidget * parent = nullptr);
+  explicit ActionButton(const std::string & button_text, QWidget * parent = nullptr);
 
   virtual ~ActionButton() = default;
 
@@ -58,7 +60,8 @@ private:
 
   void TimerCallback();
 
-  enum class ActionStatus {
+  enum class ActionStatus
+  {
     Running,
     Aborted,
     Cancelled,
@@ -68,9 +71,8 @@ private:
   virtual bool SendGoal() = 0;
   virtual void CancelGoal() = 0;
   virtual ActionStatus CheckActionStatus() = 0;
-
 };
 
-}
+}  // namespace stsl_rviz_plugins
 
 #endif  // ACTION_BUTTON_HPP_

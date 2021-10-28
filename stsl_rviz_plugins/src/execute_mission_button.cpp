@@ -18,9 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include "ros_action_button.hpp"
 #include <pluginlib/class_list_macros.hpp>
 #include <stsl_interfaces/action/execute_mission.hpp>
+#include "ros_action_button.hpp"
 
 namespace stsl_rviz_plugins
 {
@@ -29,9 +29,9 @@ class ExecuteMission : public RosActionButton<stsl_interfaces::action::ExecuteMi
 {
 public:
   explicit ExecuteMission(QWidget * parent = nullptr)
-    : RosActionButton("/execute_mission", "Execute Mission", "rviz_execute_mission_client", parent)
-    {
-    }
+  : RosActionButton("/execute_mission", "Execute Mission", "rviz_execute_mission_client", parent)
+  {
+  }
 
   virtual ~ExecuteMission() = default;
 };

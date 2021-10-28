@@ -1,3 +1,23 @@
+// Copyright 2021 RoboJackets
+//
+// Permission is hereby granted, free of charge, to any person obtaining a copy
+// of this software and associated documentation files (the "Software"), to deal
+// in the Software without restriction, including without limitation the rights
+// to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+// copies of the Software, and to permit persons to whom the Software is
+// furnished to do so, subject to the following conditions:
+//
+// The above copyright notice and this permission notice shall be included in
+// all copies or substantial portions of the Software.
+//
+// THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+// IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+// FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL
+// THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+// LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+// OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
+// THE SOFTWARE.
+
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
 #include <visualization_msgs/msg/marker.hpp>
@@ -8,18 +28,24 @@ namespace stsl_utils
 class FloorMatVisualizer : public rclcpp::Node
 {
 public:
-  explicit FloorMatVisualizer(const rclcpp::NodeOptions& options)
-    : rclcpp::Node("floor_mat_visualizer", options)
+  explicit FloorMatVisualizer(const rclcpp::NodeOptions & options)
+  : rclcpp::Node("floor_mat_visualizer", options)
   {
-    marker_pub_ = create_publisher<visualization_msgs::msg::Marker>("~/marker", rclcpp::SystemDefaultsQoS());
-    timer_ = create_wall_timer(std::chrono::seconds(1), std::bind(&FloorMatVisualizer::TimerCallback, this));
+    marker_pub_ = create_publisher<visualization_msgs::msg::Marker>(
+      "~/marker",
+      rclcpp::SystemDefaultsQoS());
+    timer_ =
+      create_wall_timer(
+      std::chrono::seconds(1),
+      std::bind(&FloorMatVisualizer::TimerCallback, this));
   }
 
 private:
   rclcpp::Publisher<visualization_msgs::msg::Marker>::SharedPtr marker_pub_;
   rclcpp::TimerBase::SharedPtr timer_;
 
-  void TimerCallback() {
+  void TimerCallback()
+  {
     visualization_msgs::msg::Marker msg;
     msg.header.frame_id = "map";
     msg.header.stamp = now();
@@ -37,7 +63,6 @@ private:
     msg.mesh_use_embedded_materials = true;
     marker_pub_->publish(msg);
   }
-
 };
 
 }  // namespace stsl_utils

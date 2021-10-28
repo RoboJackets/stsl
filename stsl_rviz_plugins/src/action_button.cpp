@@ -20,6 +20,7 @@
 
 #include "action_button.hpp"
 #include <QVBoxLayout>
+#include <string>
 
 namespace stsl_rviz_plugins
 {
@@ -68,7 +69,7 @@ ActionButton::ActionButton(const std::string & button_text, QWidget * parent)
 
 void ActionButton::onEnterRunning()
 {
-  if(!SendGoal()) {
+  if (!SendGoal()) {
     runningCompleted();
     return;
   }
@@ -83,8 +84,7 @@ void ActionButton::onEnterCancelling()
 
 void ActionButton::TimerCallback()
 {
-  switch(CheckActionStatus())
-  {
+  switch (CheckActionStatus()) {
     case ActionStatus::Running:
       return;
     case ActionStatus::Aborted:

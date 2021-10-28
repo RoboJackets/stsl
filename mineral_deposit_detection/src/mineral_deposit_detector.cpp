@@ -61,9 +61,10 @@ private:
 
   void TagCallback(const stsl_interfaces::msg::TagArray::ConstSharedPtr tag_msg)
   {
-    if(!tf_buffer_.canTransform("base_link", tag_msg->header.frame_id, tag_msg->header.stamp))
-    {
-      RCLCPP_INFO_ONCE(get_logger(), "Waiting for transform from %s to base_link", tag_msg->header.frame_id.c_str());
+    if (!tf_buffer_.canTransform("base_link", tag_msg->header.frame_id, tag_msg->header.stamp)) {
+      RCLCPP_INFO_ONCE(
+        get_logger(), "Waiting for transform from %s to base_link",
+        tag_msg->header.frame_id.c_str());
       return;
     }
     RCLCPP_INFO_ONCE(get_logger(), "TF data available!");
@@ -82,7 +83,7 @@ private:
 
     std::transform(
       deposit_tags.begin(), deposit_tags.end(), std::back_inserter(deposit_msg.deposits),
-      [this, header=tag_msg->header](const auto & tag) {
+      [this, header = tag_msg->header](const auto & tag) {
         return TagToDeposit(tag, header);
       });
 

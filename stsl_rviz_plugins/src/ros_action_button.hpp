@@ -18,12 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef ACTION_TRIGGER_BUTTON_HPP_
-#define ACTION_TRIGGER_BUTTON_HPP_
+#ifndef ROS_ACTION_BUTTON_HPP_
+#define ROS_ACTION_BUTTON_HPP_
 
-#include "action_button.hpp"
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_action/rclcpp_action.hpp>
+#include <memory>
+#include <string>
+#include "action_button.hpp"
 
 namespace stsl_rviz_plugins
 {
@@ -59,7 +61,8 @@ private:
   bool SendGoal() override
   {
     if (!action_client_->wait_for_action_server(std::chrono::seconds(5))) {
-      RCLCPP_ERROR(ros_node_->get_logger(), "Action server for %s is not available.", action_name_.c_str());
+      RCLCPP_ERROR(
+        ros_node_->get_logger(), "Action server for %s is not available.", action_name_.c_str());
       return false;
     }
 
@@ -111,4 +114,4 @@ private:
 
 }  // namespace stsl_rviz_plugins
 
-#endif  // ACTION_TRIGGER_BUTTON_HPP_
+#endif  // ROS_ACTION_BUTTON_HPP_
