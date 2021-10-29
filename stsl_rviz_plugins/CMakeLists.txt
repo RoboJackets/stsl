@@ -8,7 +8,6 @@ endif()
 set(CMAKE_INCLUDE_CURRENT_DIR ON)
 set(CMAKE_AUTOMOC ON)
 
-# find dependencies
 find_package(ament_cmake REQUIRED)
 find_package(rclcpp REQUIRED)
 find_package(rclcpp_components REQUIRED)
@@ -19,7 +18,9 @@ find_package(pluginlib REQUIRED)
 find_package(Qt5 REQUIRED COMPONENTS Core Gui Widgets)
 
 add_library(${PROJECT_NAME} SHARED
-  src/park_at_peak_button.hpp
+  src/action_button.cpp
+  src/action_button.hpp
+  src/execute_mission_button.cpp
   src/park_at_peak_button.cpp
 )
 set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 17)

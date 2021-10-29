@@ -4,4 +4,9 @@
       Provides a button to trigger the /park_at_peak action.
     </description>
   </class>
+  <class name="stsl_rviz_plugins/ExecuteMission Button" type="stsl_rviz_plugins::ExecuteMission" base_class_type="rviz_common::Panel">
+    <description>
+      Provides a button to trigger the /execute_mission action.
+    </description>
+  </class>
 </library>

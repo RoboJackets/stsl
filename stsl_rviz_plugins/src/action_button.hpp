@@ -18,8 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#ifndef PARK_AT_PEAK_BUTTON_HPP_
-#define PARK_AT_PEAK_BUTTON_HPP_
+#ifndef ACTION_BUTTON_HPP_
+#define ACTION_BUTTON_HPP_
 
 #include <QWidget>
 #include <QPushButton>
@@ -27,20 +27,19 @@
 #include <QStateMachine>
 #include <QTimer>
 #include <rviz_common/panel.hpp>
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_action/rclcpp_action.hpp>
-#include <stsl_interfaces/action/park_at_peak.hpp>
+#include <string>
 
 namespace stsl_rviz_plugins
 {
 
-class ParkAtPeakButton : public rviz_common::Panel
+class ActionButton : public rviz_common::Panel
 {
   Q_OBJECT
 
 public:
-  explicit ParkAtPeakButton(QWidget * parent = nullptr);
-  virtual ~ParkAtPeakButton() = default;
+  explicit ActionButton(const std::string & button_text, QWidget * parent = nullptr);
+
+  virtual ~ActionButton() = default;
 
 private Q_SLOTS:
   void onEnterRunning();
@@ -51,26 +50,29 @@ Q_SIGNALS:
   void runningCompleted();
 
 private:
-  const std::chrono::seconds server_timeout_{1};
-  rclcpp::Node::SharedPtr ros_node_;
-  rclcpp_action::Client<stsl_interfaces::action::ParkAtPeak>::SharedPtr action_client_;
-  using GoalHandle = rclcpp_action::ClientGoalHandle<stsl_interfaces::action::ParkAtPeak>;
-  GoalHandle::SharedPtr goal_handle_;
-  std::shared_future<GoalHandle::WrappedResult> action_result_future_;
-
   QTimer * timer_;
   QMetaObject::Connection timer_connection_;
-
   QPushButton * button_;
-
   QState * idle_state_;
   QState * running_state_;
   QState * cancelling_state_;
   QStateMachine state_machine_;
 
-  void CheckActionStatus();
+  void TimerCallback();
+
+  enum class ActionStatus
+  {
+    Running,
+    Aborted,
+    Cancelled,
+    Completed
+  };
+
+  virtual bool SendGoal() = 0;
+  virtual void CancelGoal() = 0;
+  virtual ActionStatus CheckActionStatus() = 0;
 };
 
 }  // namespace stsl_rviz_plugins
 
-#endif  // PARK_AT_PEAK_BUTTON_HPP_
+#endif  // ACTION_BUTTON_HPP_

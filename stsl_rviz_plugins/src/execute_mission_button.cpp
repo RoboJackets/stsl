@@ -18,24 +18,24 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <stsl_interfaces/action/park_at_peak.hpp>
 #include <pluginlib/class_list_macros.hpp>
+#include <stsl_interfaces/action/execute_mission.hpp>
 #include "ros_action_button.hpp"
 
 namespace stsl_rviz_plugins
 {
 
-class ParkAtPeakButton : public RosActionButton<stsl_interfaces::action::ParkAtPeak>
+class ExecuteMission : public RosActionButton<stsl_interfaces::action::ExecuteMission>
 {
 public:
-  explicit ParkAtPeakButton(QWidget * parent = nullptr)
-  : RosActionButton("/park_at_peak", "Park at Peak", "rviz_park_at_peak_client", parent)
+  explicit ExecuteMission(QWidget * parent = nullptr)
+  : RosActionButton("/execute_mission", "Execute Mission", "rviz_execute_mission_client", parent)
   {
   }
 
-  virtual ~ParkAtPeakButton() = default;
+  virtual ~ExecuteMission() = default;
 };
 
 }  // namespace stsl_rviz_plugins
 
-PLUGINLIB_EXPORT_CLASS(stsl_rviz_plugins::ParkAtPeakButton, rviz_common::Panel)
+PLUGINLIB_EXPORT_CLASS(stsl_rviz_plugins::ExecuteMission, rviz_common::Panel)

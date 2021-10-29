@@ -61,33 +61,33 @@ private:
 
   void TagCallback(const stsl_interfaces::msg::TagArray::ConstSharedPtr tag_msg)
   {
-    try {
-      stsl_interfaces::msg::MineralDepositArray deposit_msg;
-
-      deposit_msg.header.stamp = tag_msg->header.stamp;
-      deposit_msg.header.frame_id = "base_link";
-
-      stsl_interfaces::msg::TagArray::_tags_type deposit_tags;
-      std::copy_if(
-        tag_msg->tags.begin(), tag_msg->tags.end(), std::back_inserter(deposit_tags),
-        [this](const auto & tag) {
-          return IsDepositTag(tag);
-        });
-
-      const auto transform = tf_buffer_.lookupTransform(
-        "base_link", tag_msg->header.frame_id,
-        tag_msg->header.stamp);
-
-      std::transform(
-        deposit_tags.begin(), deposit_tags.end(), std::back_inserter(deposit_msg.deposits),
-        [this, &transform](const auto & tag) {
-          return TagToDeposit(tag, transform);
-        });
-
-      deposit_pub_->publish(deposit_msg);
-    } catch (const tf2::TransformException & e) {
-      RCLCPP_ERROR_THROTTLE(get_logger(), *get_clock(), 1, "TF Error: %s", e.what());
+    if (!tf_buffer_.canTransform("base_link", tag_msg->header.frame_id, tag_msg->header.stamp)) {
+      RCLCPP_INFO_ONCE(
+        get_logger(), "Waiting for transform from %s to base_link",
+        tag_msg->header.frame_id.c_str());
+      return;
     }
+    RCLCPP_INFO_ONCE(get_logger(), "TF data available!");
+
+    stsl_interfaces::msg::MineralDepositArray deposit_msg;
+
+    deposit_msg.header.stamp = tag_msg->header.stamp;
+    deposit_msg.header.frame_id = "base_link";
+
+    stsl_interfaces::msg::TagArray::_tags_type deposit_tags;
+    std::copy_if(
+      tag_msg->tags.begin(), tag_msg->tags.end(), std::back_inserter(deposit_tags),
+      [this](const auto & tag) {
+        return IsDepositTag(tag);
+      });
+
+    std::transform(
+      deposit_tags.begin(), deposit_tags.end(), std::back_inserter(deposit_msg.deposits),
+      [this, header = tag_msg->header](const auto & tag) {
+        return TagToDeposit(tag, header);
+      });
+
+    deposit_pub_->publish(deposit_msg);
   }
 
   bool IsDepositTag(const stsl_interfaces::msg::Tag & tag)
@@ -97,20 +97,19 @@ private:
 
   stsl_interfaces::msg::MineralDeposit TagToDeposit(
     const stsl_interfaces::msg::Tag & tag,
-    const geometry_msgs::msg::TransformStamped & transform)
+    const std_msgs::msg::Header & header)
   {
-    stsl_interfaces::msg::MineralDeposit deposit_msg;
-    deposit_msg.id = tag.id;
-
-    geometry_msgs::msg::PoseStamped base_link_pose;
     geometry_msgs::msg::PoseStamped tag_pose_stamped;
+    tag_pose_stamped.header = header;
     tag_pose_stamped.pose = tag.pose;
 
-    tf2::doTransform(tag_pose_stamped, base_link_pose, transform);
+    auto base_link_pose = tf_buffer_.transform(tag_pose_stamped, "base_link");
 
     base_link_pose.pose.position.x += noise_distribution_(random_engine_);
     base_link_pose.pose.position.y += noise_distribution_(random_engine_);
 
+    stsl_interfaces::msg::MineralDeposit deposit_msg;
+    deposit_msg.id = tag.id;
     deposit_msg.range = std::hypot(base_link_pose.pose.position.x, base_link_pose.pose.position.y);
     deposit_msg.heading =
       std::atan2(base_link_pose.pose.position.y, base_link_pose.pose.position.x);

@@ -36,7 +36,7 @@ def generate_launch_description():
             parameters=[{
                 'use_sim_time': LaunchConfiguration('use_sim_time'),
                 'noise_stddev': 0.01,
-                'deposit_tag_ids': [10]
+                'deposit_tag_ids': [10, 11, 12]
             }],
             remappings=[
                 ('~/tags', '/aruco_tag_detector/tags')
