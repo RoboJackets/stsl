@@ -29,7 +29,7 @@ from ament_index_python.packages import get_package_share_directory
 def generate_launch_description():
     return LaunchDescription([
         DeclareLaunchArgument(
-            name='behavior_tree',
+            name='mission_behavior_tree',
             default_value=os.path.join(get_package_share_directory(
                 'mission_orchestration'), 'behavior_trees', 'default_mission_tree.xml')
         ),
@@ -45,13 +45,13 @@ def generate_launch_description():
             executable='mission_orchestrator_node',
             output='screen',
             parameters=[
-                {'bt_file_path': LaunchConfiguration('behavior_tree'),
+                {'bt_file_path': LaunchConfiguration('mission_behavior_tree'),
                  'mineral_samples_file': LaunchConfiguration(
                     'mineral_samples_file'),
                  'use_sim_time': LaunchConfiguration(
                     'use_sim_time', default='false'),
                  'goal_updater_topic': '/mineral_deposit_tracker/tracked_deposit',
-                 'goal_reached_tol': 0.01}
+                 'goal_reached_tol': 0.03}
             ]
         )
     ])

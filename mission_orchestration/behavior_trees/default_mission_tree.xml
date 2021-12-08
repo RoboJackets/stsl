@@ -21,14 +21,13 @@
                                 <GoalUpdater input_goal="{sample_pose}" output_goal="{updated_goal}">
                                     <ComputePathToPose goal="{updated_goal}" path="{path}" planner_id="GridBased" />
                                 </GoalUpdater>
-                                <TruncatePath distance="1.0" input_path="{path}" output_path="{truncated_path}" />
                             </Sequence>
                         </RateController>
                         <WhileDoElse>
                             <GoalReached goal="{updated_goal}" />
                             <AlwaysSuccess />
                             <KeepRunningUntilFailure>
-                                <FollowPath path="{truncated_path}" controller_id="FollowPath" />
+                                <FollowPath path="{path}" controller_id="FollowPath" />
                             </KeepRunningUntilFailure>
                         </WhileDoElse>
                     </PipelineSequence>
