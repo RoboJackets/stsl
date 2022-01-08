@@ -3,7 +3,7 @@
 set -e
 
 distribution_name=focal
-deb_tarball=../package_generation/debians.tar.gz
+deb_tarballs=(../package_generation/debians_amd64.tar.gz ../package_generation/debians_arm64.tar.gz)
 
 if [[ -z $(aptly repo list -config=aptly.config | grep stsl-release) ]]; then
     echo "stsl-release repo not found. Creating..."
@@ -16,7 +16,10 @@ if [[ -d "./debians" ]]; then
 else
     mkdir ./debians
 fi
-tar -xf $deb_tarball -C ./debians
+
+for deb_tarball in "${deb_tarballs[@]}"; do
+    tar -xf $deb_tarball -C ./debians
+done
 
 aptly repo add -config=aptly.config -force-replace stsl-release debians
 
