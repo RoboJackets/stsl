@@ -1,13 +1,23 @@
 FROM ros:foxy
 
-WORKDIR /usr/src/workspace
+# Upgrade existing packages
 
 RUN /bin/bash -c "set -ex; \
     apt-get update; \
-    apt-get upgrade -y; \
+    apt-get upgrade -y"
+
+# Install package generation utils
+
+RUN /bin/bash -c "set -ex; \
     apt-get install --no-install-recommends -y python3-bloom fakeroot dpkg-dev debhelper"
 
+# Copy source
+
+WORKDIR /usr/src/workspace
+
 COPY . /usr/src/workspace/src/stsl
+
+# Run package generation script
 
 RUN /bin/bash -c "set -ex; \
     source /opt/ros/foxy/setup.bash; \
