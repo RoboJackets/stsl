@@ -16,6 +16,13 @@ docker create -ti --name stsl_build_temp stsl_build bash
 docker cp stsl_build_temp:/usr/src/workspace/src/stsl/debians.tar.gz ./debians_arm64.tar.gz
 docker rm -f stsl_build_temp
 
+# armhf
+
+docker build --no-cache -t stsl_build -f Dockerfile_armhf ../..
+docker create -ti --name stsl_build_temp stsl_build bash
+docker cp stsl_build_temp:/usr/src/workspace/src/stsl/debians.tar.gz ./debians_armhf.tar.gz
+docker rm -f stsl_build_temp
+
 COLOR_GREEN='\033[0;32m'
 COLOR_AUTO='\033[0m'
 
