@@ -22,6 +22,7 @@
 #include <rclcpp_action/rclcpp_action.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
 #include <nav2_behavior_tree/behavior_tree_engine.hpp>
+#include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
 #include <stsl_interfaces/action/execute_mission.hpp>
 #include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
@@ -221,7 +222,7 @@ private:
         root_yaml_node.begin(), root_yaml_node.end(), std::back_inserter(
           samples), yaml_helpers::fromYaml<stsl_interfaces::msg::MineralDepositSample>);
 
-      RCLCPP_INFO(get_logger(), "Loaded %d mineral samples.", samples.size());
+      RCLCPP_INFO(get_logger(), "Loaded %ld mineral samples.", samples.size());
 
       return true;
     } catch (const YAML::BadFile & e) {

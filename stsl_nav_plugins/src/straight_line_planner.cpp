@@ -30,7 +30,7 @@ class StraightLinePlanner : public nav2_core::GlobalPlanner
 {
 public:
   void configure(
-    rclcpp_lifecycle::LifecycleNode::SharedPtr node,
+    const rclcpp_lifecycle::LifecycleNode::WeakPtr & node,
     std::string name, std::shared_ptr<tf2_ros::Buffer> tf,
     std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap_ros) override
   {
@@ -50,21 +50,26 @@ public:
   {
     nav_msgs::msg::Path path;
 
+    auto node_shared = node_.lock();
+    if(!node_shared) {
+      throw std::runtime_error{"Could not acquire node."};
+    }
+
     if (start.header.frame_id != global_frame_) {
       RCLCPP_ERROR(
-        node_->get_logger(), "Planner will only except start position from %s frame",
+        node_shared->get_logger(), "Planner will only except start position from %s frame",
         global_frame_.c_str());
       return path;
     }
 
     if (goal.header.frame_id != global_frame_) {
       RCLCPP_INFO(
-        node_->get_logger(), "Planner will only except goal position from %s frame",
+        node_shared->get_logger(), "Planner will only except goal position from %s frame",
         global_frame_.c_str());
       return path;
     }
 
-    path.header.stamp = node_->now();
+    path.header.stamp = node_shared->now();
     path.header.frame_id = global_frame_;
     path.poses = {start, goal};
 
@@ -72,7 +77,7 @@ public:
   }
 
 private:
-  rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
+  rclcpp_lifecycle::LifecycleNode::WeakPtr node_;
   std::string global_frame_;
 };
 

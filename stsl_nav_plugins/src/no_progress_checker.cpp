@@ -29,7 +29,7 @@ class NoProgressChecker : public nav2_core::ProgressChecker
 {
 public:
   void initialize(
-    const rclcpp_lifecycle::LifecycleNode::SharedPtr & node,
+    const rclcpp_lifecycle::LifecycleNode::WeakPtr & node,
     const std::string & plugin_name) override
   {
   }
