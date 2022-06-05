@@ -39,7 +39,8 @@ jobs:
           colcon build --packages-skip traini_onboard_interface
       - name: Test
         shell: bash
+        # TODO(barulicm) Remove nav2 related package skip flags when nav2 is released
         run: |
           source /opt/ros/humble/setup.bash
-          colcon test --packages-skip traini_onboard_interface
+          colcon test --packages-skip traini_onboard_interface --packages-skip-up-to navigation2 slam_toolbox nav2_bringup nav2_constrained_smoother nav2_system_tests
           colcon test-result --verbose 
