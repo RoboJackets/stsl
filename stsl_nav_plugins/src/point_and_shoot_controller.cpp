@@ -18,12 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <nav2_core/controller.hpp>
-#include <stsl_nav_plugins/pd_controller.hpp>
-#include <pluginlib/class_list_macros.hpp>
 #include <angles/angles.h>
 #include <memory>
 #include <string>
+#include <nav2_core/controller.hpp>
+#include <stsl_nav_plugins/pd_controller.hpp>
+#include <pluginlib/class_list_macros.hpp>
 
 namespace stsl_nav_plugins
 {
@@ -38,7 +38,7 @@ public:
   {
     node_ = node;
     auto node_shared = node_.lock();
-    if(!node_shared) {
+    if (!node_shared) {
       throw std::runtime_error{"Could not acquire node."};
     }
     tf_buffer_ = tf_buffer;
@@ -74,10 +74,10 @@ public:
     const geometry_msgs::msg::Twist & velocity,
     nav2_core::GoalChecker * goal_checker) override
   {
-    // TODO goal_checker added in humble upgrade
+    // TODO(barulicm) goal_checker added in humble upgrade
 
     auto node_shared = node_.lock();
-    if(!node_shared) {
+    if (!node_shared) {
       throw std::runtime_error{"Could not acquire node."};
     }
 
@@ -132,8 +132,9 @@ public:
     return cmd_vel;
   }
 
-  void setSpeedLimit(const double & speed_limit, const bool & percentage) override {
-    // TODO implement this
+  void setSpeedLimit(const double & speed_limit, const bool & percentage) override
+  {
+    // TODO(barulicm) implement this
   }
 
 private:

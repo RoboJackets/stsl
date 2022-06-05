@@ -21,9 +21,9 @@
 #ifndef LOG_NODE_HPP_
 #define LOG_NODE_HPP_
 
-#include <rclcpp/rclcpp.hpp>
 #include <behaviortree_cpp_v3/action_node.h>
 #include <string>
+#include <rclcpp/rclcpp.hpp>
 
 namespace stsl_bt_nodes
 {

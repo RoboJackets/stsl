@@ -22,9 +22,9 @@
 #define FOR_EACH_MINERAL_SAMPLE_NODE_HPP_
 
 #include <behaviortree_cpp_v3/decorator_node.h>
-#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 #include <string>
 #include <vector>
+#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 
 namespace stsl_bt_nodes
 {

@@ -19,9 +19,9 @@
 // THE SOFTWARE.
 
 #include "get_sample_pose_node.hpp"
+#include <string>
 #include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
-#include <string>
 
 namespace stsl_bt_nodes
 {

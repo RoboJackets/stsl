@@ -19,8 +19,8 @@
 // THE SOFTWARE.
 
 #include "reset_mineral_deposit_tracker_node.hpp"
-#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 #include <string>
+#include <stsl_interfaces/msg/mineral_deposit_sample.hpp>
 
 namespace stsl_bt_nodes
 {

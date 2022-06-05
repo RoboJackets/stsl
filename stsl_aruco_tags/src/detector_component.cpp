@@ -18,14 +18,14 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <cv_bridge/cv_bridge.h>
+#include <eigen3/Eigen/Dense>
+#include <vector>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
-#include <cv_bridge/cv_bridge.h>
 #include <image_transport/image_transport.hpp>
 #include <opencv2/aruco.hpp>
 #include <stsl_interfaces/msg/tag_array.hpp>
-#include <eigen3/Eigen/Dense>
-#include <vector>
 
 namespace stsl_aruco_tags
 {

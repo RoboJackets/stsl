@@ -26,8 +26,8 @@
 #include <QState>
 #include <QStateMachine>
 #include <QTimer>
-#include <rviz_common/panel.hpp>
 #include <string>
+#include <rviz_common/panel.hpp>
 
 namespace stsl_rviz_plugins
 {

@@ -18,10 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <nav2_core/global_planner.hpp>
-#include <pluginlib/class_list_macros.hpp>
 #include <memory>
 #include <string>
+#include <nav2_core/global_planner.hpp>
+#include <pluginlib/class_list_macros.hpp>
 
 namespace stsl_nav_plugins
 {
@@ -51,7 +51,7 @@ public:
     nav_msgs::msg::Path path;
 
     auto node_shared = node_.lock();
-    if(!node_shared) {
+    if (!node_shared) {
       throw std::runtime_error{"Could not acquire node."};
     }
 

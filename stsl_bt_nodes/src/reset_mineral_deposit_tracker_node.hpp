@@ -21,9 +21,9 @@
 #ifndef RESET_MINERAL_DEPOSIT_TRACKER_NODE_HPP_
 #define RESET_MINERAL_DEPOSIT_TRACKER_NODE_HPP_
 
+#include <string>
 #include <nav2_behavior_tree/bt_service_node.hpp>
 #include <stsl_interfaces/srv/reset_mineral_deposit_tracking.hpp>
-#include <string>
 
 namespace stsl_bt_nodes
 {

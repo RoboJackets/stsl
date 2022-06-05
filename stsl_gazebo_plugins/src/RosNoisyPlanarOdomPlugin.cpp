@@ -18,6 +18,10 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <tf2_ros/transform_broadcaster.h>
+#include <memory>
+#include <random>
+#include <string>
 #include <gazebo/gazebo.hh>
 #include <gazebo/transport/transport.hh>
 #include <gazebo/physics/Model.hh>
@@ -29,10 +33,6 @@
 #include <rclcpp/rclcpp.hpp>
 #include <geometry_msgs/msg/twist.hpp>
 #include <nav_msgs/msg/odometry.hpp>
-#include <tf2_ros/transform_broadcaster.h>
-#include <memory>
-#include <random>
-#include <string>
 
 namespace stsl_gazebo_plugins
 {
@@ -53,7 +53,7 @@ public:
     prev_publish_time_ = world_->SimTime();
 
     const auto vel_noise_std_dev = sdf->Get<double>("velocity_noise_std_dev", 0.25).first;
-    random_engine_ = std::default_random_engine(std::random_device{} ());
+    random_engine_ = std::default_random_engine(std::random_device{}());
     noise_distribution_ = std::normal_distribution<double>(0.0, vel_noise_std_dev);
 
     pub_covariance_x_ = sdf->Get<double>("covariance_x", 1e-4).first;

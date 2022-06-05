@@ -21,10 +21,10 @@
 #ifndef ROS_ACTION_BUTTON_HPP_
 #define ROS_ACTION_BUTTON_HPP_
 
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_action/rclcpp_action.hpp>
 #include <memory>
 #include <string>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp_action/rclcpp_action.hpp>
 #include "action_button.hpp"
 
 namespace stsl_rviz_plugins

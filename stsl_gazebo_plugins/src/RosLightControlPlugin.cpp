@@ -18,6 +18,8 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <functional>
+#include <string>
 #include <gazebo/gazebo.hh>
 #include <gazebo/physics/physics.hh>
 #include <gazebo_ros/node.hpp>
@@ -25,8 +27,6 @@
 #include <ignition/math/Vector3.hh>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/bool.hpp>
-#include <functional>
-#include <string>
 
 namespace stsl_gazebo_plugins
 {

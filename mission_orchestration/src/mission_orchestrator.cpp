@@ -18,19 +18,19 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_action/rclcpp_action.hpp>
-#include <rclcpp_components/register_node_macro.hpp>
-#include <nav2_behavior_tree/behavior_tree_engine.hpp>
 #include <tf2_ros/buffer.h>
 #include <tf2_ros/transform_listener.h>
-#include <stsl_interfaces/action/execute_mission.hpp>
-#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include <fstream>
 #include <memory>
 #include <set>
 #include <string>
 #include <vector>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp_action/rclcpp_action.hpp>
+#include <rclcpp_components/register_node_macro.hpp>
+#include <nav2_behavior_tree/behavior_tree_engine.hpp>
+#include <stsl_interfaces/action/execute_mission.hpp>
+#include <geometry_msgs/msg/pose_with_covariance_stamped.hpp>
 #include "yaml_helpers.hpp"
 
 namespace mission_orchestration
