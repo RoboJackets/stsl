@@ -13,6 +13,18 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: src/stsl
+      # TODO(barulicm) remove these extra checkouts when nav2 is released
+      - uses: actions/checkout@v2
+        with:
+          path: src/navigation2
+          repository: ros-planning/navigation2
+          ref: 1.1.0
+      - uses: actions/checkout@v2
+        with:
+          path: src/slam_toolbox
+          repository: SteveMacenski/slam_toolbox
+          ref: 2.6.0
+      # End temporary checkouts
       - name: Install Dependencies
         shell: bash
         run: |
