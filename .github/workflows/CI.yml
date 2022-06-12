@@ -24,10 +24,10 @@ jobs:
         shell: bash
         run: |
           source /opt/ros/humble/setup.bash
-          colcon build --packages-skip traini_onboard_interface
+          colcon build
       - name: Test
         shell: bash
         run: |
           source /opt/ros/humble/setup.bash
-          colcon test --packages-skip traini_onboard_interface
+          colcon test
           colcon test-result --verbose 
