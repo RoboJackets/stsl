@@ -13,18 +13,6 @@ jobs:
       - uses: actions/checkout@v2
         with:
           path: src/stsl
-      # TODO(barulicm) remove these extra checkouts when nav2 is released
-      - uses: actions/checkout@v2
-        with:
-          path: src/navigation2
-          repository: ros-planning/navigation2
-          ref: 1.1.0
-      - uses: actions/checkout@v2
-        with:
-          path: src/slam_toolbox
-          repository: SteveMacenski/slam_toolbox
-          ref: 2.6.0
-      # End temporary checkouts
       - name: Install Dependencies
         shell: bash
         run: |
@@ -39,8 +27,7 @@ jobs:
           colcon build --packages-skip traini_onboard_interface
       - name: Test
         shell: bash
-        # TODO(barulicm) Remove nav2 related package skip flags when nav2 is released
         run: |
           source /opt/ros/humble/setup.bash
-          colcon test --packages-skip traini_onboard_interface --packages-skip-up-to navigation2 slam_toolbox nav2_bringup nav2_constrained_smoother nav2_system_tests
+          colcon test --packages-skip traini_onboard_interface
           colcon test-result --verbose 
