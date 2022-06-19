@@ -1,0 +1,132 @@
+<?xml version='1.0'?>
+<sdf version='1.7'>
+    <model name='Traini' canonical_link="base_footprint">
+        <!-- <plugin name='planar_move' filename='libgazebo_ros_planar_move.so'>
+            <update_rate>100</update_rate>
+            <publish_rate>10</publish_rate>
+
+            <publish_odom>false</publish_odom>
+            <publish_odom_tf>false</publish_odom_tf>
+
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_footprint</robot_base_frame>
+
+            <covariance_x>0.0001</covariance_x>
+            <covariance_y>0.0001</covariance_y>
+            <covariance_yaw>0.01</covariance_yaw>
+        </plugin> -->
+
+        <!-- <plugin name='noisy_odom' filename='libRosNoisyPlanarOdomPlugin.so'>
+            <ros>
+                <remapping>/noisy_odom/odom:=/odom</remapping>
+            </ros>
+            <publish_rate>10</publish_rate>
+
+            <publish_odom>true</publish_odom>
+            <publish_odom_tf>true</publish_odom_tf>
+
+            <odometry_frame>odom</odometry_frame>
+            <robot_base_frame>base_footprint</robot_base_frame>
+
+            <velocity_noise_std_dev>0.0</velocity_noise_std_dev>
+
+            <covariance_x>0.0001</covariance_x>
+            <covariance_y>0.0001</covariance_y>
+            <covariance_yaw>0.01</covariance_yaw>
+        </plugin> -->
+
+        <!-- <plugin name="light_control" filename="libRosLightControlPlugin.so">
+            <light_id>light_link/indicator_light</light_id>
+            <visual_name>indicator_light</visual_name>
+        </plugin> -->
+
+        <link name="base_footprint">
+            <kinematic>true</kinematic>
+        </link>
+
+        <link name='base_link'>
+            <pose relative_to="base_footprint">0 0 0.0325 0 0 0</pose>
+            <visual name='visual'>
+                <pose>0 0 -0.0325 0 0 0</pose>
+                <geometry>
+                    <mesh>
+                        <uri>model://traini/meshes/Trainiii.dae</uri>
+                    </mesh>
+                </geometry>
+            </visual>
+        </link>
+        <joint name="base_link_joint" type="fixed">
+            <parent>base_footprint</parent>
+            <child>base_link</child>
+        </joint>
+
+        <link name="camera_link">
+            <pose relative_to="base_link">0.1 0 0.055 0 0.3 0</pose>
+            <sensor name="camera" type="camera">
+                <update_rate>10</update_rate>
+                <camera name="camera">
+                    <horizontal_fov>1.085595</horizontal_fov>
+                    <image>
+                        <width>640</width>
+                        <height>480</height>
+                        <format>R8G8B8</format>
+                    </image>
+                </camera>
+                <!-- <plugin name="camera_controller" filename="libgazebo_ros_camera.so">
+                    <frame_name>camera_link_optical</frame_name>
+                </plugin> -->
+            </sensor>
+        </link>
+        <joint name="camera_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>camera_link</child>
+        </joint>
+
+        <link name="imu_link">
+            <pose relative_to="base_link">0 0 0 0 0 0</pose>
+            <sensor name="imu" type="imu">
+                <always_on>true</always_on>
+                <update_rate>30</update_rate>
+                <!-- <plugin name="imu_plugin" filename="libgazebo_ros_imu_sensor.so">
+                    <ros>
+                        <namespace>/imu</namespace>
+                        <remapping>~/out:=data</remapping>
+                    </ros>
+                </plugin> -->
+            </sensor>
+        </link>
+        <joint name="imu_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>imu_link</child>
+        </joint>
+
+        <link name="light_link">
+            <pose relative_to="base_link">0 0 0.04 0 0 0</pose>
+            <!-- <light name="indicator_light" type="point">
+                <diffuse>0 1 0 1</diffuse>
+                <specular>0 1 0 1</specular>
+                <attenuation>
+                    <constant>1</constant>
+                </attenuation>
+            </light> -->
+            <visual name="indicator_light">
+                <geometry>
+                    <sphere>
+                        <radius>0.005</radius>
+                    </sphere>
+                </geometry>
+                <transparency>0.4</transparency>
+                <material>
+                    <ambient>0.5 1 0.5 1</ambient>
+                    <diffuse>0.5 1 0.5 1</diffuse>
+                    <specular>1 1 1 1</specular>
+                    <emissive>0.5 1 0.5 1</emissive>
+                </material>
+            </visual>
+        </link>
+        <joint name="light_joint" type="fixed">
+            <parent>base_link</parent>
+            <child>light_link</child>
+        </joint>
+    </model>
+</sdf>

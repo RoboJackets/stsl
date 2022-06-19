@@ -1,0 +1,72 @@
+<?xml version="1.0"?>
+<sdf version="1.7">
+    <world name="training_world">
+        <gravity>0 0 0</gravity>
+
+        <!-- <plugin name='gazebo_ros_state' filename='libgazebo_ros_state.so'>
+            <ros>
+                <namespace>gazebo</namespace>
+            </ros>
+        </plugin> -->
+
+        <light type="directional" name="sun">
+            <cast_shadows>true</cast_shadows>
+            <pose>0 0 1 0 0 0</pose>
+            <diffuse>1.0 1.0 1.0 1</diffuse>
+            <specular>0.2 0.2 0.2 1</specular>
+            <attenuation>
+                <range>1000</range>
+                <constant>0.9</constant>
+                <linear>0.01</linear>
+                <quadratic>0.001</quadratic>
+            </attenuation>
+            <direction>0.0 0.0 -1.0</direction>
+        </light>
+
+        <include>
+            <uri>model://floor_mat</uri>
+            <static>true</static>
+        </include>
+
+        <include>
+            <uri>model://traini</uri>
+        </include>
+
+        <include>
+            <uri>model://aruco_tag_0</uri>
+            <static>true</static>
+            <pose>0.6096 0 0.05 1.57079632679 0 -1.57079632679</pose>
+        </include>
+
+        <include>
+            <uri>model://aruco_tag_1</uri>
+            <static>true</static>
+            <pose>0.3 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+
+        <include>
+            <uri>model://aruco_tag_2</uri>
+            <static>true</static>
+            <pose>-0.3 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+
+        <include>
+            <uri>model://aruco_tag_3</uri>
+            <static>true</static>
+            <pose>-0.6096 0 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+
+        <include>
+            <uri>model://aruco_tag_4</uri>
+            <static>true</static>
+            <pose>-0.3 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+
+        <include>
+            <uri>model://aruco_tag_5</uri>
+            <static>true</static>
+            <pose>0.3 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        
+    </world>
+</sdf>
