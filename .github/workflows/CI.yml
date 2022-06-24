@@ -7,8 +7,8 @@ on:
   workflow_dispatch:
 jobs:
   buildAndTest:
-    runs-on: ubuntu-20.04
-    container: ros:foxy
+    runs-on: ubuntu-22.04
+    container: ros:humble
     steps:
       - uses: actions/checkout@v2
         with:
@@ -16,18 +16,18 @@ jobs:
       - name: Install Dependencies
         shell: bash
         run: |
-          source /opt/ros/foxy/setup.bash
+          source /opt/ros/humble/setup.bash
           sudo apt-get update
-          rosdep update --rosdistro=foxy
+          rosdep update --rosdistro=humble
           rosdep install --from-paths . --ignore-src -y --skip-keys="libgpiod2 libgpiod-dev"
       - name: Build
         shell: bash
         run: |
-          source /opt/ros/foxy/setup.bash
-          colcon build --packages-skip traini_onboard_interface
+          source /opt/ros/humble/setup.bash
+          colcon build
       - name: Test
         shell: bash
         run: |
-          source /opt/ros/foxy/setup.bash
-          colcon test --packages-skip traini_onboard_interface
+          source /opt/ros/humble/setup.bash
+          colcon test
           colcon test-result --verbose 

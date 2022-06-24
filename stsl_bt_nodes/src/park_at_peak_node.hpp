@@ -21,9 +21,9 @@
 #ifndef PARK_AT_PEAK_NODE_HPP_
 #define PARK_AT_PEAK_NODE_HPP_
 
+#include <string>
 #include <stsl_interfaces/action/park_at_peak.hpp>
 #include <nav2_behavior_tree/bt_action_node.hpp>
-#include <string>
 
 namespace stsl_bt_nodes
 {

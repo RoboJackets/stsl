@@ -18,12 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <filesystem>
-#include <opencv2/aruco.hpp>
-#include <opencv2/imgcodecs.hpp>
 #include <iostream>
+#include <filesystem>
 #include <fstream>
 #include <string>
+#include <opencv2/aruco.hpp>
+#include <opencv2/imgcodecs.hpp>
 
 void writeSDF(const std::string & model_folder, const int tag_id, const double tag_size)
 {

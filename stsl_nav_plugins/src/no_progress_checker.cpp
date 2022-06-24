@@ -18,9 +18,9 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <string>
 #include <nav2_core/progress_checker.hpp>
 #include <pluginlib/class_list_macros.hpp>
-#include <string>
 
 namespace stsl_nav_plugins
 {
@@ -29,7 +29,7 @@ class NoProgressChecker : public nav2_core::ProgressChecker
 {
 public:
   void initialize(
-    const rclcpp_lifecycle::LifecycleNode::SharedPtr & node,
+    const rclcpp_lifecycle::LifecycleNode::WeakPtr & node,
     const std::string & plugin_name) override
   {
   }

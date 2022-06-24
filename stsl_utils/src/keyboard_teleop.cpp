@@ -19,12 +19,12 @@
 // THE SOFTWARE.
 
 #include <ncurses.h>
-#include <rclcpp/rclcpp.hpp>
-#include <rclcpp_components/register_node_macro.hpp>
-#include <geometry_msgs/msg/twist.hpp>
 #include <thread>
 #include <unordered_map>
 #include <utility>
+#include <rclcpp/rclcpp.hpp>
+#include <rclcpp_components/register_node_macro.hpp>
+#include <geometry_msgs/msg/twist.hpp>
 
 namespace stsl_utils
 {
@@ -144,9 +144,9 @@ u i o
 j k l
 m , .
 
-q/z : increase/decrease max speeds by 10%
-w/x : increase/decrease only linear speed by 10%
-e/c : increase/decrease only angular speed by 10%
+q/z : increase/decrease max speeds by 10%%
+w/x : increase/decrease only linear speed by 10%%
+e/c : increase/decrease only angular speed by 10%%
 
 Press ctrl+c to quit
 )";

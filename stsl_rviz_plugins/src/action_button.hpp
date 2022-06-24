@@ -26,8 +26,8 @@
 #include <QState>
 #include <QStateMachine>
 #include <QTimer>
-#include <rviz_common/panel.hpp>
 #include <string>
+#include <rviz_common/panel.hpp>
 
 namespace stsl_rviz_plugins
 {
@@ -49,6 +49,15 @@ Q_SIGNALS:
   void cancellingCompleted();
   void runningCompleted();
 
+protected:
+  enum class ActionStatus
+  {
+    Running,
+    Aborted,
+    Cancelled,
+    Completed
+  };
+
 private:
   QTimer * timer_;
   QMetaObject::Connection timer_connection_;
@@ -59,14 +68,6 @@ private:
   QStateMachine state_machine_;
 
   void TimerCallback();
-
-  enum class ActionStatus
-  {
-    Running,
-    Aborted,
-    Cancelled,
-    Completed
-  };
 
   virtual bool SendGoal() = 0;
   virtual void CancelGoal() = 0;

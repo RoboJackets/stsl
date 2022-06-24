@@ -18,12 +18,12 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-#include <nav2_core/controller.hpp>
-#include <stsl_nav_plugins/pd_controller.hpp>
-#include <pluginlib/class_list_macros.hpp>
 #include <angles/angles.h>
 #include <memory>
 #include <string>
+#include <nav2_core/controller.hpp>
+#include <stsl_nav_plugins/pd_controller.hpp>
+#include <pluginlib/class_list_macros.hpp>
 
 namespace stsl_nav_plugins
 {
@@ -32,24 +32,28 @@ class PointAndShootController : public nav2_core::Controller
 {
 public:
   void configure(
-    const rclcpp_lifecycle::LifecycleNode::SharedPtr & node,
-    std::string name, const std::shared_ptr<tf2_ros::Buffer> & tf_buffer,
-    const std::shared_ptr<nav2_costmap_2d::Costmap2DROS> & costmap) override
+    const rclcpp_lifecycle::LifecycleNode::WeakPtr & node,
+    std::string name, std::shared_ptr<tf2_ros::Buffer> tf_buffer,
+    std::shared_ptr<nav2_costmap_2d::Costmap2DROS> costmap) override
   {
     node_ = node;
+    auto node_shared = node_.lock();
+    if (!node_shared) {
+      throw std::runtime_error{"Could not acquire node."};
+    }
     tf_buffer_ = tf_buffer;
-    const auto linear_controller_params = node_->declare_parameters<double>(
+    const auto linear_controller_params = node_shared->declare_parameters<double>(
       name + ".linear_controller", {{"kD", 0.0}, {"kP", 1.0}});
     linear_controller_.setParameters(linear_controller_params[1], linear_controller_params[0]);
-    const auto angular_controller_params = node_->declare_parameters<double>(
+    const auto angular_controller_params = node_shared->declare_parameters<double>(
       name + ".angular_controller", {{"kD", 0.0}, {"kP", 1.0}});
     angular_controller_.setParameters(angular_controller_params[1], angular_controller_params[0]);
-    yaw_threshold_ = node_->declare_parameter<double>(name + ".yaw_threshold", 0.04);
-    xy_threshold_ = node_->declare_parameter<double>(name + ".xy_threshold", 0.05);
-    max_x_vel_ = node_->declare_parameter<double>(name + ".max_x_vel", 0.3);
-    max_theta_vel_ = node_->declare_parameter<double>(name + ".max_theta_vel", 0.1);
-    match_goal_heading_ = node_->declare_parameter<bool>(name + ".match_goal_heading", false);
-    skip_first_pose_ = node_->declare_parameter<bool>(name + ".skip_first_pose", true);
+    yaw_threshold_ = node_shared->declare_parameter<double>(name + ".yaw_threshold", 0.04);
+    xy_threshold_ = node_shared->declare_parameter<double>(name + ".xy_threshold", 0.05);
+    max_x_vel_ = node_shared->declare_parameter<double>(name + ".max_x_vel", 0.3);
+    max_theta_vel_ = node_shared->declare_parameter<double>(name + ".max_theta_vel", 0.1);
+    match_goal_heading_ = node_shared->declare_parameter<bool>(name + ".match_goal_heading", false);
+    skip_first_pose_ = node_shared->declare_parameter<bool>(name + ".skip_first_pose", true);
   }
 
   void activate() override {}
@@ -67,11 +71,19 @@ public:
 
   geometry_msgs::msg::TwistStamped computeVelocityCommands(
     const geometry_msgs::msg::PoseStamped & pose,
-    const geometry_msgs::msg::Twist & velocity) override
+    const geometry_msgs::msg::Twist & velocity,
+    nav2_core::GoalChecker * goal_checker) override
   {
+    // TODO(barulicm) goal_checker added in humble upgrade
+
+    auto node_shared = node_.lock();
+    if (!node_shared) {
+      throw std::runtime_error{"Could not acquire node."};
+    }
+
     geometry_msgs::msg::TwistStamped cmd_vel;
     cmd_vel.header.frame_id = "base_link";
-    cmd_vel.header.stamp = node_->now();
+    cmd_vel.header.stamp = node_shared->now();
     if (path_index_ >= global_path_.poses.size()) {
       return cmd_vel;
     }
@@ -120,8 +132,13 @@ public:
     return cmd_vel;
   }
 
+  void setSpeedLimit(const double & speed_limit, const bool & percentage) override
+  {
+    // TODO(barulicm) implement this
+  }
+
 private:
-  rclcpp_lifecycle::LifecycleNode::SharedPtr node_;
+  rclcpp_lifecycle::LifecycleNode::WeakPtr node_;
   std::shared_ptr<tf2_ros::Buffer> tf_buffer_;
   nav_msgs::msg::Path global_path_;
   int path_index_ = 0;

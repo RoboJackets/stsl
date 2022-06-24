@@ -18,14 +18,15 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
+#include <tf2_ros/buffer.h>
+#include <tf2_ros/transform_listener.h>
+#include <random>
+#include <vector>
 #include <rclcpp/rclcpp.hpp>
 #include <rclcpp_components/register_node_macro.hpp>
 #include <stsl_interfaces/msg/tag_array.hpp>
 #include <stsl_interfaces/msg/mineral_deposit_array.hpp>
-#include <tf2_ros/transform_listener.h>
-#include <tf2_geometry_msgs/tf2_geometry_msgs.h>
-#include <random>
-#include <vector>
+#include <geometry_msgs/msg/pose_stamped.hpp>
 
 namespace mineral_deposit_detection
 {
@@ -37,8 +38,10 @@ public:
   : rclcpp::Node("mineral_deposit_detector", options),
     tf_buffer_(get_clock()),
     tf_listener_(tf_buffer_),
-    deposit_ids_(declare_parameter<std::vector<int64_t>>("deposit_tag_ids", {})),
-    random_engine_(std::random_device{} ()),
+    deposit_ids_(declare_parameter<std::vector<int64_t>>(
+        "deposit_tag_ids",
+        std::vector<int64_t>{})),
+    random_engine_(std::random_device{}()),
     noise_distribution_(0.0, declare_parameter<double>("noise_stddev", 0.0))
   {
     deposit_pub_ = create_publisher<stsl_interfaces::msg::MineralDepositArray>(

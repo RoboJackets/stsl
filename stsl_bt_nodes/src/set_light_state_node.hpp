@@ -22,9 +22,9 @@
 #define SET_LIGHT_STATE_NODE_HPP_
 
 #include <behaviortree_cpp_v3/action_node.h>
+#include <string>
 #include <rclcpp/rclcpp.hpp>
 #include <std_msgs/msg/bool.hpp>
-#include <string>
 
 namespace stsl_bt_nodes
 {
