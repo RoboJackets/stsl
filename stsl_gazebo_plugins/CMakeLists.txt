@@ -10,12 +10,6 @@ find_package(geometry_msgs REQUIRED)
 find_package(nav_msgs REQUIRED)
 find_package(tf2_ros REQUIRED)
 
-find_library(
-  LED_PLUGIN_LIBRARY
-  libLedPlugin.so
-  PATHS ${gazebo_dev_LIBRARY_DIRS}
-)
-
 add_library(RosLightControlPlugin SHARED src/RosLightControlPlugin.cpp)
 ament_target_dependencies(RosLightControlPlugin
   "gazebo_dev"
@@ -23,7 +17,6 @@ ament_target_dependencies(RosLightControlPlugin
   "rclcpp"
   "std_msgs"
 )
-target_link_libraries(RosLightControlPlugin ${LED_PLUGIN_LIBRARY})
 
 add_library(RosNoisyPlanarOdomPlugin SHARED src/RosNoisyPlanarOdomPlugin.cpp)
 ament_target_dependencies(RosNoisyPlanarOdomPlugin
@@ -36,8 +29,13 @@ ament_target_dependencies(RosNoisyPlanarOdomPlugin
   "tf2_ros"
 )
 
+add_library(HideLightVisualsPlugin SHARED src/HideLightVisualsPlugin.cpp)
+ament_target_dependencies(HideLightVisualsPlugin
+  "gazebo_dev"
+)
+
 install(
-  TARGETS RosLightControlPlugin RosNoisyPlanarOdomPlugin
+  TARGETS RosLightControlPlugin RosNoisyPlanarOdomPlugin HideLightVisualsPlugin
   DESTINATION lib
 )
 
