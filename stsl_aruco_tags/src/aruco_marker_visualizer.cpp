@@ -43,7 +43,7 @@ public:
       "~/tags",
       rclcpp::SystemDefaultsQoS(),
       std::bind(&ArucoMarkerVisualizer::tagCallback, this, std::placeholders::_1));
-    declare_parameter<double>("marker_lifetime", 0.15);
+    declare_parameter<double>("marker_lifetime", 0.5);
     declare_parameter<double>("marker_size", 0.18);
     declare_parameter<double>("marker_thickness", 0.02);
     declare_parameter<std::vector<double>>("marker_color_rgba", {0.0, 0.0, 1.0, 0.5});
