@@ -22,6 +22,7 @@ install(
 
 install(
   DIRECTORY
+  config
   launch
   models
   worlds
