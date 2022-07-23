@@ -87,7 +87,7 @@ void writeMaterialScript(const std::string & model_folder, const int tag_id)
         {
             ambient 1 1 1 1
             diffuse 1 1 1 1
-            specular 0.03 0.03 0.03 1.0
+            specular 1 1 1 1.0
             texture_unit
             {
                 texture ArUcoTag)" << tag_id << R"(.jpg

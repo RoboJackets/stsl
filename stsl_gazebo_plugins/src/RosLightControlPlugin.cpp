@@ -200,6 +200,9 @@ private:
     gazebo::msgs::Set(
       visual_msg_.mutable_material()->mutable_emissive(),
       light_on_emissive_color_);
+    gazebo::msgs::Set(
+      visual_msg_.mutable_material()->mutable_diffuse(),
+      light_on_emissive_color_);
     visual_publisher_->Publish(visual_msg_);
   }
 
@@ -211,6 +214,9 @@ private:
     visual_msg_.set_transparency(light_off_transparency_);
     gazebo::msgs::Set(
       visual_msg_.mutable_material()->mutable_emissive(),
+      ignition::math::Color(0, 0, 0));
+    gazebo::msgs::Set(
+      visual_msg_.mutable_material()->mutable_diffuse(),
       ignition::math::Color(0, 0, 0));
     visual_publisher_->Publish(visual_msg_);
   }

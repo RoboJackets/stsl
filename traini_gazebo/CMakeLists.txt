@@ -14,7 +14,6 @@ generate_aruco_tag_models(
 
 install(
   PROGRAMS
-  scripts/kill_gazebo_server.sh
   scripts/publish_map_boundary.py
   scripts/randomize_robot_pose.py
   DESTINATION lib/${PROJECT_NAME}
@@ -22,6 +21,7 @@ install(
 
 install(
   DIRECTORY
+  config
   launch
   models
   worlds

@@ -37,7 +37,7 @@
 
         <plugin name="light_control" filename="libRosLightControlPlugin.so">
             <light_id>light_link/indicator_light</light_id>
-            <visual_name>indicator_light</visual_name>
+            <visual_name>indicator_light_visual</visual_name>
         </plugin>
 
         <link name="base_footprint">
@@ -53,6 +53,10 @@
                         <uri>model://traini/meshes/Trainiii.dae</uri>
                     </mesh>
                 </geometry>
+                <material>
+                    <ambient>0.5 0.5 0.5 1</ambient>
+                    <diffuse>0.5 0.5 0.5 1</diffuse>
+                </material>
             </visual>
         </link>
         <joint name="base_link_joint" type="fixed">
@@ -92,6 +96,7 @@
                         <namespace>/imu</namespace>
                         <remapping>~/out:=data</remapping>
                     </ros>
+                    <initial_orientation_as_reference>false</initial_orientation_as_reference>
                 </plugin>
             </sensor>
         </link>
@@ -108,8 +113,9 @@
                 <attenuation>
                     <constant>1</constant>
                 </attenuation>
+                <visualize>false</visualize>
             </light>
-            <visual name="indicator_light">
+            <visual name="indicator_light_visual">
                 <geometry>
                     <sphere>
                         <radius>0.005</radius>
@@ -119,9 +125,12 @@
                 <material>
                     <ambient>0.5 1 0.5 1</ambient>
                     <diffuse>0.5 1 0.5 1</diffuse>
-                    <specular>1 1 1 1</specular>
+                    <specular>0 0 0 0</specular>
                     <emissive>0.5 1 0.5 1</emissive>
                 </material>
+                <plugin name="hide_indicator_light_gizmo" filename="libHideLightVisualsPlugin.so">
+                    <light>Traini::light_link::indicator_light</light>
+                </plugin>
             </visual>
         </link>
         <joint name="light_joint" type="fixed">
