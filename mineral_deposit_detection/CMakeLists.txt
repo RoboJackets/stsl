@@ -7,6 +7,7 @@ find_package(rclcpp_components REQUIRED)
 find_package(stsl_interfaces REQUIRED)
 find_package(tf2_ros REQUIRED)
 find_package(geometry_msgs REQUIRED)
+find_package(tf2_geometry_msgs REQUIRED)
 
 add_library(${PROJECT_NAME} SHARED src/mineral_deposit_detector.cpp)
 ament_target_dependencies(${PROJECT_NAME}
@@ -15,6 +16,7 @@ ament_target_dependencies(${PROJECT_NAME}
   stsl_interfaces
   tf2_ros
   geometry_msgs
+  tf2_geometry_msgs
 )
 rclcpp_components_register_node(
   ${PROJECT_NAME}
