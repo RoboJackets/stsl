@@ -27,6 +27,7 @@
 #include <stsl_interfaces/msg/tag_array.hpp>
 #include <stsl_interfaces/msg/mineral_deposit_array.hpp>
 #include <geometry_msgs/msg/pose_stamped.hpp>
+#include <tf2_geometry_msgs/tf2_geometry_msgs.hpp>
 
 namespace mineral_deposit_detection
 {

@@ -105,6 +105,7 @@ public:
     blackboard_->set<std::shared_ptr<tf2_ros::Buffer>>("tf_buffer", tf_buffer_);
     blackboard_->set<rclcpp::Node::SharedPtr>("node", tree_ros_node_);
     blackboard_->set<std::chrono::milliseconds>("server_timeout", std::chrono::milliseconds(10));
+    blackboard_->set<std::chrono::milliseconds>("bt_loop_duration", std::chrono::milliseconds(10));
     blackboard_->set<std::vector<stsl_interfaces::msg::MineralDepositSample>>(
       "mineral_samples",
       mineral_samples);
