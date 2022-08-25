@@ -31,41 +31,194 @@
             <uri>model://traini</uri>
         </include>
 
+        <!-- side 1 start -->
         <include>
             <uri>model://aruco_tag_0</uri>
             <static>true</static>
             <pose>0.6096 0 0.05 1.57079632679 0 -1.57079632679</pose>
         </include>
-
         <include>
             <uri>model://aruco_tag_1</uri>
             <static>true</static>
-            <pose>0.3 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+            <pose>0.6096 0.11 0.05 1.57079632679 0 -1.57079632679</pose>
         </include>
-
         <include>
             <uri>model://aruco_tag_2</uri>
             <static>true</static>
-            <pose>-0.3 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+            <pose>0.6096 0.22 0.05 1.57079632679 0 -1.57079632679</pose>
         </include>
-
         <include>
             <uri>model://aruco_tag_3</uri>
             <static>true</static>
-            <pose>-0.6096 0 0.05 1.57079632679 0 1.57079632679</pose>
+            <pose>0.6096 0.33 0.05 1.57079632679 0 -1.57079632679</pose>
         </include>
-
         <include>
             <uri>model://aruco_tag_4</uri>
             <static>true</static>
-            <pose>-0.3 0.381 0.05 1.57079632679 0 0</pose>
+            <pose>0.6096 -0.11 0.05 1.57079632679 0 -1.57079632679</pose>
         </include>
-
         <include>
             <uri>model://aruco_tag_5</uri>
             <static>true</static>
-            <pose>0.3 0.381 0.05 1.57079632679 0 0</pose>
+            <pose>0.6096 -0.22 0.05 1.57079632679 0 -1.57079632679</pose>
         </include>
-        
+        <include>
+            <uri>model://aruco_tag_6</uri>
+            <static>true</static>
+            <pose>0.6096 -0.33 0.05 1.57079632679 0 -1.57079632679</pose>
+        </include>
+
+        <!-- side 2 start -->
+        <include>
+            <uri>model://aruco_tag_7</uri>
+            <static>true</static>
+            <pose>0.0 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_8</uri>
+            <static>true</static>
+            <pose>0.11 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_9</uri>
+            <static>true</static>
+            <pose>0.22 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_13</uri>
+            <static>true</static>
+            <pose>0.33 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_14</uri>
+            <static>true</static>
+            <pose>0.44 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_15</uri>
+            <static>true</static>
+            <pose>0.55 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_16</uri>
+            <static>true</static>
+            <pose>-0.11 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_17</uri>
+            <static>true</static>
+            <pose>-0.22 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_18</uri>
+            <static>true</static>
+            <pose>-0.33 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_19</uri>
+            <static>true</static>
+            <pose>-0.44 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_20</uri>
+            <static>true</static>
+            <pose>-0.55 -0.381 0.05 1.57079632679 0 3.14159265359</pose>
+        </include>
+
+        <!-- side 3 -->
+        <include>
+            <uri>model://aruco_tag_21</uri>
+            <static>true</static>
+            <pose>-0.6096 0 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_22</uri>
+            <static>true</static>
+            <pose>-0.6096 0.11 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_23</uri>
+            <static>true</static>
+            <pose>-0.6096 0.22 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_24</uri>
+            <static>true</static>
+            <pose>-0.6096 0.33 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_25</uri>
+            <static>true</static>
+            <pose>-0.6096 -0.11 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_26</uri>
+            <static>true</static>
+            <pose>-0.6096 -0.22 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_27</uri>
+            <static>true</static>
+            <pose>-0.6096 -0.33 0.05 1.57079632679 0 1.57079632679</pose>
+        </include>
+
+
+        <!-- side 4 start -->
+        <include>
+            <uri>model://aruco_tag_28</uri>
+            <static>true</static>
+            <pose>0.0 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_29</uri>
+            <static>true</static>
+            <pose>0.11 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_30</uri>
+            <static>true</static>
+            <pose>0.22 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_31</uri>
+            <static>true</static>
+            <pose>0.33 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_32</uri>
+            <static>true</static>
+            <pose>0.44 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_33</uri>
+            <static>true</static>
+            <pose>0.55 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_34</uri>
+            <static>true</static>
+            <pose>-0.11 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_35</uri>
+            <static>true</static>
+            <pose>-0.22 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_36</uri>
+            <static>true</static>
+            <pose>-0.33 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_37</uri>
+            <static>true</static>
+            <pose>-0.44 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+        <include>
+            <uri>model://aruco_tag_38</uri>
+            <static>true</static>
+            <pose>-0.55 0.381 0.05 1.57079632679 0 0</pose>
+        </include>
+
     </world>
 </sdf>
