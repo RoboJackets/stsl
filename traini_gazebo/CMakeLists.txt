@@ -6,7 +6,7 @@ find_package(stsl_aruco_tags REQUIRED)
 
 generate_aruco_tag_models(
   IDS_START 0
-  IDS_STOP 5
+  IDS_STOP 40
   RESOLUTION 100
   SIZE 0.1
   DESTINATION ${CMAKE_CURRENT_BINARY_DIR}/models

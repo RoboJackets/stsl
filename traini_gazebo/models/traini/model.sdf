@@ -3,12 +3,18 @@
     <model name='Traini' canonical_link="base_footprint">
         <plugin name='planar_move' filename='libgazebo_ros_planar_move.so'>
             <update_rate>100</update_rate>
-            <publish_rate>10</publish_rate>
+            <publish_rate>50</publish_rate>
 
-            <publish_odom>false</publish_odom>
+            <odometry_topic>ground_truth</odometry_topic>
+
+            <ros>
+                <remapping>odom:=ground_truth</remapping>
+            </ros>
+
+            <publish_odom>true</publish_odom>
             <publish_odom_tf>false</publish_odom_tf>
 
-            <odometry_frame>odom</odometry_frame>
+            <odometry_frame>map</odometry_frame>
             <robot_base_frame>base_footprint</robot_base_frame>
 
             <covariance_x>0.0001</covariance_x>
@@ -20,7 +26,7 @@
             <ros>
                 <remapping>/noisy_odom/odom:=/odom</remapping>
             </ros>
-            <publish_rate>10</publish_rate>
+            <publish_rate>40</publish_rate>
 
             <publish_odom>true</publish_odom>
             <publish_odom_tf>true</publish_odom_tf>
@@ -28,7 +34,7 @@
             <odometry_frame>odom</odometry_frame>
             <robot_base_frame>base_footprint</robot_base_frame>
 
-            <velocity_noise_std_dev>0.0</velocity_noise_std_dev>
+            <velocity_noise_std_dev>0.1</velocity_noise_std_dev>
 
             <covariance_x>0.0001</covariance_x>
             <covariance_y>0.0001</covariance_y>
