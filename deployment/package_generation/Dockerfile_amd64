@@ -1,4 +1,4 @@
-FROM ros:foxy
+FROM ros:humble
 
 # Upgrade existing packages
 
@@ -20,8 +20,8 @@ COPY . /usr/src/workspace/src/stsl
 # Run package generation script
 
 RUN /bin/bash -c "set -ex; \
-    source /opt/ros/foxy/setup.bash; \
-    rosdep update --rosdistro=foxy; \
+    source /opt/ros/humble/setup.bash; \
+    rosdep update --rosdistro=humble; \
     rosdep install --from-paths . --ignore-src -y --skip-keys=\"libgpiod2 libgpiod-dev\"; \
     cd src/stsl/deployment/package_generation; \
     ./generate_debs_internal.sh"

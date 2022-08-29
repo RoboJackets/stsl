@@ -15,7 +15,7 @@ function install_rosdep_keys_file(){
 function build_package(){
     local package_path=$1
     pushd $package_path > /dev/null
-    bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro foxy
+    bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro humble
     fakeroot debian/rules binary
     popd > /dev/null
 }
@@ -24,7 +24,7 @@ function install_package(){
     local package_path=$1
     local package_name=$(colcon list -n --paths $package_path)
     local deb_style_package_name=${package_name//_/-}
-    readarray -t deb_paths < <(ls $package_path/../ros-foxy-$deb_style_package_name*)
+    readarray -t deb_paths < <(ls $package_path/../ros-hunble-$deb_style_package_name*)
     echo -e "\n\nInstalling these files:"
     printf '%s\n' "${deb_paths[@]}"
     echo -e "\n"
@@ -35,7 +35,7 @@ function install_package(){
 
 install_rosdep_keys_file
 
-source /opt/ros/foxy/setup.bash
+source /opt/ros/humble/setup.bash
 
 package_paths=$(colcon list -t -p --base-paths ../../* --packages-skip $packages_to_skip)
 

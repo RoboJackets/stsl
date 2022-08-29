@@ -17,7 +17,7 @@ RUN /bin/bash -c "set -ex; \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg; \
     echo 'deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu focal main' | tee /etc/apt/sources.list.d/ros2.list > /dev/null; \
     apt-get update; \
-    apt-get install -y ros-foxy-desktop"
+    apt-get install -y ros-humble-desktop"
 
 # Install package generation utils
 
@@ -33,9 +33,9 @@ COPY . /usr/src/workspace/src/stsl
 # Run package generation script
 
 RUN /bin/bash -c "set -ex; \
-    source /opt/ros/foxy/setup.bash; \
+    source /opt/ros/humble/setup.bash; \
     rosdep init; \
-    rosdep update --rosdistro=foxy; \
+    rosdep update --rosdistro=humble; \
     rosdep install --from-paths . --ignore-src -y --skip-keys=\"libgpiod2 libgpiod-dev\"; \
     cd src/stsl/deployment/package_generation; \
     ./generate_debs_internal.sh"
