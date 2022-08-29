@@ -15,7 +15,7 @@ function install_rosdep_keys_file(){
 function build_package(){
     local package_path=$1
     pushd $package_path > /dev/null
-    bloom-generate rosdebian --os-name ubuntu --os-version focal --ros-distro humble
+    bloom-generate rosdebian --os-name ubuntu --os-version jammy --ros-distro humble
     fakeroot debian/rules binary
     popd > /dev/null
 }

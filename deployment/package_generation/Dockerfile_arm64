@@ -1,4 +1,4 @@
-FROM osrf/ubuntu_arm64:focal
+FROM osrf/ubuntu_arm64:jammy
 
 # Upgrade existing packages
 
@@ -15,7 +15,7 @@ RUN /bin/bash -c "set -ex; \
     export LANG=en_US.UTF-8; \
     apt-get install -y curl gnupg2; \
     curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg; \
-    echo 'deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu focal main' | tee /etc/apt/sources.list.d/ros2.list > /dev/null; \
+    echo 'deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main' | tee /etc/apt/sources.list.d/ros2.list > /dev/null; \
     apt-get update; \
     apt-get install -y ros-humble-desktop"
 

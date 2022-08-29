@@ -2,7 +2,7 @@
 
 set -e
 
-distribution_name=focal
+distribution_name=jammy
 deb_tarballs=(../package_generation/debians_amd64.tar.gz ../package_generation/debians_arm64.tar.gz)
 
 if [[ -z $(aptly repo list -config=aptly.config | grep stsl-release) ]]; then
