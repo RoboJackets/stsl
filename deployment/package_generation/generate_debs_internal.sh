@@ -24,7 +24,7 @@ function install_package(){
     local package_path=$1
     local package_name=$(colcon list -n --paths $package_path)
     local deb_style_package_name=${package_name//_/-}
-    readarray -t deb_paths < <(ls $package_path/../ros-hunble-$deb_style_package_name*)
+    readarray -t deb_paths < <(ls $package_path/../ros-humble-$deb_style_package_name*)
     echo -e "\n\nInstalling these files:"
     printf '%s\n' "${deb_paths[@]}"
     echo -e "\n"
