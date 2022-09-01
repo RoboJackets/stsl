@@ -3,7 +3,9 @@
 set -e
 
 distribution_name=jammy
-deb_tarballs=(../package_generation/debians_amd64.tar.gz ../package_generation/debians_arm64.tar.gz)
+# arm64 packages temporarily disabled
+# deb_tarballs=(../package_generation/debians_amd64.tar.gz ../package_generation/debians_arm64.tar.gz)
+deb_tarballs=(../package_generation/debians_amd64.tar.gz)
 
 if [[ -z $(aptly repo list -config=aptly.config | grep stsl-release) ]]; then
     echo "stsl-release repo not found. Creating..."

@@ -1,23 +1,10 @@
-FROM osrf/ubuntu_arm64:jammy
+FROM --platform=arm64 ros:humble
 
 # Upgrade existing packages
 
 RUN /bin/bash -c "set -ex; \
     apt-get update; \
     apt-get upgrade -y"
-
-# Install ROS
-
-RUN /bin/bash -c "set -ex; \
-    apt-get install -y locales; \
-    locale-gen en_US en_US.UTF-8; \
-    update-locale LC_ALL=en_US.UTF-8 LANG=en_US.UTF-8; \
-    export LANG=en_US.UTF-8; \
-    apt-get install -y curl gnupg2; \
-    curl -sSL https://raw.githubusercontent.com/ros/rosdistro/master/ros.key -o /usr/share/keyrings/ros-archive-keyring.gpg; \
-    echo 'deb [arch=arm64 signed-by=/usr/share/keyrings/ros-archive-keyring.gpg] http://packages.ros.org/ros2/ubuntu jammy main' | tee /etc/apt/sources.list.d/ros2.list > /dev/null; \
-    apt-get update; \
-    apt-get install -y ros-humble-desktop"
 
 # Install package generation utils
 
@@ -34,7 +21,6 @@ COPY . /usr/src/workspace/src/stsl
 
 RUN /bin/bash -c "set -ex; \
     source /opt/ros/humble/setup.bash; \
-    rosdep init; \
     rosdep update --rosdistro=humble; \
     rosdep install --from-paths . --ignore-src -y --skip-keys=\"libgpiod2 libgpiod-dev\"; \
     cd src/stsl/deployment/package_generation; \
