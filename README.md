@@ -21,13 +21,13 @@ Currently, the STSL is a collection ROS 2 packages that support an interface to 
 1. Add the apt source repository
 
    ```bash
-   sudo apt-add-repository "deb https://stslaptstorage.z13.web.core.windows.net/ focal main"
+   sudo apt-add-repository "deb https://stslaptstorage.z13.web.core.windows.net/ jammy main"
    ```
 
 1. Install the desktop packages
 
    ```bash
-   sudo apt install ros-foxy-stsl-desktop
+   sudo apt install ros-humble-stsl-desktop
    ```
 
 ### Installing robot packages for on-board interface
